@@ -1,5 +1,3 @@
-# WoW Rewards
+# FealTY
 
-A Rewards Platform for Whispers of Wood Customers
-
-*Now Built Automatically with Jenkins!*
+FealTY
