@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<body>
+    <h1>Accounts</h1>
+    {{range $k, $v := .Account}}
+        <li> Key: {{$k}}, Value: {{$v}} </li>
+    {{end}}
+</body>
+</html>
