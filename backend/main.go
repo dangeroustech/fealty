@@ -16,14 +16,14 @@ func middleware(c *fiber.Ctx) error {
 
 func main() {
 	// Initialize standard Go html template engine
-	engine := html.New("./static", ".html")
+	htmlEngine := html.New("./static", ".html")
 
 	// Set Up Fiber App
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,
 		ServerHeader:  "FealTY API v1",
 		AppName:       "FealTY v0.0.1",
-		Views:         engine,
+		Views:         htmlEngine,
 	})
 	app.Use(logger.New())
 
