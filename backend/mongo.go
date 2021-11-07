@@ -20,7 +20,7 @@ func MongoFind(id string, server string) Account {
 
 	// Set Mongo behaviour
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB("wowrewards").C("accounts")
+	c := session.DB("fealty").C("accounts")
 
 	// Execute the find
 	err = c.Find(bson.M{"accountid": id}).One(&result)
@@ -48,7 +48,7 @@ func MongoFindAll(limit int, server string) []Account {
 
 	// Set Mongo behaviour
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB("wowrewards").C("accounts")
+	c := session.DB("fealty").C("accounts")
 
 	// Execute The FindAll
 	iter := c.Find(nil).Limit(limit).Iter()
@@ -74,7 +74,7 @@ func MongoCreate(a Account, server string) Account {
 
 	// Set Mongo behaviour
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB("wowrewards").C("accounts")
+	c := session.DB("fealty").C("accounts")
 
 	// Execute The Insert
 	err = c.Insert(&Account{a.AccountID, a.RewardPoints, a.Email, a.Marketing})
@@ -101,7 +101,7 @@ func MongoUpdate(a Account, server string) Account {
 
 	// Set Mongo behaviour
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB("wowrewards").C("accounts")
+	c := session.DB("fealty").C("accounts")
 
 	// Execute The Update
 	err = c.Update(bson.M{"accountid": a.AccountID}, a)
