@@ -1,13 +1,11 @@
-.idea/
+# VS Code files
 *.code-workspace
 .vscode/
-*.exe
-# NPM things
-frontend/node_modules
+
 # GO sources and binaries
 backend/fealty
 backend/*.exe
 src/
-# Let's not commit SSH keys, yeah? 
-fealty-staging
-fealty-staging.pub
+
+# Mongo db
+backend/mongo/db
