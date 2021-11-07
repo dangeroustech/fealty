@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <body>
     <h1>Accounts</h1>
-    {{range $k, $v := .Account}}
-        <li> Key: {{$k}}, Value: {{$v}} </li>
-    {{end}}
+    {{ range $acc := .Accounts }}
+        <p>Account {{ $acc.AccountID }}</p>
+        <li> {{ $acc.Email }} </li>
+        <li> {{ $acc.RewardPoints }} </li>
+    {{ end }}
 </body>
 </html>
