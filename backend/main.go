@@ -37,10 +37,10 @@ func main() {
 	v1.Get("/accounts", getAccounts)
 
 	acc := v1.Group("/account", middleware)
-	acc.Get("/:accountId", getAccount)
-	acc.Post("/:accountId", createAccount)
-	acc.Put("/:accountId", updateAccount)
-	acc.Delete("/:accountId", deleteAccount)
+	acc.Get("", getAccount)
+	acc.Post("", createAccount)
+	acc.Put("", updateAccount)
+	acc.Delete("", deleteAccount)
 
 	// Last middleware to match anything
 	app.Use(func(c *fiber.Ctx) error {

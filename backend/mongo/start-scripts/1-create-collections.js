@@ -5,12 +5,8 @@ db.createCollection("accounts", {
     validator: { 
         $jsonSchema: {
             bsonType: "object",
-            required: [ "accountid", "rewardpoints", "email", "marketing" ],
+            required: [ "rewardpoints", "email", "marketing" ],
             properties: {
-                accountid: {
-                    bsonType: "string",
-                    description: "must be a string and is required"
-                },
                 rewardpoints: {
                     bsonType: "int",
                     description: "must be an integer and is required"

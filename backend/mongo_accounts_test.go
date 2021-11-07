@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+	"testing"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 func TestFind(t *testing.T) {
 	result := MongoFind("000000", "localhost")
@@ -19,31 +23,33 @@ func TestFindAll(t *testing.T) {
 }
 
 func TestCreate(t *testing.T) {
-	a := Account{"999999", 99, "test@test.com", true}
+	id := primitive.NewObjectID()
+	a := Account{id, 99, "test@test.com", true}
 	result := MongoCreate(a, "localhost")
 
-	if result.AccountID != "999999" {
+	if result.AccountID != id {
 		t.Errorf("AccountID Created Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
 	} else if result.RewardPoints != 99 {
 		t.Errorf("RewardPoints Created Incorrectly. Expected %d, Got %d.", a.RewardPoints, result.RewardPoints)
 	} else if result.Email != "test@test.com" {
 		t.Errorf("Email Created Incorrectly. Expected %s, Got %s.", a.Email, result.Email)
-	} else if result.Marketing != true{
+	} else if result.Marketing != true {
 		t.Errorf("Marketing Created Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
 	}
 }
 
 func TestUpdate(t *testing.T) {
-	a := Account{"999999", 999, "test9@test.com", false}
+	id := primitive.NewObjectID()
+	a := Account{id, 999, "test9@test.com", false}
 	result := MongoUpdate(a, "localhost")
 
-	if result.AccountID != "999999" {
+	if result.AccountID != id {
 		t.Errorf("AccountID Updated Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
 	} else if result.RewardPoints != 999 {
 		t.Errorf("RewardPoints Updated Incorrectly. Expected %d, Got %d.", a.RewardPoints, result.RewardPoints)
 	} else if result.Email != "test9@test.com" {
 		t.Errorf("Email Updated Incorrectly. Expected %s, Got %s.", a.Email, result.Email)
-	} else if result.Marketing != false{
+	} else if result.Marketing != false {
 		t.Errorf("Marketing Updated Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
 	}
 }
