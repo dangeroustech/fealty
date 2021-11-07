@@ -28,11 +28,10 @@ func getAccounts(c *fiber.Ctx) error {
 		},
 	}
 	// Render index template
-	return c.Render("default", fiber.Map{
+	return c.Render("accounts", fiber.Map{
 		"Title":    "Accounts",
 		"Accounts": a,
 	})
-	// return c.JSON(a)
 }
 
 func getAccount(c *fiber.Ctx) error {
