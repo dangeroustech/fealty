@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+
+  mongo:
+    image: mongo:5.0.3
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: fealty
+      MONGO_INITDB_ROOT_PASSWORD: fealty
+      MONGO_INITDB_DATABASE: fealty
+    volumes:
+      - ./db:/data/db
+      - ./start-scripts:/docker-entrypoint-initdb.d
