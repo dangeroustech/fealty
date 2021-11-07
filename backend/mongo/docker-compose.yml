@@ -12,3 +12,4 @@ services:
     volumes:
       - ./db:/data/db
       - ./start-scripts:/docker-entrypoint-initdb.d
+    network_mode: host
