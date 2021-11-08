@@ -13,9 +13,9 @@ import (
 )
 
 func dbConnect() *mongo.Client {
-	MONGO_URI := os.Getenv("MONGODB_URI")
-	MONGO_USER := os.Getenv("MONGODB_USER")
-	MONGO_PASS := os.Getenv("MONGODB_PASS")
+	MONGO_URI := os.Getenv("MONGO_URI")
+	MONGO_USER := os.Getenv("MONGO_USER")
+	MONGO_PASS := os.Getenv("MONGO_PASS")
 	var ctx = context.TODO()
 	clientOptions := options.Client().ApplyURI(MONGO_URI).SetAuth(options.Credential{Username: MONGO_USER, Password: MONGO_PASS})
 	client, err := mongo.Connect(ctx, clientOptions)
