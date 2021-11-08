@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -12,8 +13,11 @@ import (
 )
 
 func dbConnect() *mongo.Client {
+	MONGO_URI := os.Getenv("MONGODB_URI")
+	MONGO_USER := os.Getenv("MONGODB_USER")
+	MONGO_PASS := os.Getenv("MONGODB_PASS")
 	var ctx = context.TODO()
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017/").SetAuth(options.Credential{Username: "fealty", Password: "fealty"})
+	clientOptions := options.Client().ApplyURI(MONGO_URI).SetAuth(options.Credential{Username: MONGO_USER, Password: MONGO_PASS})
 	client, err := mongo.Connect(ctx, clientOptions)
 
 	if err != nil {
