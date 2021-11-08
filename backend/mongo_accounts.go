@@ -106,6 +106,12 @@ func MongoCreate(a Account, server string) Account {
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
+	// Check for Duplicate
+	if MongoFind(a.Email, "localhost").Email != "" {
+		a.Email = "DUPE"
+		return a
+	}
+
 	// Execute The Insert
 	result, err := collection.InsertOne(context.TODO(), a)
 

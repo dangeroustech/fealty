@@ -50,8 +50,11 @@ func createAccount(c *fiber.Ctx) error {
 	}
 
 	result := MongoCreate(a, "localhost")
-
-	return c.JSON(result)
+	if result.Email == "DUPE" {
+		return c.JSON("{'Error': 'Account for This Email Already Exists'}")
+	} else {
+		return c.JSON(result)
+	}
 }
 
 // UpdateAccount - Update an Account With Email
