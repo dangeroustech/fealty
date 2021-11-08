@@ -15,13 +15,19 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "These are not the droids you're looking for...")
 }
 
-func getAccounts(c *fiber.Ctx) error {
+func renderAccounts(c *fiber.Ctx) error {
 	a := MongoFindAll(50, "localhost")
 	// Render index template
 	return c.Render("accounts", fiber.Map{
 		"Title":    "Accounts",
 		"Accounts": a,
 	})
+}
+
+func getAccounts(c *fiber.Ctx) error {
+	a := MongoFindAll(50, "localhost")
+	// Render index template
+	return c.JSON(a)
 }
 
 func getAccount(c *fiber.Ctx) error {
