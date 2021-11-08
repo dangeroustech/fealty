@@ -34,9 +34,9 @@ func main() {
 	v1 := api.Group("/v1", middleware) // /api/v1
 
 	// Account Routes
-	v1.Get("/accounts", getAccounts)
+	v1.Get("/accounts", getAccounts) // /api/v1/accounts
 
-	acc := v1.Group("/account", middleware)
+	acc := v1.Group("/account", middleware) // /api/v1/account
 	acc.Get("", getAccount)
 	acc.Post("", createAccount)
 	acc.Put("", updateAccount)
