@@ -2,18 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
-	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-//Index does index things
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "These are not the droids you're looking for...")
-}
 
 func renderAccounts(c *fiber.Ctx) error {
 	a := MongoFindAll(50, "localhost")
