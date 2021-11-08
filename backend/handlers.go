@@ -16,20 +16,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func getAccounts(c *fiber.Ctx) error {
-	// a := Accounts{
-	// 	Account{
-	// 		AccountID:    primitive.NewObjectID(),
-	// 		RewardPoints: 10,
-	// 		Email:        "test@test.com",
-	// 		Marketing:    false,
-	// 	},
-	// 	Account{
-	// 		AccountID:    primitive.NewObjectID(),
-	// 		RewardPoints: 100,
-	// 		Email:        "test1@test.com",
-	// 		Marketing:    true,
-	// 	},
-	// }
 	a := MongoFindAll(50, "localhost")
 	// Render index template
 	return c.Render("accounts", fiber.Map{
