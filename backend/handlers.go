@@ -35,8 +35,11 @@ func getAccount(c *fiber.Ctx) error {
 	}
 
 	result := MongoFind(string(a.Email), "localhost")
-
+	if result.AccountID == primitive.NilObjectID {
+		return c.JSON("{'Error': 'Account Not Found'}")
+	} else {
 	return c.JSON(result)
+	}
 }
 
 // CreateAccount - Create a New Account

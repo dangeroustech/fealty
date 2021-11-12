@@ -45,6 +45,7 @@ func MongoFind(email string, server string) Account {
 	if err != nil {
 		log.Printf("Error finding account for %s", email)
 		log.Print(err)
+		a.AccountID = primitive.NilObjectID
 	} else {
 		log.Printf("Account %s For %s Has %d Points.", a.AccountID, a.Email, a.RewardPoints)
 	}
