@@ -6,9 +6,9 @@ import (
 	"log"
 	"os"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -134,27 +134,24 @@ func MongoCreate(a Account, server string) Account {
 // MongoUpdate - Update An Account
 func MongoUpdate(a Account, server string) Account {
 	// connect to mongo session running on localhost
-	session, err := mgo.Dial(server)
-
-	if err != nil {
-		log.Print(err)
-	}
-	defer session.Close()
-
-	// Set Mongo behaviour
-	session.SetMode(mgo.Monotonic, true)
-	c := session.DB("fealty").C("accounts")
+	client := dbConnect()
+	collection := client.Database("fealty").Collection("accounts")
 
 	// Execute The Update
-	err = c.Update(bson.M{"accountid": a.AccountID}, a)
+	log.Printf("%#v", a)
+	result, _ := collection.ReplaceOne(context.TODO(), bson.M{"_id": a.AccountID}, a)
 
-	if err != nil {
-		log.Printf("Error updating account %v", a.AccountID)
-		log.Print(err)
+	if result.MatchedCount == 0 {
+		log.Printf("Error updating account %v with payload %#v", a.AccountID, a)
 	} else {
-		log.Printf("Account %s Updated. Reward Points: %d, Email: %s, Marketing: %t",
-			a.AccountID, a.RewardPoints, a.Email, a.Marketing)
+		log.Printf("%v Account(s) Updated (%s). Reward Points: %d, Email: %s, Marketing: %t",
+			result.ModifiedCount, a.AccountID, a.RewardPoints, a.Email, a.Marketing)
 	}
 
-	return a
+	if result.ModifiedCount == 1 {
+		return a
+	} else {
+		a.AccountID = primitive.NilObjectID
+		return a
+	}
 }

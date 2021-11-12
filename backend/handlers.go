@@ -59,8 +59,19 @@ func createAccount(c *fiber.Ctx) error {
 
 // UpdateAccount - Update an Account With Email
 func updateAccount(c *fiber.Ctx) error {
+	var a Account
+	err := json.Unmarshal(c.Body(), &a)
 
-	return c.SendString(c.Params("accountId"))
+	if err != nil {
+		log.Println(err)
+	}
+
+	result := MongoUpdate(a, "localhost")
+	if result.AccountID == primitive.NilObjectID {
+		return c.JSON("{'Error': 'Account Not Found'")
+	} else {
+		return c.JSON(result)
+	}
 }
 
 // DeleteAccount - Delete an Account
