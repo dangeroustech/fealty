@@ -17,12 +17,11 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.17
-      
-    - name: Prep
-      run: cd backend
 
     - name: Build
-      run: go build -v -o fealty
+      run: |
+        cd backend
+        go build -v -o fealty
 
     # - name: Test
     #   run: go test -v ./...
