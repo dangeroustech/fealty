@@ -8,6 +8,7 @@ FealTY
 
 - [x] Get
 - [x] Get All
-- [x] Create (done but need to verify uniqueness)
-- [ ] Update
+- [x] Create
+- [x] Update (Full)
+- [ ] Update (Partial) - **STRETCH**
 - [ ] Delete
