@@ -11,4 +11,4 @@ FealTY
 - [x] Create
 - [x] Update (Full)
 - [ ] Update (Partial) - **STRETCH**
-- [ ] Delete
+- [x] Delete

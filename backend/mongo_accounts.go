@@ -45,6 +45,7 @@ func MongoFind(email string, server string) Account {
 	if err != nil {
 		log.Printf("Error finding account for %s", email)
 		log.Print(err)
+		a.AccountID = primitive.NilObjectID
 	} else {
 		log.Printf("Account %s For %s Has %d Points.", a.AccountID, a.Email, a.RewardPoints)
 	}
@@ -152,6 +153,35 @@ func MongoUpdate(a Account, server string) Account {
 		return a
 	} else {
 		a.AccountID = primitive.NilObjectID
+		return a
+	}
+}
+
+// MongoDelete - Delete An Account
+func MongoDelete(email string, server string) Account {
+	// connect to mongo session running on localhost
+	client := dbConnect()
+	collection := client.Database("fealty").Collection("accounts")
+
+	// Find the Account ID
+	a := MongoFind(email, "localhost")
+
+	if a.AccountID == primitive.NilObjectID {
+		return a
+	}
+
+	// Execute The Deletion
+	log.Printf("%#v", a)
+	result, err := collection.DeleteOne(context.TODO(), bson.M{"_id": a.AccountID})
+
+	if err != nil {
+		log.Printf("Some shit went down: %v", err)
+	}
+
+	if result.DeletedCount != 1 {
+		a.AccountID = primitive.NilObjectID
+		return a
+	} else {
 		return a
 	}
 }
