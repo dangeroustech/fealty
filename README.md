@@ -15,8 +15,8 @@ FealTY
 
 ## CI
 
-- [ ] Standard build/test flow
-- [ ] Semantic versioning
+- [x] Standard build/test flow
+- [x] Semantic versioning
 
 ## CD
 
