@@ -139,7 +139,6 @@ func MongoUpdate(a Account, server string) Account {
 	collection := client.Database("fealty").Collection("accounts")
 
 	// Execute The Update
-	log.Printf("%#v", a)
 	result, _ := collection.ReplaceOne(context.TODO(), bson.M{"_id": a.AccountID}, a)
 
 	if result.MatchedCount == 0 {
@@ -171,7 +170,6 @@ func MongoDelete(email string, server string) Account {
 	}
 
 	// Execute The Deletion
-	log.Printf("%#v", a)
 	result, err := collection.DeleteOne(context.TODO(), bson.M{"_id": a.AccountID})
 
 	if err != nil {
