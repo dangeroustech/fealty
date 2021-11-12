@@ -20,7 +20,9 @@ func renderAccounts(c *fiber.Ctx) error {
 
 // GetAccounts - API Query to Return All Accounts as JSON
 func getAccounts(c *fiber.Ctx) error {
+	// Get All Accounts
 	a := MongoFindAll(50, "localhost")
+
 	// Render index template
 	return c.JSON(a)
 }
@@ -38,7 +40,7 @@ func getAccount(c *fiber.Ctx) error {
 	if result.AccountID == primitive.NilObjectID {
 		return c.JSON("{'Error': 'Account Not Found'}")
 	} else {
-	return c.JSON(result)
+		return c.JSON(result)
 	}
 }
 
@@ -79,6 +81,19 @@ func updateAccount(c *fiber.Ctx) error {
 
 // DeleteAccount - Delete an Account
 func deleteAccount(c *fiber.Ctx) error {
+	var a Account
+	err := json.Unmarshal(c.Body(), &a)
 
-	return c.SendString(c.Params("accountId"))
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Printf("%#v", a)
+	result := MongoDelete(a.Email, "localhost")
+
+	if result.AccountID == primitive.NilObjectID {
+		return c.JSON("{'Error': 'Account Not Found'")
+	} else {
+		return c.JSON(result)
+	}
 }
