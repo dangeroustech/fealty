@@ -1,0 +1,37 @@
+name: Fealty CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17
+
+    - name: Build
+      run: |
+        cd backend
+        go build -v -o fealty
+
+    # - name: Test
+    #   run: go test -v ./...
+
+    - name: Version
+      uses: go-semantic-release/action@v1
+      id: semrel
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        force-bump-patch-version: true
+        changelog-generator-opt: "emojis=true"
+        changelog-file: true
+        allow-initial-development-versions: true
