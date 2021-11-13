@@ -41,7 +41,7 @@ func MongoFind(email string, server string, silent bool) Account {
 	// Execute the find
 	err := collection.FindOne(context.TODO(), bson.M{"email": email}).Decode(&a)
 
-	if err != nil && silent != true {
+	if err != nil && !silent {
 		log.Printf("Error finding account for %s", email)
 		log.Print(err)
 		a.AccountID = primitive.NilObjectID
