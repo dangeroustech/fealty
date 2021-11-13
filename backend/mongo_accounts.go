@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
@@ -46,9 +45,10 @@ func MongoFind(email string, server string) Account {
 		log.Printf("Error finding account for %s", email)
 		log.Print(err)
 		a.AccountID = primitive.NilObjectID
-	} else {
-		log.Printf("Account %s For %s Has %d Points.", a.AccountID, a.Email, a.RewardPoints)
 	}
+	// } else {
+	// 	log.Printf("Account %s For %s Has %d Points.", a.AccountID, a.Email, a.RewardPoints)
+	// }
 
 	err = client.Disconnect(context.TODO())
 
@@ -96,7 +96,7 @@ func MongoFindAll(limit int64, server string) []*Account {
 	// Close the cursor once finished
 	cur.Close(context.TODO())
 
-	fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
+	// fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
 
 	return results
 }
@@ -182,4 +182,12 @@ func MongoDelete(email string, server string) Account {
 	} else {
 		return a
 	}
+}
+
+func TestPrep(a Account) {
+	MongoCreate(a, "localhost")
+}
+
+func TestCleanup(email string) {
+	MongoDelete(email, "localhost")
 }
