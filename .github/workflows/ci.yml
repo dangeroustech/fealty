@@ -19,13 +19,11 @@ jobs:
         go-version: 1.17
       
     - name: Start MongoDB
-      uses: supercharge/mongodb-github-action@1.6.0
+      uses: timgchile/mongodb-github-action@1.7.4
       with:
         mongodb-version: 5.0.3
-      env:
-        MONGO_INITDB_ROOT_USERNAME: fealty
-        MONGO_INITDB_ROOT_PASSWORD: fealty
-        MONGO_INITDB_DATABASE: fealty
+        mongodb-root-username: fealty
+        mongodb-root-password: fealty
 
     - name: Build
       run: |
