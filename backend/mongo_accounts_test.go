@@ -2,11 +2,17 @@ package main
 
 import (
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var a = Account{AccountID: primitive.NilObjectID, Email: "test@test.com", RewardPoints: 100, Marketing: true}
+var a = Account{
+	AccountID:    primitive.NewObjectIDFromTimestamp(time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)),
+	Email:        "test@test.com",
+	RewardPoints: 100,
+	Marketing:    true,
+}
 
 func TestFind(t *testing.T) {
 	TestPrep(a)
