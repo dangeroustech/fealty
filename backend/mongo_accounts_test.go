@@ -74,5 +74,12 @@ func TestUpdate(t *testing.T) {
 	TestCleanup(newA.Email)
 }
 
-// func TestDelete(t *testing.T) {
-// }
+func TestDelete(t *testing.T) {
+	TestPrep(a)
+
+	result := MongoDelete(a.Email, "localhost")
+
+	if result.AccountID != a.AccountID {
+		t.Errorf("Account Deleted Incorrectly. Expected %s, Got %s", a.AccountID, result.AccountID)
+	}
+}
