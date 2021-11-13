@@ -32,6 +32,8 @@ jobs:
       run: |
         cd backend
         go test -v
+      env:
+        MONGO_URI: mongodb://localhost:27017
 
     - name: Version
       uses: go-semantic-release/action@v1
