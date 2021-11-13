@@ -17,14 +17,31 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.17
+      
+    - name: Start MongoDB
+      uses: timgchile/mongodb-github-action@1.7.4
+      with:
+        mongodb-version: 5.0.3
+        mongodb-root-username: fealty
+        mongodb-root-password: fealty
 
     - name: Build
       run: |
         cd backend
         go build -v -o fealty
+      env:
+        MONGO_URI: mongodb://localhost:27017
+        MONGO_USER: fealty
+        MONGO_PASS: fealty
 
-    # - name: Test
-    #   run: go test -v ./...
+    - name: Test
+      run: |
+        cd backend
+        go test -v
+      env:
+        MONGO_URI: mongodb://localhost:27017
+        MONGO_USER: fealty
+        MONGO_PASS: fealty
 
     - name: Version
       uses: go-semantic-release/action@v1

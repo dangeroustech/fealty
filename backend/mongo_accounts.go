@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
@@ -33,7 +32,7 @@ func dbConnect() *mongo.Client {
 }
 
 // MongoFind - Find An Account
-func MongoFind(email string, server string) Account {
+func MongoFind(email string, server string, silent bool) Account {
 	// connect to mongo session running on localhost
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
@@ -42,13 +41,14 @@ func MongoFind(email string, server string) Account {
 	// Execute the find
 	err := collection.FindOne(context.TODO(), bson.M{"email": email}).Decode(&a)
 
-	if err != nil {
+	if err != nil && !silent {
 		log.Printf("Error finding account for %s", email)
 		log.Print(err)
 		a.AccountID = primitive.NilObjectID
-	} else {
-		log.Printf("Account %s For %s Has %d Points.", a.AccountID, a.Email, a.RewardPoints)
 	}
+	// } else {
+	// 	log.Printf("Account %s For %s Has %d Points.", a.AccountID, a.Email, a.RewardPoints)
+	// }
 
 	err = client.Disconnect(context.TODO())
 
@@ -96,7 +96,7 @@ func MongoFindAll(limit int64, server string) []*Account {
 	// Close the cursor once finished
 	cur.Close(context.TODO())
 
-	fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
+	// fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
 
 	return results
 }
@@ -108,7 +108,7 @@ func MongoCreate(a Account, server string) Account {
 	collection := client.Database("fealty").Collection("accounts")
 
 	// Check for Duplicate
-	if MongoFind(a.Email, "localhost").Email != "" {
+	if MongoFind(a.Email, "localhost", true).Email != "" {
 		a.Email = "DUPE"
 		return a
 	}
@@ -120,7 +120,8 @@ func MongoCreate(a Account, server string) Account {
 		log.Printf("Error creating account %s", a.AccountID)
 		log.Print(err)
 	} else {
-		log.Printf("Account %s Created at %s", a.AccountID, result.InsertedID)
+		log.Printf("1 Account(s) Created (%s). Reward Points: %d, Email: %s, Marketing: %t",
+			result.InsertedID, a.RewardPoints, a.Email, a.Marketing)
 	}
 
 	err = client.Disconnect(context.TODO())
@@ -163,8 +164,9 @@ func MongoDelete(email string, server string) Account {
 	collection := client.Database("fealty").Collection("accounts")
 
 	// Find the Account ID
-	a := MongoFind(email, "localhost")
+	a := MongoFind(email, "localhost", false)
 
+	// if account is not found
 	if a.AccountID == primitive.NilObjectID {
 		return a
 	}
@@ -176,10 +178,22 @@ func MongoDelete(email string, server string) Account {
 		log.Printf("Some shit went down: %v", err)
 	}
 
+	// if for some reason we didn't delete anything
+	// even though the account existed
 	if result.DeletedCount != 1 {
 		a.AccountID = primitive.NilObjectID
 		return a
 	} else {
+		log.Printf("%d Account(s) Deleted (%s). Reward Points: %d, Email: %s, Marketing: %t",
+			result.DeletedCount, a.AccountID, a.RewardPoints, a.Email, a.Marketing)
 		return a
 	}
+}
+
+func TestPrep(a Account) {
+	MongoCreate(a, "localhost")
+}
+
+func TestCleanup(email string) {
+	MongoDelete(email, "localhost")
 }

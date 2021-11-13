@@ -2,54 +2,84 @@ package main
 
 import (
 	"testing"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+var a = Account{
+	AccountID:    primitive.NewObjectIDFromTimestamp(time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)),
+	Email:        "test@test.com",
+	RewardPoints: 100,
+	Marketing:    false,
+}
+
 func TestFind(t *testing.T) {
-	result := MongoFind("000000", "localhost")
+	TestPrep(a)
+	result := MongoFind("test@test.com", "localhost", false)
 
 	if result.RewardPoints != 100 {
-		t.Errorf("Account %s RewardPoints Incorrect. Expected %d, Got: %d.", "000000", 100, result.RewardPoints)
+		t.Errorf("Account for %s RewardPoints Incorrect. Expected %d, Got: %d.", "test@test.com", 100, result.RewardPoints)
 	}
+
+	TestCleanup(a.Email)
 }
 
 func TestFindAll(t *testing.T) {
-	result := MongoFindAll(200, "localhost")
+	TestPrep(a)
+	result := MongoFindAll(1, "localhost")
 
 	if result == nil {
 		t.Errorf("Nil Data Returned for FindAll.")
 	}
+
+	TestCleanup(a.Email)
 }
 
 func TestCreate(t *testing.T) {
-	id := primitive.NewObjectID()
-	a := Account{id, 99, "test@test.com", true}
 	result := MongoCreate(a, "localhost")
 
-	if result.AccountID != id {
+	if result.AccountID != a.AccountID {
 		t.Errorf("AccountID Created Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
-	} else if result.RewardPoints != 99 {
+	} else if result.RewardPoints != a.RewardPoints {
 		t.Errorf("RewardPoints Created Incorrectly. Expected %d, Got %d.", a.RewardPoints, result.RewardPoints)
-	} else if result.Email != "test@test.com" {
+	} else if result.Email != a.Email {
 		t.Errorf("Email Created Incorrectly. Expected %s, Got %s.", a.Email, result.Email)
-	} else if result.Marketing != true {
+	} else if result.Marketing != a.Marketing {
 		t.Errorf("Marketing Created Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
 	}
+
+	TestCleanup(a.Email)
 }
 
 func TestUpdate(t *testing.T) {
-	id := primitive.NewObjectID()
-	a := Account{id, 999, "test9@test.com", false}
-	result := MongoUpdate(a, "localhost")
+	// create Account a
+	TestPrep(a)
 
-	if result.AccountID != id {
+	// create a new Account with the same ID as a
+	newA := Account{AccountID: a.AccountID, Email: "test1@test1.com", RewardPoints: 350, Marketing: true}
+
+	// update a with newA details
+	result := MongoUpdate(newA, "localhost")
+
+	if result.AccountID != newA.AccountID {
 		t.Errorf("AccountID Updated Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
-	} else if result.RewardPoints != 999 {
+	} else if result.RewardPoints != newA.RewardPoints {
 		t.Errorf("RewardPoints Updated Incorrectly. Expected %d, Got %d.", a.RewardPoints, result.RewardPoints)
-	} else if result.Email != "test9@test.com" {
+	} else if result.Email != newA.Email {
 		t.Errorf("Email Updated Incorrectly. Expected %s, Got %s.", a.Email, result.Email)
-	} else if result.Marketing != false {
+	} else if result.Marketing != newA.Marketing {
 		t.Errorf("Marketing Updated Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
+	}
+	TestCleanup(newA.Email)
+}
+
+func TestDelete(t *testing.T) {
+	TestPrep(a)
+
+	result := MongoDelete(a.Email, "localhost")
+
+	if result.AccountID != a.AccountID {
+		t.Errorf("Account Deleted Incorrectly. Expected %s, Got %s", a.AccountID, result.AccountID)
 	}
 }
