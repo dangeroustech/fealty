@@ -32,7 +32,7 @@ func dbConnect() *mongo.Client {
 }
 
 // MongoFind - Find An Account
-func MongoFind(email string, server string) Account {
+func MongoFind(email string, server string, silent bool) Account {
 	// connect to mongo session running on localhost
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
@@ -41,7 +41,7 @@ func MongoFind(email string, server string) Account {
 	// Execute the find
 	err := collection.FindOne(context.TODO(), bson.M{"email": email}).Decode(&a)
 
-	if err != nil {
+	if err != nil && silent != true {
 		log.Printf("Error finding account for %s", email)
 		log.Print(err)
 		a.AccountID = primitive.NilObjectID
@@ -108,7 +108,7 @@ func MongoCreate(a Account, server string) Account {
 	collection := client.Database("fealty").Collection("accounts")
 
 	// Check for Duplicate
-	if MongoFind(a.Email, "localhost").Email != "" {
+	if MongoFind(a.Email, "localhost", true).Email != "" {
 		a.Email = "DUPE"
 		return a
 	}
@@ -163,7 +163,7 @@ func MongoDelete(email string, server string) Account {
 	collection := client.Database("fealty").Collection("accounts")
 
 	// Find the Account ID
-	a := MongoFind(email, "localhost")
+	a := MongoFind(email, "localhost", false)
 
 	if a.AccountID == primitive.NilObjectID {
 		return a

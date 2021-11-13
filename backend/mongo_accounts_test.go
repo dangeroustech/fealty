@@ -16,20 +16,17 @@ var a = Account{
 
 func TestFind(t *testing.T) {
 	TestPrep(a)
-	t.Log("Prepped For TestFind")
-	result := MongoFind("test@test.com", "localhost")
+	result := MongoFind("test@test.com", "localhost", false)
 
 	if result.RewardPoints != 100 {
 		t.Errorf("Account for %s RewardPoints Incorrect. Expected %d, Got: %d.", "test@test.com", 100, result.RewardPoints)
 	}
 
 	TestCleanup(a.Email)
-	t.Log("Cleaned Up After TestFind")
 }
 
 func TestFindAll(t *testing.T) {
 	TestPrep(a)
-	t.Log("Prepped For TestFindAll")
 	result := MongoFindAll(1, "localhost")
 
 	if result == nil {
@@ -37,24 +34,23 @@ func TestFindAll(t *testing.T) {
 	}
 
 	TestCleanup(a.Email)
-	t.Log("Cleaned Up After TestFindAll")
 }
 
-// func TestCreate(t *testing.T) {
-// 	id := primitive.NewObjectID()
-// 	a := Account{id, 99, "test@test.com", true}
-// 	result := MongoCreate(a, "localhost")
+func TestCreate(t *testing.T) {
+	result := MongoCreate(a, "localhost")
 
-// 	if result.AccountID != id {
-// 		t.Errorf("AccountID Created Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
-// 	} else if result.RewardPoints != 99 {
-// 		t.Errorf("RewardPoints Created Incorrectly. Expected %d, Got %d.", a.RewardPoints, result.RewardPoints)
-// 	} else if result.Email != "test@test.com" {
-// 		t.Errorf("Email Created Incorrectly. Expected %s, Got %s.", a.Email, result.Email)
-// 	} else if result.Marketing != true {
-// 		t.Errorf("Marketing Created Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
-// 	}
-// }
+	if result.AccountID != a.AccountID {
+		t.Errorf("AccountID Created Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
+	} else if result.RewardPoints != a.RewardPoints {
+		t.Errorf("RewardPoints Created Incorrectly. Expected %d, Got %d.", a.RewardPoints, result.RewardPoints)
+	} else if result.Email != a.Email {
+		t.Errorf("Email Created Incorrectly. Expected %s, Got %s.", a.Email, result.Email)
+	} else if result.Marketing != a.Marketing {
+		t.Errorf("Marketing Created Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
+	}
+
+	TestCleanup(a.Email)
+}
 
 // func TestUpdate(t *testing.T) {
 // 	id := primitive.NewObjectID()

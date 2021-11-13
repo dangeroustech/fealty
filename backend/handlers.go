@@ -36,7 +36,7 @@ func getAccount(c *fiber.Ctx) error {
 		log.Println(err)
 	}
 
-	result := MongoFind(string(a.Email), "localhost")
+	result := MongoFind(string(a.Email), "localhost", false)
 	if result.AccountID == primitive.NilObjectID {
 		return c.JSON("{'Error': 'Account Not Found'}")
 	} else {
