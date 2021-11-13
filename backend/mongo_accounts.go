@@ -120,7 +120,8 @@ func MongoCreate(a Account, server string) Account {
 		log.Printf("Error creating account %s", a.AccountID)
 		log.Print(err)
 	} else {
-		log.Printf("Account %s Created at %s", a.AccountID, result.InsertedID)
+		log.Printf("1 Account(s) Created (%s). Reward Points: %d, Email: %s, Marketing: %t",
+			result.InsertedID, a.RewardPoints, a.Email, a.Marketing)
 	}
 
 	err = client.Disconnect(context.TODO())
@@ -165,6 +166,7 @@ func MongoDelete(email string, server string) Account {
 	// Find the Account ID
 	a := MongoFind(email, "localhost", false)
 
+	// if account is not found
 	if a.AccountID == primitive.NilObjectID {
 		return a
 	}
@@ -176,10 +178,14 @@ func MongoDelete(email string, server string) Account {
 		log.Printf("Some shit went down: %v", err)
 	}
 
+	// if for some reason we didn't delete anything
+	// even though the account existed
 	if result.DeletedCount != 1 {
 		a.AccountID = primitive.NilObjectID
 		return a
 	} else {
+		log.Printf("%d Account(s) Deleted (%s). Reward Points: %d, Email: %s, Marketing: %t",
+			result.DeletedCount, a.AccountID, a.RewardPoints, a.Email, a.Marketing)
 		return a
 	}
 }

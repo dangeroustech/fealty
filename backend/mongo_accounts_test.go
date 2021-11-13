@@ -11,7 +11,7 @@ var a = Account{
 	AccountID:    primitive.NewObjectIDFromTimestamp(time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)),
 	Email:        "test@test.com",
 	RewardPoints: 100,
-	Marketing:    true,
+	Marketing:    false,
 }
 
 func TestFind(t *testing.T) {
@@ -52,21 +52,27 @@ func TestCreate(t *testing.T) {
 	TestCleanup(a.Email)
 }
 
-// func TestUpdate(t *testing.T) {
-// 	id := primitive.NewObjectID()
-// 	a := Account{id, 999, "test9@test.com", false}
-// 	result := MongoUpdate(a, "localhost")
+func TestUpdate(t *testing.T) {
+	// create Account a
+	TestPrep(a)
 
-// 	if result.AccountID != id {
-// 		t.Errorf("AccountID Updated Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
-// 	} else if result.RewardPoints != 999 {
-// 		t.Errorf("RewardPoints Updated Incorrectly. Expected %d, Got %d.", a.RewardPoints, result.RewardPoints)
-// 	} else if result.Email != "test9@test.com" {
-// 		t.Errorf("Email Updated Incorrectly. Expected %s, Got %s.", a.Email, result.Email)
-// 	} else if result.Marketing != false {
-// 		t.Errorf("Marketing Updated Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
-// 	}
-// }
+	// create a new Account with the same ID as a
+	newA := Account{AccountID: a.AccountID, Email: "test1@test1.com", RewardPoints: 350, Marketing: true}
+
+	// update a with newA details
+	result := MongoUpdate(newA, "localhost")
+
+	if result.AccountID != newA.AccountID {
+		t.Errorf("AccountID Updated Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
+	} else if result.RewardPoints != newA.RewardPoints {
+		t.Errorf("RewardPoints Updated Incorrectly. Expected %d, Got %d.", a.RewardPoints, result.RewardPoints)
+	} else if result.Email != newA.Email {
+		t.Errorf("Email Updated Incorrectly. Expected %s, Got %s.", a.Email, result.Email)
+	} else if result.Marketing != newA.Marketing {
+		t.Errorf("Marketing Updated Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
+	}
+	TestCleanup(newA.Email)
+}
 
 // func TestDelete(t *testing.T) {
 // }
