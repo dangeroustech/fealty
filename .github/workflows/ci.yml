@@ -28,8 +28,10 @@ jobs:
         cd backend
         go build -v -o fealty
 
-    # - name: Test
-    #   run: go test -v ./...
+    - name: Test
+      run: |
+        cd backend
+        go test -v
 
     - name: Version
       uses: go-semantic-release/action@v1
