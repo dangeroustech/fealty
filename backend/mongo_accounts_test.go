@@ -65,3 +65,6 @@ func TestFindAll(t *testing.T) {
 // 		t.Errorf("Marketing Updated Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
 // 	}
 // }
+
+// func TestDelete(t *testing.T) {
+// }
