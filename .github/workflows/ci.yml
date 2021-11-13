@@ -38,6 +38,8 @@ jobs:
         go test -v
       env:
         MONGO_URI: mongodb://localhost:27017
+        MONGO_USER: fealty
+        MONGO_PASS: fealty
 
     - name: Version
       uses: go-semantic-release/action@v1
