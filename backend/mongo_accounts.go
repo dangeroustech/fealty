@@ -42,13 +42,9 @@ func MongoFind(email string, server string, silent bool) Account {
 	err := collection.FindOne(context.TODO(), bson.M{"email": email}).Decode(&a)
 
 	if err != nil && !silent {
-		log.Printf("Error finding account for %s", email)
-		log.Print(err)
+		log.Printf("Error finding account for %s:\n%#v", email, err)
 		a.AccountID = primitive.NilObjectID
 	}
-	// } else {
-	// 	log.Printf("Account %s For %s Has %d Points.", a.AccountID, a.Email, a.RewardPoints)
-	// }
 
 	err = client.Disconnect(context.TODO())
 
@@ -175,7 +171,7 @@ func MongoDelete(email string, server string) Account {
 	result, err := collection.DeleteOne(context.TODO(), bson.M{"_id": a.AccountID})
 
 	if err != nil {
-		log.Printf("Some shit went down: %v", err)
+		log.Printf("Error while deleting: %v", err)
 	}
 
 	// if for some reason we didn't delete anything
