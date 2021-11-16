@@ -61,6 +61,8 @@ jobs:
     - name: Terraform Plan
       id: plan
       run: terraform -chdir=deploy plan -no-color
+      env:
+        TF_VAR_linode_token: "${{ secrets.TF_VAR_LINODE_TOKEN }}"
       continue-on-error: false
 
     - uses: actions/github-script@0.9.0
