@@ -7,9 +7,38 @@ on:
       - master
 
 jobs:
+  packer:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+    name: Build Infrastructure
+
+    steps:
+      - name: Packer Setup
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: init
+          target: deploy/packer
+
+      - name: Packer Validate
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: -syntax-only
+          target: deploy/packer
+      
+      - name: Build Artifact
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: build
+          arguments: "-color=false -on-error=abort"
+          target: deploy/packer
+        env:
+          PACKER_LOG: 1
+
   deploy:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged
+    name: Deploy Infrastructure
 
     steps:
       - name: Checkout
@@ -21,8 +50,8 @@ jobs:
       - name: Download Binary
         uses: actions/download-artifact@master
         with:
-          name: my-artifact
-          path: path/to/artifact
+          name: fealty-binary
+          path: artifacts/fealty
       
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v1
