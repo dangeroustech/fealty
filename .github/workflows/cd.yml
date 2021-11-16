@@ -1,0 +1,29 @@
+name: Fealty CD
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+
+    steps:
+      - name: Checkout
+        if: github.event.pull_request.merged
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Version
+        uses: go-semantic-release/action@v1
+        id: semrel
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          force-bump-patch-version: true
+          changelog-generator-opt: "emojis=true"
+          changelog-file: true
+          allow-initial-development-versions: true
