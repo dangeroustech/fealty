@@ -1,2 +1,5 @@
 # Terraform Config
 .terraform*
+
+# Manifests
+*-manifest.json

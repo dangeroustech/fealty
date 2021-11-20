@@ -35,8 +35,11 @@ build {
             "sed -i.bak -e '/security/d' -e 's/127.0.0.1/\"*\"/g' /etc/mongod.conf",
             "echo \"\\nsecurity:\\n  authorization: enabled\" >> /etc/mongod.conf",
             "systemctl restart mongod",
-            "cat /etc/mongod.conf",
             "mongosh mongodb://fealty:$MONGODB_FEALTY_PASS@localhost:27017/fealty?authSource=fealty --eval \"db.getCollectionNames()\"",
         ]
+    }
+    post-processor "manifest" {
+      output = "../db-manifest.json"
+      strip_time = true
     }
 }
