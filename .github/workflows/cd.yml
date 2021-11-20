@@ -19,13 +19,6 @@ jobs:
           command: init
           working-directory: deploy/packer
 
-      - name: Packer Validate
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: validate
-          arguments: -syntax-only
-          working-directory: deploy/packer
-      
       - name: Build Artifact
         uses: hashicorp/packer-github-actions@master
         with:
@@ -46,13 +39,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: master
-        
+
       - name: Download Binary
         uses: actions/download-artifact@master
         with:
           name: fealty-binary
           path: artifacts/fealty
-      
+
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v1
 

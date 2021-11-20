@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.17
-      
+
     - name: Start MongoDB
       uses: supercharge/mongodb-github-action@1.7.0
       with:
@@ -35,12 +35,25 @@ jobs:
         MONGO_URI: mongodb://localhost:27017
         MONGO_USER: fealty
         MONGO_PASS: fealty
-  
+
     - name: Upload Binary
       uses: actions/upload-artifact@master
       with:
         name: fealty-binary
         path: backend/fealty
+
+    - name: Packer Setup
+      uses: hashicorp/packer-github-actions@master
+      with:
+          command: init
+          working-directory: deploy/packer
+
+    - name: Packer Validate
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: validate
+        arguments: -syntax-only
+        working-directory: deploy/packer
 
     - name: Terraform Setup
       uses: hashicorp/setup-terraform@v1
@@ -76,17 +89,17 @@ jobs:
           #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
           #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
           #### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
-          
+
           <details><summary>Show Plan</summary>
-          
+
           \`\`\`\n
           ${process.env.PLAN}
           \`\`\`
-          
+
           </details>
-          
+
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
-            
+
           github.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
