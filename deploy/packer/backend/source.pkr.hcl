@@ -1,1 +1,1 @@
-../linode_source.pkr.hcl
+../source.pkr.hcl
