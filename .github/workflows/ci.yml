@@ -45,7 +45,7 @@ jobs:
     - name: Packer Setup
       uses: hashicorp/packer-github-actions@master
       with:
-        command: init .
+        command: init
         target: ./deploy/packer
 
     - name: Packer Validate
