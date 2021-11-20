@@ -36,11 +36,10 @@ jobs:
         MONGO_USER: fealty
         MONGO_PASS: fealty
 
-    - name: Upload Binary
-      uses: actions/upload-artifact@master
-      with:
-        name: fealty-binary
-        path: backend/fealty
+  Packer_Prep:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
 
     - name: Packer Setup
       uses: hashicorp/packer-github-actions@master
@@ -54,6 +53,11 @@ jobs:
         command: validate
         arguments: -syntax-only
         target: deploy/packer
+
+  Terraform_Prep:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
 
     - name: Terraform Setup
       uses: hashicorp/setup-terraform@v1
