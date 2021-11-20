@@ -47,12 +47,26 @@ jobs:
         command: init
         target: deploy/packer
 
-    - name: Packer Validate
+    - name: Packer Validate Globals
       uses: hashicorp/packer-github-actions@master
       with:
         command: validate
         arguments: -syntax-only
         target: deploy/packer
+
+    - name: Packer Validate DB
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: validate
+        arguments: -syntax-only
+        target: deploy/packer/db
+
+    - name: Packer Validate Backend
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: validate
+        arguments: -syntax-only
+        target: deploy/packer/backend
 
   Terraform_Prep:
     runs-on: ubuntu-latest
