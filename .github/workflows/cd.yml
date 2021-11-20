@@ -17,14 +17,14 @@ jobs:
         uses: hashicorp/packer-github-actions@master
         with:
           command: init
-          working-directory: deploy/packer
+          working_directory: deploy/packer
 
       - name: Build Artifact
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
           arguments: "-color=false -on-error=abort"
-          working-directory: deploy/packer
+          working_directory: deploy/packer
         env:
           PACKER_LOG: 1
 
