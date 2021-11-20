@@ -43,13 +43,13 @@ jobs:
         path: backend/fealty
 
     - name: Packer Setup
-      uses: hashicorp/packer-github-actions@master
+      uses: hashicorp/packer-github-actions@v0.2.0
       with:
           command: init
           working_directory: deploy/packer
 
     - name: Packer Validate
-      uses: hashicorp/packer-github-actions@master
+      uses: hashicorp/packer-github-actions@v0.2.0
       with:
         command: validate
         arguments: -syntax-only
