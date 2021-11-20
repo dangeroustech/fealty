@@ -12,19 +12,14 @@ variable "instance_type" {
   default = "g6-nanode-1"
 }
 
-variable "instance_short_label" {
-  type = string
-  default = "db"
-}
-
 variable "image_label" {
   type = string
-  default = "fealty-db"
+  default = "fealty"
 }
 
-variable "image_short_description" {
+variable "image_description" {
   type = string
-  default = "DB"
+  default = "Fealty Image"
 }
 
 variable "region"{
