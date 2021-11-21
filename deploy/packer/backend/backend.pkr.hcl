@@ -40,6 +40,5 @@ build {
 
     post-processor "manifest" {
       output = "../backend-manifest.json"
-      strip_time = true
     }
 }

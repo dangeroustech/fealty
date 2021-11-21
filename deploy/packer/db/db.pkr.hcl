@@ -35,6 +35,5 @@ build {
 
     post-processor "manifest" {
       output = "../db-manifest.json"
-      strip_time = true
     }
 }
