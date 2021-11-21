@@ -1,10 +1,10 @@
 #######################
-## LINODE VARIABLES
+## LINODE VARIABLES  ##
 #######################
 
 variable "linode_token" {
   type = string
-  default = "{{env `LINODE_TOKEN`}}"
+  default = "{{env `PACKER_LINODE_TOKEN`}}"
 }
 
 variable "instance_type" {
@@ -28,7 +28,7 @@ variable "region"{
 }
 
 #######################
-## MONGODB VARIABLES
+## MONGODB VARIABLES ##
 #######################
 
 variable "MONGODB_ROOT_USER" {

@@ -30,6 +30,8 @@ jobs:
           arguments: "-color=false -on-error=abort"
           target: deploy/packer/${{ matrix.component }}
         env:
+          PACKER_LINODE_TOKEN: ${{ secrets.PACKER_LINODE_TOKEN }}
+          TF_VAR_LINODE_TOKEN: ${{ secrets.TERRAFORM_LINODE_TOKEN }}
           PACKER_LOG: 1
 
       - name: Upload Manifests
