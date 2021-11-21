@@ -26,6 +26,7 @@ build {
             "MONGODB_FEALTY_PASS=${var.MONGODB_FEALTY_PASS}",
             "DEBIAN_FRONTEND=noninteractive",
         ]
+
         inline = [
             "wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -",
             "echo \"deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse\" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list",
@@ -38,6 +39,7 @@ build {
             "mongosh mongodb://fealty:$MONGODB_FEALTY_PASS@localhost:27017/fealty?authSource=fealty --eval \"db.getCollectionNames()\"",
         ]
     }
+
     post-processor "manifest" {
       output = "../db-manifest.json"
       strip_time = true
