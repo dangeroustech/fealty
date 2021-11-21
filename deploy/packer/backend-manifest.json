@@ -1,0 +1,13 @@
+{
+  "builds": [
+    {
+      "name": "fealty",
+      "builder_type": "linode",
+      "files": null,
+      "artifact_id": "dummy",
+      "packer_run_uuid": "dummy",
+      "custom_data": null
+    }
+  ],
+  "last_run_uuid": "a595c693-330c-161e-b410-0f749d6e009b"
+}
