@@ -41,27 +41,27 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Packer Setup
+    - name: Setup
       uses: hashicorp/packer-github-actions@master
       with:
         command: init
         target: deploy/packer
 
-    - name: Packer Validate Globals
+    - name: Validate Globals
       uses: hashicorp/packer-github-actions@master
       with:
         command: validate
         arguments: -syntax-only
         target: deploy/packer
 
-    - name: Packer Validate DB
+    - name: Validate DB
       uses: hashicorp/packer-github-actions@master
       with:
         command: validate
         arguments: -syntax-only
         target: deploy/packer/db
 
-    - name: Packer Validate Backend
+    - name: Validate Backend
       uses: hashicorp/packer-github-actions@master
       with:
         command: validate
@@ -73,23 +73,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Terraform Setup
+    - name: Setup
       uses: hashicorp/setup-terraform@v1
 
-    - name: Terraform fmt
+    - name: Format
       id: fmt
       run: terraform -chdir=deploy fmt -check
       continue-on-error: true
 
-    - name: Terraform Init
+    - name: Init
       id: init
       run: terraform -chdir=deploy init
 
-    - name: Terraform Validate
+    - name: Validate
       id: validate
       run: terraform -chdir=deploy validate -no-color
 
-    - name: Terraform Plan
+    - name: Plan
       id: plan
       run: terraform -chdir=deploy plan -no-color
       env:
