@@ -1,15 +1,6 @@
-data "linode_images" "fealty_image" {
-  filter {
-    name   = "label"
-    values = ["fealty-db"]
-  }
-
-  filter {
-    name   = "is_public"
-    values = ["false"]
-  }
-
-  latest = true
+locals {
+  manifest = jsondecode(file("${path.module}/packer/db-manifest.json"))
+  image_id = local.manifest.builds.0.artifact_id
 }
 
 data "linode_profile" "me" {}
