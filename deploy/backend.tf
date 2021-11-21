@@ -1,7 +1,7 @@
-resource "linode_instance" "db" {
-  label            = "fealty_db"
+resource "linode_instance" "backend" {
+  label            = "fealty_backend"
   tags             = ["fealty"]
-  image            = local.db_manifest.builds.0.artifact_id
+  image            = local.backend_manifest.builds.0.artifact_id
   region           = var.region
   type             = var.instance_type
   authorized_users = [data.linode_profile.me.username]
@@ -11,6 +11,6 @@ resource "linode_instance" "db" {
   interface {
     purpose      = "vlan"
     label        = "fealty-vlan"
-    ipam_address = "10.10.10.3/24"
+    ipam_address = "10.10.10.2/24"
   }
 }
