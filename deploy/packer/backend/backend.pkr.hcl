@@ -14,7 +14,6 @@ build {
     "source.linode.fealty",
   ]
 
-
   provisioner "file" {
     source      = "fealty"
     destination = "/usr/bin/fealty"
