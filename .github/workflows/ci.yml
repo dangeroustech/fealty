@@ -94,7 +94,7 @@ jobs:
       run: terraform -chdir=deploy plan -no-color
       env:
         TF_VAR_linode_token: "${{ secrets.TF_VAR_LINODE_TOKEN }}"
-      continue-on-error: false
+      continue-on-error: true
 
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
