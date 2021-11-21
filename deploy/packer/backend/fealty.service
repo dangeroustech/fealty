@@ -1,0 +1,13 @@
+[Unit]
+Description=Fealty Backend Service
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=2
+User=root
+ExecStart=/usr/bin/fealty
+
+[Install]
+WantedBy=multi-user.target

@@ -14,20 +14,33 @@ build {
     "source.linode.fealty",
   ]
 
+
   provisioner "file" {
-      source      = "mongo-init.js"
-      destination = "/tmp/mongo-init.js"
+    source      = "fealty"
+    destination = "/usr/bin/fealty"
+  }
+
+  provisioner "file" {
+    source      = "fealty.service"
+    destination = "/etc/systemd/system/fealty.service"
   }
 
   provisioner "shell" {
-        environment_vars = [
-            "MONGODB_ROOT_USER=${var.MONGODB_ROOT_USER}",
-            "MONGODB_ROOT_PASS=${var.MONGODB_ROOT_PASS}",
-            "MONGODB_FEALTY_PASS=${var.MONGODB_FEALTY_PASS}",
-            "DEBIAN_FRONTEND=noninteractive",
-        ]
-        inline = [
-            "apt update && apt upgrade -y"
-        ]
+    environment_vars = [
+      "DEBIAN_FRONTEND=noninteractive",
+    ]
+    script = "service_setup.sh"
+    expect_disconnect = true
+  }
+
+  provisioner "shell" {
+    inline = [
+      "systemctl status fealty",
+    ]
+  }
+
+    post-processor "manifest" {
+      output = "../backend-manifest.json"
+      strip_time = true
     }
 }
