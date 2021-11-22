@@ -31,7 +31,6 @@ jobs:
           target: deploy/packer/${{ matrix.component }}
         env:
           PACKER_LINODE_TOKEN: ${{ secrets.PACKER_LINODE_TOKEN }}
-          TF_VAR_LINODE_TOKEN: ${{ secrets.TERRAFORM_LINODE_TOKEN }}
           PACKER_LOG: 1
 
       - name: Upload Manifests
@@ -60,8 +59,20 @@ jobs:
       - name: Setup
         uses: hashicorp/setup-terraform@v1
 
+      - name: Init
+        id: init
+        run: terraform -chdir=deploy init
+        env:
+          TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+          AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
+          AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
+
       - name: Deploy
         run: terraform apply -auto-approve
+        env:
+          TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+          AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
+          AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
 
       - name: Version
         uses: go-semantic-release/action@v1

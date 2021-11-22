@@ -5,6 +5,13 @@ terraform {
       version = "1.24.0"
     }
   }
+  backend "s3" {
+    bucket     = "fealty"
+    region     = "us-east-1"
+    endpoint   = "us-east-1.linodeobjects.com"
+    key        = "tfstate"
+    skip_credentials_validation = true
+  }
 }
 
 provider "linode" {

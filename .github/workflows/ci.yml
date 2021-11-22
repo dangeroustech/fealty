@@ -78,12 +78,16 @@ jobs:
 
     - name: Format
       id: fmt
-      run: terraform -chdir=deploy fmt -check
+      run: terraform -chdir=deploy fmt -check -diff
       continue-on-error: true
 
     - name: Init
       id: init
       run: terraform -chdir=deploy init
+      env:
+        TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+        AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
+        AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
 
     - name: Validate
       id: validate
@@ -94,6 +98,8 @@ jobs:
       run: terraform -chdir=deploy plan -no-color
       env:
         TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+        AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
+        AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
       continue-on-error: true
 
     - uses: actions/github-script@0.9.0
