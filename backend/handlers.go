@@ -10,7 +10,7 @@ import (
 
 // RenderAccounts - Allow Browser to View All Accounts
 func renderAccounts(c *fiber.Ctx) error {
-	a := MongoFindAll(50, "localhost")
+	a := MongoFindAll(50)
 	// Render index template
 	return c.Render("accounts", fiber.Map{
 		"Title":    "Accounts",
@@ -21,7 +21,7 @@ func renderAccounts(c *fiber.Ctx) error {
 // GetAccounts - API Query to Return All Accounts as JSON
 func getAccounts(c *fiber.Ctx) error {
 	// Get All Accounts
-	a := MongoFindAll(50, "localhost")
+	a := MongoFindAll(50)
 
 	// Render index template
 	return c.JSON(a)
@@ -36,7 +36,7 @@ func getAccount(c *fiber.Ctx) error {
 		log.Println(err)
 	}
 
-	result := MongoFind(string(a.Email), "localhost", false)
+	result := MongoFind(string(a.Email), false)
 	if result.AccountID == primitive.NilObjectID {
 		return c.JSON("{'Error': 'Account Not Found'}")
 	} else {
@@ -54,7 +54,7 @@ func createAccount(c *fiber.Ctx) error {
 		log.Println(err)
 	}
 
-	result := MongoCreate(a, "localhost")
+	result := MongoCreate(a)
 	if result.Email == "DUPE" {
 		return c.JSON("{'Error': 'Account for This Email Already Exists'}")
 	} else {
@@ -71,7 +71,7 @@ func updateAccount(c *fiber.Ctx) error {
 		log.Println(err)
 	}
 
-	result := MongoUpdate(a, "localhost")
+	result := MongoUpdate(a)
 	if result.AccountID == primitive.NilObjectID {
 		return c.JSON("{'Error': 'Account Not Found'")
 	} else {
@@ -89,7 +89,7 @@ func deleteAccount(c *fiber.Ctx) error {
 	}
 
 	log.Printf("%#v", a)
-	result := MongoDelete(a.Email, "localhost")
+	result := MongoDelete(a.Email)
 
 	if result.AccountID == primitive.NilObjectID {
 		return c.JSON("{'Error': 'Account Not Found'")
