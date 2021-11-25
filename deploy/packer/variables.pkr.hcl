@@ -2,9 +2,9 @@
 ## LINODE VARIABLES  ##
 #######################
 
-variable "linode_token" {
+variable "LINODE_TOKEN" {
   type = string
-  default = "{{env `PACKER_LINODE_TOKEN`}}"
+  default = ""
 }
 
 variable "instance_type" {
