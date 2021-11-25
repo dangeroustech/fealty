@@ -68,7 +68,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
 
       - name: Deploy
-        run: terraform apply -auto-approve
+        run: terraform -chdir=deploy apply -auto-approve
         env:
           TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
           AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
