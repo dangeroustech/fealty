@@ -42,6 +42,6 @@ build {
   }
 
     post-processor "manifest" {
-      output = "../backend-manifest.json"
+      output = "deploy/packer/backend-manifest.json"
     }
 }

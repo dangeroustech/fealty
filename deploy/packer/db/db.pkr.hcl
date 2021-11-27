@@ -5,7 +5,7 @@ build {
   ]
 
   provisioner "file" {
-      source      = "mongo-init.js"
+      source      = "deploy/packer/db/mongo-init.js"
       destination = "/tmp/mongo-init.js"
   }
 
@@ -17,13 +17,13 @@ build {
             "DEBIAN_FRONTEND=noninteractive",
         ]
         scripts = [
-          "mongo_install.sh",
-          "mongo_test.sh",
+          "deploy/packer/db/mongo_install.sh",
+          "deploy/packer/db/mongo_test.sh",
         ]
         expect_disconnect = true
     }
 
     post-processor "manifest" {
-      output = "../db-manifest.json"
+      output = "deploy/packer/db-manifest.json"
     }
 }
