@@ -11,6 +11,8 @@ jobs:
 
       steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -43,7 +45,8 @@ jobs:
       - name: Checkout
         # if: github.event.pull_request.merged == true
         uses: actions/checkout@v2
-        # with:
+        with:
+          fetch-depth: 0
         #   refs: main
 
       - name: Setup
@@ -89,7 +92,8 @@ jobs:
       - name: Checkout
         # if: github.event.pull_request.merged == true
         uses: actions/checkout@v2
-        # with:
+        with:
+          fetch-depth: 0
         #   refs: main
 
       - name: Download Packer Manifests
