@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -16,7 +17,7 @@ func middleware(c *fiber.Ctx) error {
 
 func main() {
 	// Initialize standard Go html template engine
-	htmlEngine := html.New("./static", ".html")
+	htmlEngine := html.New(os.Getenv("FEALTY_CONFIG")+"/static", ".html")
 
 	// Set Up Fiber App
 	app := fiber.New(fiber.Config{
