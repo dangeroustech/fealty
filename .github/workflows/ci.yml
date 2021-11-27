@@ -9,6 +9,7 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
 
@@ -37,6 +38,7 @@ jobs:
 
   Packer_Prep:
     runs-on: ubuntu-latest
+    
     strategy:
       matrix:
         component: ["backend", "db"]
@@ -65,6 +67,7 @@ jobs:
 
   Terraform_Prep:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
 
