@@ -13,6 +13,8 @@ jobs:
       matrix:
         component: ["backend", "db"]
     name: Build Infrastructure | Packer
+    env:
+      PKR_VAR_LINODE_TOKEN: ${{ secrets.PACKER_LINODE_TOKEN }}
 
     steps:
       - name: Checkout
@@ -27,15 +29,14 @@ jobs:
           command: init
           target: deploy/packer
 
-      - name: Build DB
-        id: build_db
+      - name: Build Images
+        id: build_images
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
           arguments: "-color=false -on-error=abort"
           target: deploy/packer/${{ matrix.component }}
         env:
-          PKR_VAR_LINODE_TOKEN: ${{ secrets.PACKER_LINODE_TOKEN }}
           PACKER_LOG: 1
 
       - name: Upload Manifests
@@ -49,10 +50,15 @@ jobs:
     # if: github.event.pull_request.merged == true
     name: Deploy Infrastructure | Terraform
     needs: Packer
+    env:
+      TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+      AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
+      AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
+      TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
 
     steps:
       - name: Checkout
-        if: github.event.pull_request.merged == true
+        # if: github.event.pull_request.merged == true
         uses: actions/checkout@v2
         # with:
         #   refs: main
@@ -68,19 +74,9 @@ jobs:
       - name: Init
         id: init
         run: terraform -chdir=deploy init
-        env:
-          TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
-          AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
-          AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
-          TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
 
       - name: Deploy
         run: terraform -chdir=deploy apply -auto-approve
-        env:
-          TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
-          AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
-          AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
-          TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
 
       - name: Version
         uses: go-semantic-release/action@v1
