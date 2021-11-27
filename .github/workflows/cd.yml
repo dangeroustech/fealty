@@ -52,6 +52,8 @@ jobs:
         with:
           command: init
           target: deploy/packer/${{ matrix.component }}
+        env:
+          PACKER_CONFIG_DIR: $GITHUB_WORKSPACE/${{ matrix.component }}
         
       - name: WTF
         run: |
