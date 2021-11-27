@@ -53,7 +53,7 @@ jobs:
           command: init
           target: deploy/packer/${{ matrix.component }}
         env:
-          PACKER_CONFIG_DIR: ${{ env.GITHUB_WORKSPACE }}/deploy/packer/${{ matrix.component }}
+          PACKER_CONFIG_DIR: deploy/packer/${{ matrix.component }}
         
       - name: WTF
         run: |
@@ -75,7 +75,7 @@ jobs:
           arguments: "-color=false -on-error=abort"
           target: deploy/packer/${{ matrix.component }}
         env:
-          PACKER_CONFIG_DIR: ${{ env.GITHUB_WORKSPACE }}/deploy/packer/${{ matrix.component }}
+          PACKER_CONFIG_DIR: deploy/packer/${{ matrix.component }}
           PACKER_LOG: 1
 
       - name: Upload Manifests
