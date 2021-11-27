@@ -31,6 +31,11 @@ variable "region"{
 ## MONGODB VARIABLES ##
 #######################
 
+variable "MONGODB_FEALTY_URI" {
+  type    = string
+  default = "mongodb://localhost"
+}
+
 variable "MONGODB_ROOT_USER" {
   type    = string
   default = "admin"

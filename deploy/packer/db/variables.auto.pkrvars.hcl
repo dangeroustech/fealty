@@ -11,6 +11,6 @@ region = "eu-west"
 ## MONGODB VARIABLES
 #######################
 
-MONGODB_ROOT_USER="random"
-MONGODB_ROOT_PASS="random"
-MONGODB_FEALTY_PASS="random"
+MONGODB_ROOT_USER="admin"
+MONGODB_ROOT_PASS="admin"
+MONGODB_FEALTY_PASS="fealty"

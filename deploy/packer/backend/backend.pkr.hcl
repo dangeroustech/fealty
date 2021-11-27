@@ -24,9 +24,22 @@ build {
     destination = "/etc/systemd/system/fealty.service"
   }
 
+  provisioner "shell" { 
+    inline = [
+      "mkdir /etc/fealty"
+    ]
+  }
+
+  provisioner "file" {
+    source      = "../../../backend/static"
+    destination = "/etc/fealty/static"
+  }
+
   provisioner "shell" {
     environment_vars = [
       "DEBIAN_FRONTEND=noninteractive",
+      "MONGODB_FEALTY_URI=${var.MONGODB_FEALTY_URI}",
+      "MONGODB_FEALTY_PASS=${var.MONGODB_FEALTY_PASS}",
     ]
     script = "service_setup.sh"
     expect_disconnect = true
