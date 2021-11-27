@@ -13,6 +13,7 @@ jobs:
       matrix:
         component: ["backend", "db"]
     name: Build Infrastructure | Packer
+    needs: Build
     env:
       PKR_VAR_LINODE_TOKEN: ${{ secrets.PACKER_LINODE_TOKEN }}
 
