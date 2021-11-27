@@ -5,7 +5,7 @@ resource "linode_instance" "db" {
   region           = var.region
   type             = var.instance_type
   authorized_users = [data.linode_profile.me.username]
-  // root_pass = "terr4form-test"
+  # root_pass = "terr4form-test"
   backups_enabled  = true
   watchdog_enabled = true
   interface {
