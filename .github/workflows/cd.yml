@@ -75,7 +75,7 @@ jobs:
           arguments: "-color=false -on-error=abort"
           target: deploy/packer/${{ matrix.component }}
         env:
-          PACKER_CONFIG_DIR: deploy/packer/${{ matrix.component }}
+          PACKER_CONFIG_DIR: /deploy/packer/${{ matrix.component }}
           PACKER_LOG: 1
 
       - name: Upload Manifests
