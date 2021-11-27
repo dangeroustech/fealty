@@ -15,7 +15,11 @@ jobs:
     name: Build Infrastructure | Packer
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        if: github.event.pull_request.merged == true
+        uses: actions/checkout@v2
+        # with:
+        #   refs: main
 
       - name: Setup
         uses: hashicorp/packer-github-actions@master
@@ -44,16 +48,19 @@ jobs:
     runs-on: ubuntu-latest
     # if: github.event.pull_request.merged == true
     name: Deploy Infrastructure | Terraform
+    needs: Packer
 
     steps:
       - name: Checkout
-        if: github.event.pull_request.merged
+        if: github.event.pull_request.merged == true
         uses: actions/checkout@v2
+        # with:
+        #   refs: main
 
       - name: Download Packer Manifests
         uses: actions/download-artifact@v2
         with:
-          working-directory: deploy/packer
+          path: deploy/packer
 
       - name: Setup
         uses: hashicorp/setup-terraform@v1
