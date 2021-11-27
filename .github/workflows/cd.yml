@@ -2,9 +2,9 @@ name: Fealty CD
 
 on:
   pull_request:
-    # types: [closed]
+    # types: [ closed ]
     branches:
-      - master
+      - [ main ]
 
 jobs:
   Packer:
