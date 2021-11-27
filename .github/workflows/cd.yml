@@ -66,6 +66,7 @@ jobs:
           TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
           AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
           AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
+          TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
 
       - name: Deploy
         run: terraform -chdir=deploy apply -auto-approve
@@ -73,6 +74,7 @@ jobs:
           TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
           AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
           AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
+          TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
 
       - name: Version
         uses: go-semantic-release/action@v1
