@@ -25,7 +25,7 @@ jobs:
       - name: Upload Binary
         uses: actions/upload-artifact@v2
         with:
-          name: packer-manifests
+          name: fealty
           path: backend/fealty
 
   Packer:
@@ -55,6 +55,7 @@ jobs:
       - name: Download Binary
         uses: actions/download-artifact@v2
         with:
+          name: fealty
           path: deploy/packer/backend/fealty
 
       - name: Build Images
@@ -94,6 +95,7 @@ jobs:
       - name: Download Packer Manifests
         uses: actions/download-artifact@v2
         with:
+          name: packer-manifests
           path: deploy/packer
 
       - name: Setup
