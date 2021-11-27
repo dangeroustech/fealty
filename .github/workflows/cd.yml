@@ -22,7 +22,7 @@ jobs:
         with:
           go-version: 1.17
 
-      - name: Build & Test
+      - name: Build
         run: |
           cd backend
           go build -v -o fealty
@@ -57,6 +57,11 @@ jobs:
         with:
           command: init
           target: deploy/packer/${{ matrix.component }}
+        
+      - name: WTF
+        run: |
+          apt-get update && apt-get install -y tree
+          tree -asph
 
       - name: Download Binary
         uses: actions/download-artifact@v2
