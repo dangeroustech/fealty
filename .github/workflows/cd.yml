@@ -45,14 +45,15 @@ jobs:
       PKR_VAR_LINODE_TOKEN: ${{ secrets.PACKER_LINODE_TOKEN }}
 
     steps:
-      - name: Checkout
-        # if: github.event.pull_request.merged == true
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: main
+      -  uses: actions/checkout@v2
 
-      - name: Setup
+      - name: Setup1
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: init
+          target: deploy/packer
+
+      - name: Setup2
         uses: hashicorp/packer-github-actions@master
         with:
           command: init
