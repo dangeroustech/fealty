@@ -16,7 +16,7 @@ var a = Account{
 
 func TestFind(t *testing.T) {
 	TestPrep(a)
-	result := MongoFind("test@test.com", "localhost", false)
+	result := MongoFind("test@test.com", false)
 
 	if result.RewardPoints != 100 {
 		t.Errorf("Account for %s RewardPoints Incorrect. Expected %d, Got: %d.", "test@test.com", 100, result.RewardPoints)
@@ -27,7 +27,7 @@ func TestFind(t *testing.T) {
 
 func TestFindAll(t *testing.T) {
 	TestPrep(a)
-	result := MongoFindAll(1, "localhost")
+	result := MongoFindAll(1)
 
 	if result == nil {
 		t.Errorf("Nil Data Returned for FindAll.")
@@ -37,7 +37,7 @@ func TestFindAll(t *testing.T) {
 }
 
 func TestCreate(t *testing.T) {
-	result := MongoCreate(a, "localhost")
+	result := MongoCreate(a)
 
 	if result.AccountID != a.AccountID {
 		t.Errorf("AccountID Created Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
@@ -60,7 +60,7 @@ func TestUpdate(t *testing.T) {
 	newA := Account{AccountID: a.AccountID, Email: "test1@test1.com", RewardPoints: 350, Marketing: true}
 
 	// update a with newA details
-	result := MongoUpdate(newA, "localhost")
+	result := MongoUpdate(newA)
 
 	if result.AccountID != newA.AccountID {
 		t.Errorf("AccountID Updated Incorrectly. Expected %s, Got %s.", a.AccountID, result.AccountID)
@@ -77,7 +77,7 @@ func TestUpdate(t *testing.T) {
 func TestDelete(t *testing.T) {
 	TestPrep(a)
 
-	result := MongoDelete(a.Email, "localhost")
+	result := MongoDelete(a.Email)
 
 	if result.AccountID != a.AccountID {
 		t.Errorf("Account Deleted Incorrectly. Expected %s, Got %s", a.AccountID, result.AccountID)

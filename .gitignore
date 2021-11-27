@@ -9,3 +9,6 @@ src/
 
 # Mongo db
 backend/mongo/db
+
+# Local Env File
+.env

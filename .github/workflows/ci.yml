@@ -7,9 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-
   Build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
 
@@ -17,39 +17,115 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.17
-      
+
     - name: Start MongoDB
       uses: supercharge/mongodb-github-action@1.7.0
       with:
-        mongodb-version: 5.0.3
+        mongodb-version: 5.0.4
         mongodb-username: fealty
         mongodb-password: fealty
         mongodb-db: fealty
 
-    - name: Build
+    - name: Build & Test
       run: |
         cd backend
         go build -v -o fealty
-      env:
-        MONGO_URI: mongodb://localhost:27017
-        MONGO_USER: fealty
-        MONGO_PASS: fealty
-
-    - name: Test
-      run: |
-        cd backend
         go test -v
       env:
         MONGO_URI: mongodb://localhost:27017
         MONGO_USER: fealty
         MONGO_PASS: fealty
 
-    - name: Version
-      uses: go-semantic-release/action@v1
-      id: semrel
+  Packer_Prep:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        component: ["backend", "db"]
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: init
+        target: deploy/packer
+
+    - name: Validate Globals
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: validate
+        arguments: -syntax-only
+        target: deploy/packer
+
+    - name: Validate Local Components
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: validate
+        arguments: -syntax-only
+        target: deploy/packer/${{ matrix.component }}
+
+  Terraform_Prep:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Format
+      id: fmt
+      run: terraform -chdir=deploy fmt -check -diff
+      continue-on-error: true
+
+    - name: Init
+      id: init
+      run: terraform -chdir=deploy init
+      env:
+        TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+        AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
+        AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
+
+    - name: Validate
+      id: validate
+      run: terraform -chdir=deploy validate -no-color
+
+    - name: Plan
+      id: plan
+      run: terraform -chdir=deploy plan -no-color
+      env:
+        TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+        AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
+        AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
+      continue-on-error: true
+
+    - uses: actions/github-script@0.9.0
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        tf_actions_working_dir: deploy
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        force-bump-patch-version: true
-        changelog-generator-opt: "emojis=true"
-        changelog-file: true
-        allow-initial-development-versions: true
+        script: |
+          const output = `#### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization ⚙️ \`${{ steps.init.outcome }}\`
+          #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
+          #### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
+
+          <details><summary>Show Plan</summary>
+
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+
+          </details>
+
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })

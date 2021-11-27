@@ -15,6 +15,7 @@ func dbConnect() *mongo.Client {
 	MONGO_URI := os.Getenv("MONGO_URI")
 	MONGO_USER := os.Getenv("MONGO_USER")
 	MONGO_PASS := os.Getenv("MONGO_PASS")
+	log.Printf("Connecting to Mongo at %s with username %s and password %s", MONGO_URI, MONGO_USER, MONGO_PASS)
 	var ctx = context.TODO()
 	clientOptions := options.Client().ApplyURI(MONGO_URI).SetAuth(options.Credential{Username: MONGO_USER, Password: MONGO_PASS})
 	client, err := mongo.Connect(ctx, clientOptions)
@@ -32,7 +33,7 @@ func dbConnect() *mongo.Client {
 }
 
 // MongoFind - Find An Account
-func MongoFind(email string, server string, silent bool) Account {
+func MongoFind(email string, silent bool) Account {
 	// connect to mongo session running on localhost
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
@@ -56,7 +57,7 @@ func MongoFind(email string, server string, silent bool) Account {
 }
 
 // MongoFindAll - Return All Accounts
-func MongoFindAll(limit int64, server string) []*Account {
+func MongoFindAll(limit int64) []*Account {
 	// connect to mongo session running on localhost
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
@@ -98,13 +99,13 @@ func MongoFindAll(limit int64, server string) []*Account {
 }
 
 // MongoCreate - Create An Account
-func MongoCreate(a Account, server string) Account {
+func MongoCreate(a Account) Account {
 	// connect to mongo session running on localhost
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
 	// Check for Duplicate
-	if MongoFind(a.Email, "localhost", true).Email != "" {
+	if MongoFind(a.Email, true).Email != "" {
 		a.Email = "DUPE"
 		return a
 	}
@@ -130,7 +131,7 @@ func MongoCreate(a Account, server string) Account {
 }
 
 // MongoUpdate - Update An Account
-func MongoUpdate(a Account, server string) Account {
+func MongoUpdate(a Account) Account {
 	// connect to mongo session running on localhost
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
@@ -154,13 +155,13 @@ func MongoUpdate(a Account, server string) Account {
 }
 
 // MongoDelete - Delete An Account
-func MongoDelete(email string, server string) Account {
+func MongoDelete(email string) Account {
 	// connect to mongo session running on localhost
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
 	// Find the Account ID
-	a := MongoFind(email, "localhost", false)
+	a := MongoFind(email, false)
 
 	// if account is not found
 	if a.AccountID == primitive.NilObjectID {
@@ -187,9 +188,9 @@ func MongoDelete(email string, server string) Account {
 }
 
 func TestPrep(a Account) {
-	MongoCreate(a, "localhost")
+	MongoCreate(a)
 }
 
 func TestCleanup(email string) {
-	MongoDelete(email, "localhost")
+	MongoDelete(email)
 }
