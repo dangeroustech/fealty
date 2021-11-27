@@ -2,14 +2,14 @@ name: Fealty CD
 
 on:
   pull_request:
-    types: [closed]
+    # types: [closed]
     branches:
       - master
 
 jobs:
   Packer:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     strategy:
       matrix:
         component: ["backend", "db"]
@@ -41,7 +41,7 @@ jobs:
 
   Terraform:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     name: Deploy Infrastructure | Terraform
 
     steps:
