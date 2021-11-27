@@ -6,6 +6,28 @@ on:
     branches: [ main ]
 
 jobs:
+  Build:
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Build & Test
+        run: |
+          cd backend
+          go build -v -o fealty
+
+      - name: Upload Binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: packer-manifests
+          path: backend/fealty
+
   Packer:
     runs-on: ubuntu-latest
     # if: github.event.pull_request.merged == true
@@ -29,6 +51,11 @@ jobs:
         with:
           command: init
           target: deploy/packer/${{ matrix.component }}
+
+      - name: Download Binary
+        uses: actions/download-artifact@v2
+        with:
+          path: deploy/packer/backend/fealty
 
       - name: Build Images
         id: build_images
