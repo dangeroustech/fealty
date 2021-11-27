@@ -1,13 +1,3 @@
-packer {
-  required_version = "~> 1.7.0"
-  required_plugins {
-    linode = {
-      version = ">= 0.0.1"
-      source  = "github.com/hashicorp/linode"
-    }
-  }
-}
-
 build {
   name    = "db"
   sources = [
