@@ -33,11 +33,11 @@ build {
     ]
     script = "deploy/packer/backend/service_setup.sh"
     expect_disconnect = true
-    pause_after = "30"
+    pause_after = "30s"
   }
 
   provisioner "shell" {
-    pause_before = "30"
+    pause_before = "30s"
     inline = [
       "systemctl status fealty",
     ]
