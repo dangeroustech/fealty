@@ -13,3 +13,8 @@ variable "instance_type" {
   default = "g6-nanode-1"
 }
 
+variable "DOMAIN" {
+  type        = string
+  default     = ""
+  description = "Domain to create"
+}
