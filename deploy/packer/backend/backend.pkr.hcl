@@ -21,7 +21,7 @@ build {
   }
 
   provisioner "file" {
-    source      = "../../../backend/static"
+    source      = "backend/static"
     destination = "/etc/fealty/static"
   }
 
@@ -31,7 +31,7 @@ build {
       "MONGODB_FEALTY_URI=${var.MONGODB_FEALTY_URI}",
       "MONGODB_FEALTY_PASS=${var.MONGODB_FEALTY_PASS}",
     ]
-    script = "service_setup.sh"
+    script = "deploy/packer/backend/service_setup.sh"
     expect_disconnect = true
   }
 
