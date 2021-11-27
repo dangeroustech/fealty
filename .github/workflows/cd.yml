@@ -58,6 +58,7 @@ jobs:
       - name: WTF
         run: |
           apt-get update && apt-get install -y tree
+          pwd
           tree -asph
 
       - name: Download Binary
