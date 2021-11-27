@@ -9,7 +9,7 @@ resource "linode_instance" "backend" {
   backups_enabled  = true
   watchdog_enabled = true
   interface {
-    purpose      = "public"
+    purpose = "public"
   }
   interface {
     purpose      = "vlan"
