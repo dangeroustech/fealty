@@ -15,12 +15,12 @@ build {
   ]
 
   provisioner "file" {
-    source      = "fealty"
+    source      = "deploy/packer/backend/fealty"
     destination = "/usr/bin/fealty"
   }
 
   provisioner "file" {
-    source      = "fealty.service"
+    source      = "deploy/packer/backend/fealty.service"
     destination = "/etc/systemd/system/fealty.service"
   }
 
