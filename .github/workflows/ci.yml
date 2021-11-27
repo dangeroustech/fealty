@@ -7,9 +7,11 @@ on:
     branches: [ main ]
 
 jobs:
-
   Build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: ["backend", "db"]
     steps:
     - uses: actions/checkout@v2
 
@@ -54,19 +56,12 @@ jobs:
         arguments: -syntax-only
         target: deploy/packer
 
-    - name: Validate DB
+    - name: Validate Local Components
       uses: hashicorp/packer-github-actions@master
       with:
         command: validate
         arguments: -syntax-only
-        target: deploy/packer/db
-
-    - name: Validate Backend
-      uses: hashicorp/packer-github-actions@master
-      with:
-        command: validate
-        arguments: -syntax-only
-        target: deploy/packer/backend
+        target: deploy/packer/${{ matrix.component }}
 
   Terraform_Prep:
     runs-on: ubuntu-latest
