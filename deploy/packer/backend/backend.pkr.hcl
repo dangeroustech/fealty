@@ -32,16 +32,16 @@ build {
       "MONGODB_FEALTY_PASS=${var.MONGODB_FEALTY_PASS}",
     ]
     script = "deploy/packer/backend/service_setup.sh"
-    expect_disconnect = true
-    pause_after = "30s"
+    # expect_disconnect = true
+    # pause_after = "30s"
   }
 
-  provisioner "shell" {
-    pause_before = "30s"
-    inline = [
-      "systemctl status fealty",
-    ]
-  }
+  # provisioner "shell" {
+  #   pause_before = "30s"
+  #   inline = [
+  #     "systemctl status fealty",
+  #   ]
+  # }
 
     post-processor "manifest" {
       output = "deploy/packer/backend-manifest.json"
