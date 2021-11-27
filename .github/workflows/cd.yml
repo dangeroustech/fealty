@@ -2,7 +2,9 @@ name: Fealty CD
 
 on:
   pull_request:
-    # types: [ closed ]
+    types: [ closed ]
+    branches: [ main ]
+  push:
     branches: [ main ]
 
 jobs:
@@ -32,7 +34,7 @@ jobs:
 
   Packer:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     strategy:
       matrix:
         component: ["backend", "db"]
@@ -43,11 +45,11 @@ jobs:
 
     steps:
       - name: Checkout
-        # if: github.event.pull_request.merged == true
+        if: github.event.pull_request.merged == true
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-        #   refs: main
+          refs: main
 
       - name: Setup
         uses: hashicorp/packer-github-actions@master
@@ -79,7 +81,7 @@ jobs:
 
   Terraform:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     name: Deploy Infrastructure | Terraform
     needs: Packer
     env:
@@ -90,11 +92,11 @@ jobs:
 
     steps:
       - name: Checkout
-        # if: github.event.pull_request.merged == true
+        if: github.event.pull_request.merged == true
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-        #   refs: main
+          refs: main
 
       - name: Download Packer Manifests
         uses: actions/download-artifact@v2
