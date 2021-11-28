@@ -12,5 +12,7 @@ echo "MONGO_PASS=$MONGODB_FEALTY_PASS" >> /etc/fealty/VARS
 echo "FEALTY_CONFIG=/etc/fealty" >> /etc/fealty/VARS
 systemctl enable fealty
 
-echo "###---Rebooting---###"
-reboot
+journaltcl | grep fealty
+
+# echo "###---Rebooting---###"
+# reboot
