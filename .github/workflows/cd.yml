@@ -27,14 +27,14 @@ jobs:
           cd backend
           go build -v -o fealty
 
-      - name: Tar Binary
-        run: tar -cvf backend/fealty.tar backend/fealty
+      # - name: Tar Binary
+      #   run: tar -cvf backend/fealty.tar backend/fealty
 
       - name: Upload Binary
         uses: actions/upload-artifact@v2
         with:
           name: fealty
-          path: backend/fealty.tar
+          path: backend/fealty
 
   Packer:
     runs-on: ubuntu-latest
@@ -62,10 +62,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: fealty
-          path: deploy/packer/backend/fealty.tar
+          path: deploy/packer/backend/fealty
 
-      - name: UnTar Binary
-        run: tar -xvf deploy/packer/backend/fealty.tar deploy/packer/backend/fealty
+      # - name: UnTar Binary
+      #   run: tar -xvf deploy/packer/backend/fealty.tar deploy/packer/backend/fealty
 
       - name: Build Images
         id: build_images
