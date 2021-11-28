@@ -2,6 +2,7 @@
 Description=Fealty Backend Service
 After=network.target
 StartLimitIntervalSec=0
+
 [Service]
 Type=simple
 Restart=always
