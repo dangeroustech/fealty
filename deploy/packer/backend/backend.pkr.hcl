@@ -6,7 +6,7 @@ build {
 
   provisioner "file" {
     source      = "deploy/packer/backend/fealty"
-    destination = "/usr/bin/fealty"
+    destination = "/usr/local/bin/fealty"
   }
 
   provisioner "file" {

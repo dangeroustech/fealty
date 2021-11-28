@@ -5,8 +5,8 @@ apt-get -qq update
 apt-get -qq upgrade
 
 echo "###---Enabling Fealty Service---###"
-chmod +x /usr/bin/fealty
-ls -lah /usr/bin | grep fealty
+chmod a+x /usr/local/bin/fealty
+ls -lah /usr/local/bin | grep fealty
 echo "MONGO_URI=$MONGODB_FEALTY_URI" >> /etc/fealty/VARS
 echo "MONGO_USER=fealty" >> /etc/fealty/VARS
 echo "MONGO_PASS=$MONGODB_FEALTY_PASS" >> /etc/fealty/VARS
