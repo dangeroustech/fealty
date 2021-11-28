@@ -35,6 +35,7 @@ jobs:
         MONGO_URI: mongodb://localhost:27017
         MONGO_USER: fealty
         MONGO_PASS: fealty
+        FEALTY_ENV: TEST
 
   Packer_Prep:
     runs-on: ubuntu-latest
