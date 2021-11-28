@@ -84,9 +84,6 @@ jobs:
   Terraform:
     runs-on: ubuntu-latest
     # if: github.event.pull_request.merged == true
-    strategy:
-      matrix:
-        component: ["backend", "db"]
     name: Deploy Infrastructure | Terraform
     needs: Packer
     env:
