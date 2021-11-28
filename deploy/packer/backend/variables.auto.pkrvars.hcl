@@ -11,5 +11,5 @@ region = "eu-west"
 ## MONGODB VARIABLES
 #######################
 
-MONGODB_FEALTY_URI = "mongodb://10.10.10.3:27017/?authSource=fealty"
+MONGODB_FEALTY_URI = "mongodb://10.10.10.3:27017/fealty"
 MONGODB_FEALTY_PASS = "fealty"
