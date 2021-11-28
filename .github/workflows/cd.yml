@@ -64,9 +64,6 @@ jobs:
           name: fealty
           path: deploy/packer/backend/
 
-      # - name: UnTar Binary
-      #   run: tar -xvf deploy/packer/backend/fealty.tar deploy/packer/backend/fealty
-
       - name: Build Images
         id: build_images
         uses: hashicorp/packer-github-actions@master
@@ -106,11 +103,17 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: Download ${{ matrix.component }} Manifest
+      - name: Download Backend Manifest
         uses: actions/download-artifact@v2
         with:
-          name: ${{ matrix.component }}-manifest
-          path: deploy/packer
+          name: backend-manifest
+          path: deploy/packer/
+        
+      - name: Download DB Manifest
+        uses: actions/download-artifact@v2
+        with:
+          name: db-manifest
+          path: deploy/packer/
 
       - name: Setup
         uses: hashicorp/setup-terraform@v1
