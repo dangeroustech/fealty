@@ -22,9 +22,10 @@ func dbConnect() *mongo.Client {
 	MONGO_URI := os.Getenv("MONGO_URI")
 	MONGO_USER := os.Getenv("MONGO_USER")
 	MONGO_PASS := os.Getenv("MONGO_PASS")
-	log.Printf("Connecting to Mongo at %s with username %s and password %s", MONGO_URI, MONGO_USER, MONGO_PASS)
+	AUTH_SOURCE := AuthSource()
+	log.Printf("Connecting to Mongo at %s (authSource %s) with username %s and password %s", MONGO_URI, AUTH_SOURCE, MONGO_USER, MONGO_PASS)
 	var ctx = context.TODO()
-	clientOptions := options.Client().ApplyURI(MONGO_URI).SetAuth(options.Credential{Username: MONGO_USER, Password: MONGO_PASS, AuthSource: AuthSource()})
+	clientOptions := options.Client().ApplyURI(MONGO_URI).SetAuth(options.Credential{Username: MONGO_USER, Password: MONGO_PASS, AuthSource: AUTH_SOURCE})
 	client, err := mongo.Connect(ctx, clientOptions)
 
 	if err != nil {
