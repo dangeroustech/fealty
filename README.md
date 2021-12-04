@@ -20,4 +20,4 @@ FealTY
 
 ## CD
 
-- [ ] Terraform deployment to Linode
+- [x] Terraform deployment to Linode
