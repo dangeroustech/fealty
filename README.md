@@ -2,9 +2,17 @@
 
 FealTY - An open source and easy to deploy customer rewards scheme.
 
-## Setup
+Follow the below instructions to get this all set up! (Please report any issues [here](https://github.com/dangeroustech/fealty/issues))
 
-### Prerequisites
+## Outcomes
+
+Once setup is complete, this will create the following infrastructure for you:
+
+- A database server to hold the records of customers reward points (Linode don't have managed DBs yet)
+- An app server to accept API requests, interrogate the Database, and provide basic frontend rendering for web browsers
+- A Linode Domain with an A record at rewards.domain.xyz pointing at the app server
+
+## Prerequisites
 
 - Linode Account ([Sign Up Here](https://login.linode.com/signup))
 - GitHub Account ([Sign Up Here](https://github.com/join))
@@ -12,7 +20,7 @@ FealTY - An open source and easy to deploy customer rewards scheme.
 
 Once you have accounts to both of these services, this README will walk you through setting up everything else!
 
-### Linode API Key
+## Linode API Key
 
 Follow this [Linode Tutorial](https://www.linode.com/docs/guides/getting-started-with-the-linode-api/#get-an-access-token) to obtain an API Key.
 
@@ -26,11 +34,11 @@ When selecting the scope, 'Select All' for Read/Write will work fine, if you wan
 
 Make sure these have Read/Write permissions and you'll be golden.
 
-### Linode Object Storage
+## Linode Object Storage
 
 In order for our infrastructure to be deployed from 'the cloud' we need to create a Linode Object Storage bucket to hold the current status of our servers.
 
-#### Create The Bucket
+### Create The Bucket
 
 - Navigate to the 'Object Storage' tab of your Linode Dashboard and click 'Create Bucket'
 
@@ -44,7 +52,7 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 ![OS3](docs/readme/OS3.png)
 
-#### Create an Access Key
+### Create an Access Key
 
 - From within the 'Object Storage' tab, select 'Access Keys' and click 'Create Access Key'
 
@@ -58,9 +66,9 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 ![OS6](docs/readme/OS6.png)
 
-### GitHub Bits
+## GitHub Bits
 
-#### Fork The Repo
+### Fork The Repo
 
 - When on the main GitHub repository page, press the 'Fork' button in the top-right corner
 
@@ -74,7 +82,7 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 ![GH3](docs/readme/GH3.png)
 
-#### Add Keys
+### Add Keys
 
 - Click on the 'Settings' tab from the main repository view
 
