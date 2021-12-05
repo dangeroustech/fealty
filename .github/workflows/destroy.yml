@@ -1,4 +1,4 @@
-name: Fealty Infra Destroyer
+name: Fealty Infrastructure Destroyer
 
 on:
   workflow_dispatch:
