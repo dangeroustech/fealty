@@ -7,11 +7,11 @@ resource "linode_domain" "domain" {
 
 resource "linode_domain_record" "rewards" {
   depends_on = [
-    linode_instance.backend
+    linode_instance.app
   ]
   domain_id   = linode_domain.domain.id
   name        = "rewards"
   record_type = "A"
-  target      = linode_instance.backend.ip_address
+  target      = linode_instance.app.ip_address
   ttl_sec     = 30
 }

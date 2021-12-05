@@ -28,7 +28,7 @@ jobs:
 
     - name: Build & Test
       run: |
-        cd backend
+        cd app
         go build -v -o fealty
         go test -v
       env:
@@ -43,7 +43,7 @@ jobs:
     
     strategy:
       matrix:
-        component: ["backend", "db"]
+        component: ["app", "db"]
     steps:
     - uses: actions/checkout@v2
 

@@ -25,20 +25,20 @@ jobs:
 
       - name: Build
         run: |
-          cd backend
+          cd app
           go build -v -o fealty
 
       - name: Upload Binary
         uses: actions/upload-artifact@v2
         with:
           name: fealty
-          path: backend/fealty
+          path: app/fealty
 
   Packer:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        component: ["backend", "db"]
+        component: ["app", "db"]
     name: Build Infrastructure | Packer
     needs: Build
     env:
@@ -59,7 +59,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: fealty
-          path: deploy/packer/backend/
+          path: deploy/packer/app/
 
       - name: Build Images
         id: build_images
@@ -95,10 +95,10 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: Download Backend Manifest
+      - name: Download App Manifest
         uses: actions/download-artifact@v2
         with:
-          name: backend-manifest
+          name: app-manifest
           path: deploy/packer/
         
       - name: Download DB Manifest
