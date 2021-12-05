@@ -58,6 +58,41 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 ![OS6](docs/readme/OS6.png)
 
+### GitHub Bits
+
+#### Fork The Repo
+
+- When on the main GitHub repository page, press the 'Fork' button in the top-right corner
+
+![GH1](docs/readme/GH1.png)
+
+- Wait for the forking screen to disappear
+
+![GH2](docs/readme/GH2.png)
+
+- You will now notice the repository again, except under your username in the top left corner
+
+![GH3](docs/readme/GH3.png)
+
+#### Add Keys
+
+- Click on the 'Settings' tab from the main repository view
+
+![GH4](docs/readme/GH4.png)
+
+- Navigate to 'Secrets' on the left sidebar
+
+![GH5](docs/readme/GH5.png)
+
+- Use the 'New repository secret' button to add the following secrets:
+
+  - LINODE_TOKEN - This is the API token you generated in the first Linode step
+  - OBJECT_ACCESS_KEY - This is the Access Key from the Linode Object Storage step
+  - OBJECT_SECRET_KEY - This is the Secret Key from the Linode Object Storage step
+  - DOMAIN - This is your domain (you don't even have to own it, it just needs to be unique to Linode, but if you don't own it then it won't _actually_ work, ofc)
+
+![GH6](docs/readme/GH6.png)
+
 ## Dev Info - API Routes
 
 ### Accounts
