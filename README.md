@@ -12,6 +12,20 @@ FealTY - An open source and easy to deploy customer rewards scheme.
 
 Once you have accounts to both of these services, this README will walk you through setting up everything else!
 
+### Linode API Key
+
+Follow this [Linode Tutorial](https://www.linode.com/docs/guides/getting-started-with-the-linode-api/#get-an-access-token) to obtain an API Key.
+
+When selecting the scope, 'Select All' for Read/Write will work fine, if you want more granular options, the services that we _need_ are:
+
+- Domains
+- Images
+- Linodes
+- Object Storage
+- Volumes
+
+Make sure these have Read/Write permissions and you'll be golden.
+
 ### Linode Object Storage
 
 In order for our infrastructure to be deployed from 'the cloud' we need to create a Linode Object Storage bucket to hold the current status of our servers.
