@@ -42,7 +42,7 @@ jobs:
     name: Build Infrastructure | Packer
     needs: Build
     env:
-      PKR_VAR_LINODE_TOKEN: ${{ secrets.PACKER_LINODE_TOKEN }}
+      PKR_VAR_LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
 
     steps:
       -  uses: actions/checkout@v2
@@ -83,7 +83,7 @@ jobs:
     name: Deploy Infrastructure | Terraform
     needs: Packer
     env:
-      TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+      TF_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
       AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
       AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
       TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"

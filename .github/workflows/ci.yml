@@ -39,6 +39,7 @@ jobs:
 
   Packer_Prep:
     runs-on: ubuntu-latest
+    name: Packer Prep
     
     strategy:
       matrix:
@@ -68,6 +69,11 @@ jobs:
 
   Terraform_Prep:
     runs-on: ubuntu-latest
+    name: Terraform Prep
+    env:
+      TF_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
+      AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
+      AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
 
     steps:
     - uses: actions/checkout@v2
@@ -83,10 +89,6 @@ jobs:
     - name: Init
       id: init
       run: terraform -chdir=deploy init
-      env:
-        TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
-        AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
-        AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
 
     - name: Validate
       id: validate
@@ -95,10 +97,6 @@ jobs:
     - name: Plan
       id: plan
       run: terraform -chdir=deploy plan -no-color
-      env:
-        TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
-        AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
-        AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
       continue-on-error: true
 
     - uses: actions/github-script@0.9.0

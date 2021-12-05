@@ -8,7 +8,7 @@ jobs:
       runs-on: ubuntu-latest
       name: Destroy Infrastructure
       env:
-        TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+        TF_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
         AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
         AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
         TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
