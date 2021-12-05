@@ -1,6 +1,7 @@
-name: Fealty CD
+name: Fealty Infrastructure Deployment
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [ closed ]
     branches: [ main ]
@@ -24,28 +25,24 @@ jobs:
 
       - name: Build
         run: |
-          cd backend
+          cd app
           go build -v -o fealty
-
-      # - name: Tar Binary
-      #   run: tar -cvf backend/fealty.tar backend/fealty
 
       - name: Upload Binary
         uses: actions/upload-artifact@v2
         with:
           name: fealty
-          path: backend/fealty
+          path: app/fealty
 
   Packer:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged == true
     strategy:
       matrix:
-        component: ["backend", "db"]
+        component: ["app", "db"]
     name: Build Infrastructure | Packer
     needs: Build
     env:
-      PKR_VAR_LINODE_TOKEN: ${{ secrets.PACKER_LINODE_TOKEN }}
+      PKR_VAR_LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
 
     steps:
       -  uses: actions/checkout@v2
@@ -62,7 +59,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: fealty
-          path: deploy/packer/backend/
+          path: deploy/packer/app/
 
       - name: Build Images
         id: build_images
@@ -83,27 +80,25 @@ jobs:
 
   Terraform:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged == true
     name: Deploy Infrastructure | Terraform
     needs: Packer
     env:
-      TF_VAR_LINODE_TOKEN: "${{ secrets.TERRAFORM_LINODE_TOKEN }}"
+      TF_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
       AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
       AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
       TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
 
     steps:
       - name: Checkout
-        # if: github.event.pull_request.merged == true
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: main
 
-      - name: Download Backend Manifest
+      - name: Download App Manifest
         uses: actions/download-artifact@v2
         with:
-          name: backend-manifest
+          name: app-manifest
           path: deploy/packer/
         
       - name: Download DB Manifest

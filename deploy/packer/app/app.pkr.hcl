@@ -1,16 +1,16 @@
 build {
-  name    = "backend"
+  name    = "app"
   sources = [
     "source.linode.fealty",
   ]
 
   provisioner "file" {
-    source      = "deploy/packer/backend/fealty"
+    source      = "deploy/packer/app/fealty"
     destination = "/usr/bin/fealty"
   }
 
   provisioner "file" {
-    source      = "deploy/packer/backend/fealty.service"
+    source      = "deploy/packer/app/fealty.service"
     destination = "/etc/systemd/system/fealty.service"
   }
 
@@ -21,7 +21,7 @@ build {
   }
 
   provisioner "file" {
-    source      = "backend/static"
+    source      = "app/static"
     destination = "/etc/fealty/static"
   }
 
@@ -31,7 +31,7 @@ build {
       "MONGODB_FEALTY_URI=${var.MONGODB_FEALTY_URI}",
       "MONGODB_FEALTY_PASS=${var.MONGODB_FEALTY_PASS}",
     ]
-    script = "deploy/packer/backend/service_setup.sh"
+    script = "deploy/packer/app/service_setup.sh"
     expect_disconnect = true
     pause_after = "30s"
   }
@@ -44,6 +44,6 @@ build {
   }
 
     post-processor "manifest" {
-      output = "deploy/packer/backend-manifest.json"
+      output = "deploy/packer/app-manifest.json"
     }
 }

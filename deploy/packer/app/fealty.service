@@ -1,5 +1,5 @@
 [Unit]
-Description=Fealty Backend Service
+Description=Fealty App Service
 After=network.target
 StartLimitIntervalSec=0
 
