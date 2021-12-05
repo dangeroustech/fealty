@@ -97,9 +97,42 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
   - LINODE_TOKEN - This is the API token you generated in the first Linode step
   - OBJECT_ACCESS_KEY - This is the Access Key from the Linode Object Storage step
   - OBJECT_SECRET_KEY - This is the Secret Key from the Linode Object Storage step
-  - DOMAIN - This is your domain (you don't even have to own it, it just needs to be unique to Linode, but if you don't own it then it won't _actually_ work, ofc)
+  - DOMAIN - This is your domain (you don't even have to own it, it just needs to be unique to Linode, but if you don't own it then it won't _actually_ resolve, ofc)
 
 ![GH6](docs/readme/GH6.png)
+
+### Deploy
+
+- Select the 'Actions' tab from the main repository page
+
+![GH7](docs/readme/GH7.png)
+
+- Select the action 'Fealty Infrastructure Deployment' from the list, click the 'Run workflow', leave the Branch on 'main' and click the green 'Run workflow' button
+
+![GH8](docs/readme/GH8.png)
+
+- In a few seconds you will see a workflow item appear, this will take around 10 minutes to generate images and create the necessary infrastructure
+
+![GH9](docs/readme/GH8.png)
+
+- Feel free to drill down in to the logs and see what's happening, alternatively you'll know it's over when your Linode account has these two Linodes running
+
+![LI1](docs/readme/LI1.png)
+
+- When the run is finished, you'll get a nice little green checkmark next to the workflow
+
+![GH10](docs/readme/GH10.png)
+
+### Destroy
+
+- Head to the Actions tab again and select the 'Fealty Infrastructure Destroyer' workflow
+
+![GH11](docs/readme/GH11.png)
+
+- As long as the keys are all still valid, the workflow will destroy all of the infrastructure in Linode
+_Caveat: won't remove the Object Storage bucket, do that manually_
+
+![GH12](docs/readme/GH12.png)
 
 ## Dev Info - API Routes
 
