@@ -3,8 +3,8 @@
 .vscode/
 
 # GO sources and binaries
-backend/fealty
-backend/*.exe
+app/fealty
+app/*.exe
 src/
 
 # Mongo db
