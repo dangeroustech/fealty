@@ -91,9 +91,13 @@ jobs:
 
     - name: Init TFLint
       run: tflint --init
+      with:
+        target: deploy
 
     - name: Run TFLint
       run: tflint -f compact
+      with:
+        target: deploy
 
     - name: Init
       id: init
