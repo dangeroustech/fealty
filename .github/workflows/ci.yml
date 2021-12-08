@@ -101,17 +101,13 @@ jobs:
       uses: bridgecrewio/checkov-action@v12.641.0
       with:
         directory: deploy/
-        # check: CKV_AWS_1 # optional: run only a specific check_id. can be comma separated list
         skip_check: CKV_LIN_2 # skip authorized_keys check because we're adding it from the users Linode profile
-        quiet: false # optional: display only failed checks
-        soft_fail: false # optional: do not return an error code if there are failed checks
-        framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
-        output_format: json # optional: the output format, one of: cli, json, junitxml, github_failed_only
-        download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
-        log_level: DEBUG # optional: set log level. Default WARNING
-        # config_file: path/this_file
-        # baseline: cloudformation/.checkov.baseline # optional: Path to a generated baseline file. Will only report results not in the baseline.
-        # container_user: 1000 # optional: Define what UID and / or what GID to run the container under to prevent permission issues
+        quiet: true
+        soft_fail: false
+        framework: terraform
+        output_format: json 
+        download_external_modules: true 
+        log_level: DEBUG
 
     - name: Init
       id: init
