@@ -96,6 +96,19 @@ jobs:
       run: tflint -f compact
       working-directory: deploy
 
+    - name: Run Checkov
+      id: checkov
+      uses: bridgecrewio/checkov-action@v12.641.0
+      with:
+        directory: deploy/
+        skip_check: CKV_LIN_2 # skip authorized_keys check because we're adding it from the users Linode profile
+        quiet: true
+        soft_fail: false
+        framework: terraform
+        output_format: json 
+        download_external_modules: true 
+        log_level: DEBUG
+
     - name: Init
       id: init
       run: terraform -chdir=deploy init

@@ -20,4 +20,3 @@ rule "terraform_unused_required_providers" {
 rule "terraform_comment_syntax" {
   enabled = true
 }
-
