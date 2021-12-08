@@ -8,7 +8,7 @@ app/*.exe
 src/
 
 # Mongo db
-backend/mongo/db
+app/mongo/db
 
 # Local Env File
 .env
