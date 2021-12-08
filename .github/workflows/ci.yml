@@ -90,14 +90,10 @@ jobs:
       continue-on-error: true
 
     - name: Init TFLint
-      run: tflint --init
-      with:
-        target: deploy
+      run: cd deploy && tflint --init
 
     - name: Run TFLint
-      run: tflint -f compact
-      with:
-        target: deploy
+      run: cd deploy && tflint -f compact
 
     - name: Init
       id: init
