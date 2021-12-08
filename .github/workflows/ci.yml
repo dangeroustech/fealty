@@ -81,10 +81,19 @@ jobs:
     - name: Setup
       uses: hashicorp/setup-terraform@v1
 
-    - name: Format
-      id: fmt
-      run: terraform -chdir=deploy fmt -check -diff
+    - name: Setup TFLint
+      uses: terraform-linters/setup-tflint@v1
+      with:
+        tflint_version: v0.33.2
+        target: deploy
+        github_token: ${{ secrets.GITHUB_TOKEN }}
       continue-on-error: true
+
+    - name: Init TFLint
+      run: tflint --init
+
+    - name: Run TFLint
+      run: tflint -f compact
 
     - name: Init
       id: init
