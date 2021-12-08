@@ -85,7 +85,6 @@ jobs:
       uses: terraform-linters/setup-tflint@v1
       with:
         tflint_version: v0.33.2
-        target: deploy
         github_token: ${{ secrets.GITHUB_TOKEN }}
       continue-on-error: true
 

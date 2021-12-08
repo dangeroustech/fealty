@@ -18,3 +18,5 @@ variable "DOMAIN" {
   default     = ""
   description = "Domain to create"
 }
+
+variable "unusedVariable" {}
