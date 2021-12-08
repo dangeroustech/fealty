@@ -10,7 +10,13 @@ import (
 	"github.com/gofiber/template/html"
 )
 
-func middleware(c *fiber.Ctx) error {
+func api_middleware(c *fiber.Ctx) error {
+	fmt.Printf("Request from %#v\n", c.IP()) // technically only needs %s
+
+	return c.Next()
+}
+
+func browser_middleware(c *fiber.Ctx) error {
 	fmt.Printf("Request from %#v\n", c.IP()) // technically only needs %s
 	return c.Next()
 }
@@ -23,23 +29,23 @@ func main() {
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,
 		ServerHeader:  "FealTY API v1",
-		AppName:       "FealTY v0.0.1",
+		AppName:       "FealTY v0.5.0",
 		Views:         htmlEngine,
 	})
 	app.Use(logger.New())
 
 	// Root API Route
-	api := app.Group("/api", middleware) // /api
+	api := app.Group("/api") // /api
 
 	// API v1 Routes
-	v1 := api.Group("/v1", middleware) // /api/v1
+	v1 := api.Group("/v1") // /api/v1
 
 	// Mass Account Routes
-	v1.Get("/accounts", getAccounts)         // /api/v1/accounts
-	v1.Get("/accounts/view", renderAccounts) // /api/v1/accounts/view
+	v1.Get("/accounts/get", getAccounts, api_middleware)         // /api/v1/accounts
+	v1.Get("/accounts/view", renderAccounts, browser_middleware) // /api/v1/accounts/view
 
 	// Individual Account Routes
-	acc := v1.Group("/account", middleware) // /api/v1/account
+	acc := v1.Group("/account", api_middleware) // /api/v1/account
 	acc.Get("", getAccount)
 	acc.Post("", createAccount)
 	acc.Put("", updateAccount)

@@ -14,6 +14,7 @@ func renderAccounts(c *fiber.Ctx) error {
 	// Render index template
 	return c.Render("accounts", fiber.Map{
 		"Title":    "Accounts",
+		"Domain":   "THISISADOMAIN",
 		"Accounts": a,
 	})
 }

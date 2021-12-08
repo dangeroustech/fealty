@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <body>
+    <h1>User Managment Stuff</h1>
+    <form action= {{ .Accounts.Domain }} >
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
     <h1>Accounts</h1>
     {{ range $acc := .Accounts }}
         <p>Account {{ $acc.AccountID }}</p>
         <li> {{ $acc.Email }} </li>
         <li> {{ $acc.RewardPoints }} </li>
     {{ end }}
+
 </body>
 </html>
