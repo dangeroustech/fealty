@@ -102,7 +102,7 @@ jobs:
       with:
         directory: deploy/
         # check: CKV_AWS_1 # optional: run only a specific check_id. can be comma separated list
-        # skip_check: CKV_AWS_2 # optional: skip a specific check_id. can be comma separated list
+        skip_check: CKV_LIN_2 # skip authorized_keys check because we're adding it from the users Linode profile
         quiet: false # optional: display only failed checks
         soft_fail: false # optional: do not return an error code if there are failed checks
         framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
