@@ -5,7 +5,7 @@ config {
 }
 
 rule "terraform_naming_convention" {
-  format  = "snake_case"
+  format  = "mixed_snake_case"
   enabled = true
 }
 
