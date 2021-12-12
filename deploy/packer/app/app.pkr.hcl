@@ -30,6 +30,8 @@ build {
       "DEBIAN_FRONTEND=noninteractive",
       "MONGODB_FEALTY_URI=${var.MONGODB_FEALTY_URI}",
       "MONGODB_FEALTY_PASS=${var.MONGODB_FEALTY_PASS}",
+      "FEALTY_USER=${var.FEALTY_USER}",
+      "FEALTY_PASS=${var.FEALTY_PASS}",
     ]
     script = "deploy/packer/app/service_setup.sh"
     expect_disconnect = true
