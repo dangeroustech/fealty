@@ -24,7 +24,7 @@ func main() {
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,
 		ServerHeader:  "FealTY API v1",
-		AppName:       "FealTY v0.5.0",
+		AppName:       "FealTY v0.6.0",
 		Views:         htmlEngine,
 	})
 	// Logging
@@ -32,19 +32,9 @@ func main() {
 	// Auth
 	app.Use(basicauth.New(basicauth.Config{
 		Users: map[string]string{
-			"john":  "doe",
-			"admin": "123456",
+			os.Getenv("FEALTY_USER"): os.Getenv("FEALTY_PASS"),
 		},
 		Realm: "Forbidden",
-		Authorizer: func(user, pass string) bool {
-			if user == "john" && pass == "doe" {
-				return true
-			}
-			if user == "admin" && pass == "123456" {
-				return true
-			}
-			return false
-		},
 		Unauthorized: func(c *fiber.Ctx) error {
 			return c.SendStatus(401)
 		},
