@@ -1,9 +1,13 @@
 #!/bin/bash
 
-echo "###---Install MongoDB---###"
+echo "###---Add MongoDB Repo Info---###"
 wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
-apt -q update && apt -q upgrade -y && apt -q install -y mongodb-org
+echo "###---Make APT Up To Date---###"
+apt-get -qq update
+apt-get -qq upgrade &> /dev/null
+echo "###---Install MongoDB---###"
+apt-get -qq install -y mongodb-org &> /dev/null
 systemctl start mongod && systemctl enable mongod
 
 echo "###---Configure MongoDB---###"
