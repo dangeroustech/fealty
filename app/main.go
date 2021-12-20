@@ -1,6 +1,7 @@
 package main
 
 import (
+	b64 "encoding/base64"
 	"fmt"
 	"log"
 	"os"
@@ -13,7 +14,25 @@ import (
 
 func middleware(c *fiber.Ctx) error {
 	fmt.Printf("Request from %#v\n", c.IP()) // technically only needs %s
+	auth := fmt.Sprintf("Basic %s", b64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", os.Getenv("FEALTY_USER"), os.Getenv("FEALTY_PASS")))))
+	c.Set("Authorization", auth)
 	return c.Next()
+}
+
+func AuthReq() func(*fiber.Ctx) error {
+	cfg := basicauth.Config{
+		Users: map[string]string{
+			os.Getenv("FEALTY_USER"): os.Getenv("FEALTY_PASS"),
+		},
+		Realm: "Forbidden",
+		Unauthorized: func(c *fiber.Ctx) error {
+			return c.SendStatus(401)
+		},
+		ContextUsername: "_user",
+		ContextPassword: "_pass",
+	}
+	err := basicauth.New(cfg)
+	return err
 }
 
 func main() {
@@ -27,20 +46,9 @@ func main() {
 		AppName:       "FealTY v0.6.0",
 		Views:         htmlEngine,
 	})
+
 	// Logging
 	app.Use(logger.New())
-	// Auth
-	app.Use(basicauth.New(basicauth.Config{
-		Users: map[string]string{
-			os.Getenv("FEALTY_USER"): os.Getenv("FEALTY_PASS"),
-		},
-		Realm: "Forbidden",
-		Unauthorized: func(c *fiber.Ctx) error {
-			return c.SendStatus(401)
-		},
-		ContextUsername: "_user",
-		ContextPassword: "_pass",
-	}))
 
 	// Root API Route
 	api := app.Group("/api") // /api
@@ -49,11 +57,12 @@ func main() {
 	v1 := api.Group("/v1") // /api/v1
 
 	// Mass Account Routes
-	v1.Get("/accounts/get", getAccounts, middleware)     // /api/v1/accounts
-	v1.Get("/accounts/view", renderAccounts, middleware) // /api/v1/accounts/view
+	accs := v1.Group("/accounts")            // /api/v1/accounts
+	accs.Get("/view", renderAccounts)        // /api/v1/accounts/view
+	accs.Get("/get", AuthReq(), getAccounts) // /api/v1/accounts/get
 
 	// Individual Account Routes
-	acc := v1.Group("/account", middleware) // /api/v1/account
+	acc := v1.Group("/account", AuthReq()) // /api/v1/account
 	acc.Get("", getAccount)
 	acc.Post("", createAccount)
 	acc.Put("", updateAccount)
