@@ -23,8 +23,9 @@ func AuthReq() func(*fiber.Ctx) error {
 		Users: map[string]string{
 			os.Getenv("FEALTY_USER"): os.Getenv("FEALTY_PASS"),
 		},
-		Realm: "Forbidden",
+		Realm: "Admin",
 		Unauthorized: func(c *fiber.Ctx) error {
+			c.Set("WWW-Authenticate", "Basic realm=\"Admin\"")
 			return c.SendStatus(401)
 		},
 		ContextUsername: "_user",
@@ -56,9 +57,9 @@ func main() {
 	v1 := api.Group("/v1") // /api/v1
 
 	// Mass Account Routes
-	accs := v1.Group("/accounts")            // /api/v1/accounts
-	accs.Get("/view", renderAccounts)        // /api/v1/accounts/view
-	accs.Get("/get", AuthReq(), getAccounts) // /api/v1/accounts/get
+	accs := v1.Group("/accounts")               // /api/v1/accounts
+	accs.Get("/view", AuthReq(), adminAccounts) // /api/v1/accounts/view
+	accs.Get("/get", AuthReq(), getAccounts)    // /api/v1/accounts/get
 
 	// Individual Account Routes
 	acc := v1.Group("/account", AuthReq()) // /api/v1/account
