@@ -1,7 +1,6 @@
 package main
 
 import (
-	b64 "encoding/base64"
 	"fmt"
 	"log"
 	"os"
@@ -12,12 +11,12 @@ import (
 	"github.com/gofiber/template/html"
 )
 
-func middleware(c *fiber.Ctx) error {
-	fmt.Printf("Request from %#v\n", c.IP()) // technically only needs %s
-	auth := fmt.Sprintf("Basic %s", b64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", os.Getenv("FEALTY_USER"), os.Getenv("FEALTY_PASS")))))
-	c.Set("Authorization", auth)
-	return c.Next()
-}
+// func middleware(c *fiber.Ctx) error {
+// 	fmt.Printf("Request from %#v\n", c.IP()) // technically only needs %s
+// 	auth := fmt.Sprintf("Basic %s", b64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", os.Getenv("FEALTY_USER"), os.Getenv("FEALTY_PASS")))))
+// 	c.Set("Authorization", auth)
+// 	return c.Next()
+// }
 
 func AuthReq() func(*fiber.Ctx) error {
 	cfg := basicauth.Config{

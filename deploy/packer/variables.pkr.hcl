@@ -64,3 +64,8 @@ variable "FEALTY_PASS" {
   type    = string
   default = "fealty"
 }
+
+variable "DOMAIN" {
+  type    = string
+  default = ""
+}

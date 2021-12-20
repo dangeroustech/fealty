@@ -12,6 +12,7 @@ echo "MONGO_PASS=$MONGODB_FEALTY_PASS" >> /etc/fealty/VARS
 echo "FEALTY_USER=$FEALTY_USER" >> /etc/fealty/VARS
 echo "FEALTY_PASS=$FEALTY_PASS" >> /etc/fealty/VARS
 echo "FEALTY_CONFIG=/etc/fealty" >> /etc/fealty/VARS
+echo "DOMAIN=$DOMAIN" >> /etc/fealty/VARS
 systemctl enable fealty
 
 echo "###---Reboot---###"

@@ -32,6 +32,7 @@ build {
       "MONGODB_FEALTY_PASS=${var.MONGODB_FEALTY_PASS}",
       "FEALTY_USER=${var.FEALTY_USER}",
       "FEALTY_PASS=${var.FEALTY_PASS}",
+      "DOMAIN=${var.DOMAIN}",
     ]
     script = "deploy/packer/app/service_setup.sh"
     expect_disconnect = true

@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -14,7 +16,7 @@ func renderAccounts(c *fiber.Ctx) error {
 	// Render index template
 	return c.Render("accounts", fiber.Map{
 		"Title":    "Accounts",
-		"Domain":   "THISISADOMAIN",
+		"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
 		"Accounts": a,
 	})
 }

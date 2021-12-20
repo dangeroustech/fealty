@@ -20,3 +20,4 @@ MONGODB_FEALTY_PASS = "fealty"
 
 FEALTY_USER = "fealty"
 FEALTY_PASS = "fealty"
+DOMAIN = "buildscripts.xyz"
