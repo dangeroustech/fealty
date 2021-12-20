@@ -11,14 +11,20 @@ import (
 )
 
 // RenderAccounts - Allow Browser to View All Accounts
-func renderAccounts(c *fiber.Ctx) error {
+func adminAccounts(c *fiber.Ctx) error {
 	a := MongoFindAll(50)
 	// Render index template
-	return c.Render("accounts", fiber.Map{
+	return c.Render("accounts_admin", fiber.Map{
 		"Title":    "Accounts",
 		"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
 		"Accounts": a,
 	})
+}
+
+func searchAccounts(c *fiber.Ctx) error {
+	a := MongoFindAll(50)
+	// Render search template
+	return c.Render("accounts_search", fiber.Map{"Accounts": a})
 }
 
 // GetAccounts - API Query to Return All Accounts as JSON
