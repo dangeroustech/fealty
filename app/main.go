@@ -38,6 +38,8 @@ func AuthReq() func(*fiber.Ctx) error {
 func main() {
 	// Initialize standard Go html template engine
 	htmlEngine := html.New(os.Getenv("FEALTY_CONFIG")+"/static", ".html")
+	htmlEngine.AddFunc("updateAccount", updateAccount)
+	htmlEngine.AddFunc("deleteAccount", deleteAccount)
 
 	// Set Up Fiber App
 	app := fiber.New(fiber.Config{
