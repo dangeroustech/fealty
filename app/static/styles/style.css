@@ -1,25 +1,66 @@
 html {
     font-size: 10px; 
-    font-family: "Noto Sans", sans-serif; 
-  }
+    font-family: "Noto Sans", sans-serif;
+    background-color: antiquewhite;
+}
 
 h1 {
     font-size: 40px;
     text-align: left;
-  }
+}
 
 h2 {
-    font-size: 20px;
+    font-size: 26px;
     text-align: left;
-  }
+}
   
 p, li {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 2;
+  letter-spacing: 1px;
+}
+
+form {
+  font-size: 14px;
+  line-height: 1;
   letter-spacing: 1px;
 }
 
 body {
   margin: 0 auto;
-  padding: 20px;
+}
+
+.parent {
+  display: grid;
+  grid-template: auto 1fr auto / auto auto 1fr;
+}
+
+.header {
+  padding-left: 2rem;
+  grid-column: 1 / 4;
+}
+
+.left-side {
+  padding: 2rem;
+  grid-column: 1 / 2;
+}
+
+.main {
+  padding: 2rem;
+  grid-column: 2 / 3;
+}
+
+.right-side {
+  padding: 2rem;
+  grid-column: 3 / 4;
+  align-content: right;
+}
+
+.footer {
+  padding: 2rem;
+  grid-column: 1 / 4;
+}
+
+.user-action {
+  padding-bottom: 2rem;
 }
