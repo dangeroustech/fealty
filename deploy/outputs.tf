@@ -12,11 +12,11 @@ output "App_Public_IP" {
 }
 
 output "App_Private_IP" {
-    value = linode_instance.app.config[0].interface[1].ipam_address
+    value = linode_instance.app.config[*].interface[1].ipam_address
     description = "App Instance's Private IP"
 }
 
 output "DB_Private_IP" {
-    value = linode_instance.db.config[0].interface[0].ipam_address
+    value = linode_instance.db.config[*].interface[0].ipam_address
     description = "DB Instance's Private IP"
 }
