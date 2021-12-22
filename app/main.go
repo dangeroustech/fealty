@@ -50,6 +50,9 @@ func main() {
 	// Logging
 	app.Use(logger.New())
 
+	// Static Files
+	app.Static("/static", os.Getenv("FEALTY_CONFIG")+"/static")
+
 	// Root API Route
 	api := app.Group("/api") // /api
 
