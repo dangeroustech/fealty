@@ -112,6 +112,13 @@ func MongoCreate(a Account) Account {
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
+	// Validate
+	if a.Email == "" {
+		log.Printf("Error creating account %s", a.AccountID)
+		a.Email = "EMPTY"
+		return a
+	}
+
 	// Check for Duplicate
 	if MongoFind(a.Email, true).Email != "" {
 		a.Email = "DUPE"
