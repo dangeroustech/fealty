@@ -3,35 +3,73 @@
     <link href="../../../static/styles/style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 
-    <title>FealTY Web Admin Interface</title>
+    <title>FealTY Web Admin Interface - {{.Domain}}</title>
 </head>
 <body>
-    <h1>User Managment Interface</h1>
-    <h2>Create User</h2>
-    <form action="http://{{.Domain}}:3000/api/v1/account/form" method="post" enctype="application/x-www-form-urlencoded">
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email"><br>
-        <label for="points">Points:</label>
-        <input type="text" id="points" name="points"><br>
-        <label for="marketing">Marketing:</label><br>
-        <input type="radio" id="marketing_true" name="marketing" value="true">
-        <label for="marketing_true">True</label>
-        <input type="radio" id="marketing_false" name="marketing" value="false" checked>
-        <label for="marketing_false">False</label><br>
-        <input type="submit" value="Submit">
-    </form>
-
-    <h2>Accounts</h2>
-    {{range $acc := .Accounts}}
-        <p> 
-            {{$acc.AccountID}}
-            {{$acc.Email}}
-            {{$acc.RewardPoints}}
-        </p>
-    {{end}}
-
+    <div class="parent">
+        <div class="header">
+            <h1>Rewards Management Interface</h1>
+        </div>
+        <div class="left-side">
+            <div class="user-action">
+                <h2>Search</h2>
+                <form>
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" name="email" placeholder="user@domain.tld">
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+            <div class="user-action">
+                <h2>Create User</h2>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="email">Email:</label><br>
+                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br><br>
+                    <label for="points">Points:</label><br>
+                    <input type="text" id="points" name="points" placeholder="50"><br><br>
+                    <label for="marketing">Marketing:</label><br>
+                    <input type="radio" id="marketing_true" name="marketing" value="true">
+                    <label for="marketing_true">True</label>
+                    <input type="radio" id="marketing_false" name="marketing" value="false" checked>
+                    <label for="marketing_false">False</label><br><br>
+                    <input type="submit" value="Submit">
+                </form>
+                <h2>Update User</h2>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form" method="put" enctype="application/x-www-form-urlencoded">
+                    <label for="email">Email:</label><br>
+                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br><br>
+                    <label for="points">Points:</label><br>
+                    <input type="text" id="points" name="points" placeholder="50"><br><br>
+                    <label for="marketing">Marketing:</label><br>
+                    <input type="radio" id="marketing_true" name="marketing" value="true">
+                    <label for="marketing_true">True</label>
+                    <input type="radio" id="marketing_false" name="marketing" value="false" checked>
+                    <label for="marketing_false">False</label><br><br>
+                    <input type="submit" value="Submit">
+                </form>
+                <h2>Delete User</h2>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form" method="delete" enctype="application/x-www-form-urlencoded">
+                    <label for="email">Email:</label><br>
+                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br><br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+        <div class="main">
+            <!-- Put search results, update results, etc here -->
+        </div>
+        <div class="right-side">
+            <h2>{{len .Accounts }} Accounts</h2>
+            {{range $acc := .Accounts}}
+            <p> 
+                {{$acc.AccountID}}
+                {{$acc.Email}}
+                {{$acc.RewardPoints}}
+            </p>
+            {{end}}
+        </div>
+        <div class="footer">
+            &copy; Copyright 2021 <a href="https://dangerous.tech">Dangerous.Tech</a>
+        </div>
+    </div>
 </body>
-<footer>
-    &copy; Copyright 2021 <a href="https://dangerous.tech">Dangerous.Tech</a>
-</footer>
 </html>

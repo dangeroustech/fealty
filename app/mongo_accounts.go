@@ -23,7 +23,7 @@ func dbConnect() *mongo.Client {
 	MONGO_USER := os.Getenv("MONGO_USER")
 	MONGO_PASS := os.Getenv("MONGO_PASS")
 	AUTH_SOURCE := AuthSource()
-	log.Printf("Connecting to Mongo at %s (authSource %s) with username %s and password %s", MONGO_URI, AUTH_SOURCE, MONGO_USER, MONGO_PASS)
+	// log.Printf("Connecting to Mongo at %s (authSource %s) with username %s and password %s", MONGO_URI, AUTH_SOURCE, MONGO_USER, MONGO_PASS)
 	var ctx = context.TODO()
 	clientOptions := options.Client().ApplyURI(MONGO_URI).SetAuth(options.Credential{Username: MONGO_USER, Password: MONGO_PASS, AuthSource: AUTH_SOURCE})
 	client, err := mongo.Connect(ctx, clientOptions)
@@ -60,6 +60,8 @@ func MongoFind(email string, silent bool) Account {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	log.Printf("Found account %v for provided email %s", a.AccountID, email)
 
 	return a
 }
