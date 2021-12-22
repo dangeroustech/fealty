@@ -62,10 +62,9 @@ func main() {
 	v1 := api.Group("/v1") // /api/v1
 
 	// Mass Account Routes
-	accs := v1.Group("/accounts") // /api/v1/accounts
-	// accs.Get("/search", searchAccounts)           // /api/v1/accounts/search
-	accs.Get("/view", AuthReq(), adminAccounts) // /api/v1/accounts/view
-	accs.Get("/get", AuthReq(), getAccounts)    // /api/v1/accounts/get
+	accs := v1.Group("/accounts")                // /api/v1/accounts
+	accs.Get("/admin", AuthReq(), adminAccounts) // /api/v1/accounts/view
+	accs.Get("/get", AuthReq(), getAccounts)     // /api/v1/accounts/get
 
 	// Individual Account Routes
 	acc := v1.Group("/account", AuthReq()) // /api/v1/account
