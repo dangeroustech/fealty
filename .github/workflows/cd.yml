@@ -43,6 +43,7 @@ jobs:
     needs: Build
     env:
       PKR_VAR_LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+      PKR_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
 
     steps:
       -  uses: actions/checkout@v2

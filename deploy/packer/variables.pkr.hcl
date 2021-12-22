@@ -1,5 +1,5 @@
 #######################
-## LINODE VARIABLES  ##
+## LINODE  VARIABLES ##
 #######################
 
 variable "LINODE_TOKEN" {
@@ -49,4 +49,23 @@ variable "MONGODB_ROOT_PASS" {
 variable "MONGODB_FEALTY_PASS" {
   type    = string
   default = "fealty"
+}
+
+#######################
+## FEALTY  VARIABLES ##
+#######################
+
+variable "FEALTY_USER" {
+  type    = string
+  default = "fealty"
+}
+
+variable "FEALTY_PASS" {
+  type    = string
+  default = "fealty"
+}
+
+variable "DOMAIN" {
+  type    = string
+  default = ""
 }

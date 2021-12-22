@@ -101,8 +101,6 @@ func MongoFindAll(limit int64) []*Account {
 	// Close the cursor once finished
 	cur.Close(context.TODO())
 
-	// fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
-
 	return results
 }
 
@@ -111,6 +109,13 @@ func MongoCreate(a Account) Account {
 	// connect to mongo session running on localhost
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
+
+	// Validate
+	if a.Email == "" {
+		log.Printf("Error creating account %s", a.AccountID)
+		a.Email = "EMPTY"
+		return a
+	}
 
 	// Check for Duplicate
 	if MongoFind(a.Email, true).Email != "" {

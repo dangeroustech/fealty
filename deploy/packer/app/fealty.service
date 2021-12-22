@@ -10,7 +10,7 @@ RestartSec=2
 User=root
 ExecStart=/usr/bin/fealty
 EnvironmentFile=/etc/fealty/VARS
-PassEnvironment=MONGO_URI MONGO_USER MONGO_PASS FEALTY_CONFIG
+PassEnvironment=MONGO_URI MONGO_USER MONGO_PASS FEALTY_CONFIG FEALTY_USER FEALTY_PASS DOMAIN
 
 [Install]
 WantedBy=multi-user.target

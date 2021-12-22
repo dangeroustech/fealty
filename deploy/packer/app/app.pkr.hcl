@@ -30,14 +30,16 @@ build {
       "DEBIAN_FRONTEND=noninteractive",
       "MONGODB_FEALTY_URI=${var.MONGODB_FEALTY_URI}",
       "MONGODB_FEALTY_PASS=${var.MONGODB_FEALTY_PASS}",
+      "FEALTY_USER=${var.FEALTY_USER}",
+      "FEALTY_PASS=${var.FEALTY_PASS}",
+      "DOMAIN=${var.DOMAIN}",
     ]
     script = "deploy/packer/app/service_setup.sh"
     expect_disconnect = true
-    pause_after = "30s"
   }
 
   provisioner "shell" {
-    pause_before = "30s"
+    pause_before = "5s"
     inline = [
       "systemctl status fealty",
     ]
