@@ -2,11 +2,11 @@ name: Fealty Infrastructure Deployment
 
 on:
   workflow_dispatch:
-  pull_request:
-    types: [ closed ]
-    branches: [ main ]
-  # push:
+  # pull_request:
+  #   types: [ closed ]
   #   branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   Build:
