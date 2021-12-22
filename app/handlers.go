@@ -84,10 +84,6 @@ func createAccountForm(c *fiber.Ctx) error {
 		})
 	}
 	a.AccountID = primitive.NewObjectID()
-	// return c.Render("accounts_result", fiber.Map{
-	// 	"Message": fmt.Sprintf("Account Info: %#v", a),
-	// 	"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
-	// })
 	result := MongoCreate(a)
 	if result.Email == "DUPE" {
 		return c.Render("accounts_result", fiber.Map{
