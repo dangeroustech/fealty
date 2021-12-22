@@ -13,6 +13,7 @@ import (
 // RenderAccounts - Allow Browser to View All Accounts
 func adminAccounts(c *fiber.Ctx) error {
 	a := MongoFindAll(50)
+
 	// Render index template
 	return c.Render("accounts_admin", fiber.Map{
 		"Title":    "Accounts",
@@ -21,11 +22,11 @@ func adminAccounts(c *fiber.Ctx) error {
 	})
 }
 
-func searchAccounts(c *fiber.Ctx) error {
-	a := MongoFindAll(50)
-	// Render search template
-	return c.Render("accounts_search", fiber.Map{"Accounts": a})
-}
+// func searchAccounts(c *fiber.Ctx) error {
+// 	a := MongoFindAll(50)
+// 	// Render search template
+// 	return c.Render("accounts_search", fiber.Map{"Accounts": a})
+// }
 
 // GetAccounts - API Query to Return All Accounts as JSON
 func getAccounts(c *fiber.Ctx) error {
@@ -66,8 +67,41 @@ func createAccount(c *fiber.Ctx) error {
 	result := MongoCreate(a)
 	if result.Email == "DUPE" {
 		return c.JSON("{'Error': 'Account for This Email Already Exists'}")
+	} else if result.Email == "EMPTY" {
+		return c.JSON("{'Error': 'Account for This Email Already Exists'}")
 	} else {
 		return c.JSON(result)
+	}
+}
+
+// CreateAccount - Create a New Account From The Admin Form
+func createAccountForm(c *fiber.Ctx) error {
+	var a Account
+	if err := c.BodyParser(&a); err != nil {
+		return c.Render("accounts_result", fiber.Map{
+			"Message": fmt.Sprintf("Error: %s\nAccount Info: %#v", err, a),
+			"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+		})
+	}
+	a.AccountID = primitive.NewObjectID()
+	// return c.Render("accounts_result", fiber.Map{
+	// 	"Message": fmt.Sprintf("Account Info: %#v", a),
+	// 	"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+	// })
+	result := MongoCreate(a)
+	if result.Email == "DUPE" {
+		return c.Render("accounts_result", fiber.Map{
+			"Message": "Error: Account for This Email Already Exists",
+			"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN"))})
+	} else if result.Email == "EMPTY" {
+		return c.Render("accounts_result", fiber.Map{
+			"Message": fmt.Sprintf("Error: Email is Blank\n%#v", result),
+			"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN"))})
+	} else {
+		return c.Render("accounts_result", fiber.Map{
+			"Message": result,
+			"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+		})
 	}
 }
 

@@ -60,8 +60,8 @@ func main() {
 	v1 := api.Group("/v1") // /api/v1
 
 	// Mass Account Routes
-	accs := v1.Group("/accounts")               // /api/v1/accounts
-	accs.Get("/view", searchAccounts)           // /api/v1/accounts/search
+	accs := v1.Group("/accounts") // /api/v1/accounts
+	// accs.Get("/search", searchAccounts)           // /api/v1/accounts/search
 	accs.Get("/view", AuthReq(), adminAccounts) // /api/v1/accounts/view
 	accs.Get("/get", AuthReq(), getAccounts)    // /api/v1/accounts/get
 
@@ -71,6 +71,7 @@ func main() {
 	acc.Post("", createAccount)
 	acc.Put("", updateAccount)
 	acc.Delete("", deleteAccount)
+	acc.Post("/form", createAccountForm)
 
 	// Last middleware to match anything
 	app.Use(func(c *fiber.Ctx) error {

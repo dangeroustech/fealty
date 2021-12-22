@@ -101,8 +101,6 @@ func MongoFindAll(limit int64) []*Account {
 	// Close the cursor once finished
 	cur.Close(context.TODO())
 
-	// fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
-
 	return results
 }
 
