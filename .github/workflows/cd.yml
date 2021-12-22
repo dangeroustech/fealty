@@ -5,8 +5,8 @@ on:
   pull_request:
     types: [ closed ]
     branches: [ main ]
-  push:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
 
 jobs:
   Build:
