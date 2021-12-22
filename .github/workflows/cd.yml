@@ -5,8 +5,8 @@ on:
   pull_request:
     types: [ closed ]
     branches: [ main ]
-  push:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
 
 jobs:
   Build:
@@ -73,7 +73,7 @@ jobs:
           PACKER_CONFIG_DIR: /deploy/packer/${{ matrix.component }}
           PACKER_LOG: 1
 
-      - name: Upload ${{ matrix.component }} Manifests
+      - name: Upload ${{ matrix.component }} Manifest
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.component }}-manifest
