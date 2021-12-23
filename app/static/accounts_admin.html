@@ -13,17 +13,17 @@
         <div class="left-side">
             <div class="user-action">
                 <h2>Search</h2>
-                <form>
-                    <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form/search" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="emailSearch">Email:</label><br>
+                    <input type="text" id="emailSearch" name="email" placeholder="user@domain.tld"><br>
                     <input type="submit" value="Submit">
                 </form>
             </div>
             <div class="user-action">
                 <h2>Create User</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form" method="post" enctype="application/x-www-form-urlencoded">
-                    <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br><br>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form/create" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="emailCreate">Email:</label><br>
+                    <input type="text" id="emailCreate" name="email" placeholder="user@domain.tld"><br><br>
                     <label for="points">Points:</label><br>
                     <input type="text" id="points" name="points" placeholder="50"><br><br>
                     <label for="marketing">Marketing:</label><br>
@@ -34,9 +34,9 @@
                     <input type="submit" value="Submit">
                 </form>
                 <h2>Update User</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form" method="put" enctype="application/x-www-form-urlencoded">
-                    <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br><br>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form/update" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="emailUpdate">Email:</label><br>
+                    <input type="text" id="emailUpdate" name="email" placeholder="user@domain.tld"><br><br>
                     <label for="points">Points:</label><br>
                     <input type="text" id="points" name="points" placeholder="50"><br><br>
                     <label for="marketing">Marketing:</label><br>
@@ -47,15 +47,20 @@
                     <input type="submit" value="Submit">
                 </form>
                 <h2>Delete User</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form" method="delete" enctype="application/x-www-form-urlencoded">
-                    <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br><br>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form/delete" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="emailDelete">Email:</label><br>
+                    <input type="text" id="emailDelete" name="email" placeholder="user@domain.tld"><br><br>
                     <input type="submit" value="Submit">
                 </form>
             </div>
         </div>
         <div class="main">
             <!-- Put search results, update results, etc here -->
+            <p>
+                {{if .Message}}
+                    {{.Message}}
+                {{end}}
+            </p>
         </div>
         <div class="right-side">
             <h2>{{len .Accounts }} Accounts</h2>

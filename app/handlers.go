@@ -12,21 +12,13 @@ import (
 
 // RenderAccounts - Allow Browser to View All Accounts
 func adminAccounts(c *fiber.Ctx) error {
-	a := MongoFindAll(50)
-
-	// Render index template
+	// Render admin interface
 	return c.Render("accounts_admin", fiber.Map{
 		"Title":    "Accounts",
 		"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
-		"Accounts": a,
+		"Accounts": MongoFindAll(50),
 	})
 }
-
-// func searchAccounts(c *fiber.Ctx) error {
-// 	a := MongoFindAll(50)
-// 	// Render search template
-// 	return c.Render("accounts_search", fiber.Map{"Accounts": a})
-// }
 
 // GetAccounts - API Query to Return All Accounts as JSON
 func getAccounts(c *fiber.Ctx) error {
@@ -46,12 +38,43 @@ func getAccount(c *fiber.Ctx) error {
 		log.Println(err)
 	}
 
-	result := MongoFind(string(a.Email), false)
+	result := MongoFind(string(a.Email))
 	if result.AccountID == primitive.NilObjectID {
 		return c.JSON("{'Error': 'Account Not Found'}")
 	} else {
 		return c.JSON(result)
 	}
+}
+
+type formEmail struct {
+	Email string `form:"email"`
+}
+
+func getAccountForm(c *fiber.Ctx) error {
+	var email formEmail
+	if err := c.BodyParser(&email); err != nil {
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  fmt.Sprintf("Error: %s\nEmail: %#v", err, email),
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
+		})
+	}
+
+	result := MongoFind(string(email.Email))
+	// check for not found
+	if result.AccountID == primitive.NilObjectID {
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  fmt.Sprintf("Error: Account For %s Not Found", email),
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
+		})
+	}
+
+	return c.Render("accounts_result", fiber.Map{
+		"Message":  result,
+		"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+		"Accounts": MongoFindAll(50),
+	})
 }
 
 // CreateAccount - Create a New Account
@@ -118,6 +141,10 @@ func updateAccount(c *fiber.Ctx) error {
 	}
 }
 
+func updateAccountForm(c *fiber.Ctx) error {
+	return nil
+}
+
 // DeleteAccount - Delete an Account
 func deleteAccount(c *fiber.Ctx) error {
 	var a Account
@@ -135,4 +162,8 @@ func deleteAccount(c *fiber.Ctx) error {
 	} else {
 		return c.JSON(result)
 	}
+}
+
+func deleteAccountForm(c *fiber.Ctx) error {
+	return nil
 }

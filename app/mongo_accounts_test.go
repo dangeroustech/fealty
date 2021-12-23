@@ -16,7 +16,7 @@ var a = Account{
 
 func TestFind(t *testing.T) {
 	TestPrep(a)
-	result := MongoFind("test@test.com", false)
+	result := MongoFind("test@test.com")
 
 	if result.RewardPoints != 100 {
 		t.Errorf("Account for %s RewardPoints Incorrect. Expected %d, Got: %d.", "test@test.com", 100, result.RewardPoints)
