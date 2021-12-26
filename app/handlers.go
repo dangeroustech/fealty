@@ -101,25 +101,31 @@ func createAccount(c *fiber.Ctx) error {
 func createAccountForm(c *fiber.Ctx) error {
 	var a Account
 	if err := c.BodyParser(&a); err != nil {
-		return c.Render("accounts_result", fiber.Map{
-			"Message": fmt.Sprintf("Error: %s\nAccount Info: %#v", err, a),
-			"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  fmt.Sprintf("Error: %s\nAccount Info: %#v", err, a),
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
 		})
 	}
 	a.AccountID = primitive.NewObjectID()
 	result := MongoCreate(a)
 	if result.Email == "DUPE" {
-		return c.Render("accounts_result", fiber.Map{
-			"Message": "Error: Account for This Email Already Exists",
-			"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN"))})
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  "Error: Account for This Email Already Exists",
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
+		})
 	} else if result.Email == "EMPTY" {
-		return c.Render("accounts_result", fiber.Map{
-			"Message": fmt.Sprintf("Error: Email is Blank\n%#v", result),
-			"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN"))})
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  fmt.Sprintf("Error: Email is Blank\n%#v", result),
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
+		})
 	} else {
-		return c.Render("accounts_result", fiber.Map{
-			"Message": result,
-			"Domain":  fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  result,
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
 		})
 	}
 }
