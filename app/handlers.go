@@ -6,11 +6,12 @@ import (
 	"log"
 	"os"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// RenderAccounts - Allow Browser to View All Accounts
+// adminAccounts - Allow Browser to View All Admin Interface
 func adminAccounts(c *fiber.Ctx) error {
 	// Render admin interface
 	return c.Render("accounts_admin", fiber.Map{
@@ -18,6 +19,22 @@ func adminAccounts(c *fiber.Ctx) error {
 		"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
 		"Accounts": MongoFindAll(50),
 	})
+}
+
+func ValidateStruct(a Account) []*ErrorResponse {
+	var errors []*ErrorResponse
+	validate := validator.New()
+	err := validate.Struct(a)
+	if err != nil {
+		for _, err := range err.(validator.ValidationErrors) {
+			var element ErrorResponse
+			element.FailedField = err.StructNamespace()
+			element.Tag = err.Tag()
+			element.Value = err.Param()
+			errors = append(errors, &element)
+		}
+	}
+	return errors
 }
 
 // GetAccounts - API Query to Return All Accounts as JSON
@@ -46,12 +63,8 @@ func getAccount(c *fiber.Ctx) error {
 	}
 }
 
-type formEmail struct {
-	Email string `form:"email"`
-}
-
 func getAccountForm(c *fiber.Ctx) error {
-	var email formEmail
+	var email FormEmail
 	if err := c.BodyParser(&email); err != nil {
 		return c.Render("accounts_admin", fiber.Map{
 			"Message":  fmt.Sprintf("Error: %s\nEmail: %#v", err, email),
@@ -108,6 +121,15 @@ func createAccountForm(c *fiber.Ctx) error {
 		})
 	}
 	a.AccountID = primitive.NewObjectID()
+	errVal := ValidateStruct(a)
+	if errVal != nil {
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  fmt.Sprintf("Error: %#v\nAccount Info: %#v", errVal, a),
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
+		})
+
+	}
 	result := MongoCreate(a)
 	if result.Email == "DUPE" {
 		return c.Render("accounts_admin", fiber.Map{
