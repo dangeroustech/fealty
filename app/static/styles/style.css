@@ -13,6 +13,11 @@ h2 {
     font-size: 26px;
     text-align: left;
 }
+
+a:link, a:visited {
+  color: black;
+  text-decoration: none;
+}
   
 p, li {
   font-size: 14px;
@@ -37,7 +42,7 @@ body {
 
 .header {
   padding-left: 2rem;
-  grid-column: 1 / 4;
+  grid-column: 1 / 4;  
 }
 
 .left-side {
@@ -61,5 +66,5 @@ body {
 }
 
 .user-action {
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }

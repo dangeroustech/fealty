@@ -42,7 +42,7 @@ func dbConnect() *mongo.Client {
 
 // MongoFind - Find An Account
 func MongoFind(email string) Account {
-	// connect to mongo session running on localhost
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 	var a Account
@@ -68,7 +68,7 @@ func MongoFind(email string) Account {
 
 // MongoFindAll - Return All Accounts
 func MongoFindAll(limit int64) []*Account {
-	// connect to mongo session running on localhost
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 	var results []*Account
@@ -108,7 +108,7 @@ func MongoFindAll(limit int64) []*Account {
 
 // MongoCreate - Create An Account
 func MongoCreate(a Account) Account {
-	// connect to mongo session running on localhost
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
@@ -147,12 +147,12 @@ func MongoCreate(a Account) Account {
 
 // MongoUpdate - Update An Account
 func MongoUpdate(a Account) Account {
-	// connect to mongo session running on localhost
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
 	// Execute The Update
-	result, _ := collection.ReplaceOne(context.TODO(), bson.M{"_id": a.AccountID}, a)
+	result, _ := collection.ReplaceOne(context.TODO(), bson.M{"email": a.Email}, a)
 
 	if result.MatchedCount == 0 {
 		log.Printf("Error updating account %v with payload %#v", a.AccountID, a)
@@ -171,7 +171,7 @@ func MongoUpdate(a Account) Account {
 
 // MongoDelete - Delete An Account
 func MongoDelete(email string) Account {
-	// connect to mongo session running on localhost
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
@@ -184,7 +184,7 @@ func MongoDelete(email string) Account {
 	}
 
 	// Execute The Deletion
-	result, err := collection.DeleteOne(context.TODO(), bson.M{"_id": a.AccountID})
+	result, err := collection.DeleteOne(context.TODO(), bson.M{"email": a.Email})
 
 	if err != nil {
 		log.Printf("Error while deleting: %v", err)

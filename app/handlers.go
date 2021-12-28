@@ -15,7 +15,7 @@ import (
 func adminAccounts(c *fiber.Ctx) error {
 	// Render admin interface
 	return c.Render("accounts_admin", fiber.Map{
-		"Title":    "Accounts",
+		"Message":  "",
 		"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
 		"Accounts": MongoFindAll(50),
 	})
@@ -112,25 +112,33 @@ func createAccount(c *fiber.Ctx) error {
 
 // CreateAccount - Create a New Account From The Admin Form
 func createAccountForm(c *fiber.Ctx) error {
-	var a Account
-	if err := c.BodyParser(&a); err != nil {
+	// var a Account
+	a := new(Account)
+	if err := c.BodyParser(a); err != nil {
+		errVal := ValidateStruct(*a)
+		if errVal != nil {
+			return c.Render("accounts_admin", fiber.Map{
+				"Message":  fmt.Sprintf("Error: %#v\nAccount Info: %#v", errVal, a),
+				"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+				"Accounts": MongoFindAll(50),
+			})
+		}
 		return c.Render("accounts_admin", fiber.Map{
-			"Message":  fmt.Sprintf("Error: %s\nAccount Info: %#v", err, a),
+			"Message":  fmt.Sprintf("Error: %#v\nAccount Info: %#v", err, a),
 			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
 			"Accounts": MongoFindAll(50),
 		})
 	}
 	a.AccountID = primitive.NewObjectID()
-	errVal := ValidateStruct(a)
+	errVal := ValidateStruct(*a)
 	if errVal != nil {
 		return c.Render("accounts_admin", fiber.Map{
 			"Message":  fmt.Sprintf("Error: %#v\nAccount Info: %#v", errVal, a),
 			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
 			"Accounts": MongoFindAll(50),
 		})
-
 	}
-	result := MongoCreate(a)
+	result := MongoCreate(*a)
 	if result.Email == "DUPE" {
 		return c.Render("accounts_admin", fiber.Map{
 			"Message":  "Error: Account for This Email Already Exists",
@@ -145,7 +153,7 @@ func createAccountForm(c *fiber.Ctx) error {
 		})
 	} else {
 		return c.Render("accounts_admin", fiber.Map{
-			"Message":  result,
+			"Message":  fmt.Sprintf("Created: \n%#v", result),
 			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
 			"Accounts": MongoFindAll(50),
 		})
@@ -163,14 +171,54 @@ func updateAccount(c *fiber.Ctx) error {
 
 	result := MongoUpdate(a)
 	if result.AccountID == primitive.NilObjectID {
-		return c.JSON("{'Error': 'Account Not Found'")
+		return c.JSON("{'Error': 'Account Not Found'}")
 	} else {
 		return c.JSON(result)
 	}
 }
 
+// UpdateAccount - Update a New Account From The Admin Form
 func updateAccountForm(c *fiber.Ctx) error {
-	return nil
+	// var a Account
+	a := new(Account)
+	if err := c.BodyParser(a); err != nil {
+		errVal := ValidateStruct(*a)
+		if errVal != nil {
+			return c.Render("accounts_admin", fiber.Map{
+				"Message":  fmt.Sprintf("Error: %#v\nAccount Info: %#v", errVal, a),
+				"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+				"Accounts": MongoFindAll(50),
+			})
+		}
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  fmt.Sprintf("Error: %#v\nAccount Info: %#v", err, a),
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
+		})
+	}
+	errVal := ValidateStruct(*a)
+	if errVal != nil {
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  fmt.Sprintf("Error: %#v\nAccount Info: %#v", errVal, a),
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
+		})
+	}
+	search := MongoFind(a.Email)
+	result := MongoUpdate(search)
+	if result.AccountID == primitive.NilObjectID {
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  fmt.Sprintf("Error: Account Not Found\nSearch: %#v - Result: %#v", search, result),
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
+		})
+	} else {
+		return c.Render("accounts_admin", fiber.Map{
+			"Message":  fmt.Sprintf("Updated: \n%#v", result),
+			"Domain":   fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN")),
+			"Accounts": MongoFindAll(50),
+		})
+	}
 }
 
 // DeleteAccount - Delete an Account
