@@ -150,6 +150,7 @@ func MongoUpdate(a Account) Account {
 	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
+	log.Printf("a @ MongoUpdate: %#v", a)
 
 	// Execute The Update
 	result, _ := collection.ReplaceOne(context.TODO(), bson.M{"email": a.Email}, a)
@@ -159,6 +160,7 @@ func MongoUpdate(a Account) Account {
 	} else {
 		log.Printf("%v Account(s) Updated (%s). Reward Points: %d, Email: %s, Marketing: %t",
 			result.ModifiedCount, a.AccountID, a.RewardPoints, a.Email, a.Marketing)
+		log.Printf("RESULT: %#v", result)
 	}
 
 	if result.ModifiedCount == 1 {
@@ -170,21 +172,14 @@ func MongoUpdate(a Account) Account {
 }
 
 // MongoDelete - Delete An Account
-func MongoDelete(email string) Account {
+func MongoDelete(a Account) Account {
 	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
-	// Find the Account ID
-	a := MongoFind(email)
-
-	// if account is not found
-	if a.AccountID == primitive.NilObjectID {
-		return a
-	}
-
 	// Execute The Deletion
-	result, err := collection.DeleteOne(context.TODO(), bson.M{"email": a.Email})
+	result, err := collection.DeleteOne(context.TODO(), bson.M{"_id": a.AccountID})
+	log.Printf("RESULT: %#v", result)
 
 	if err != nil {
 		log.Printf("Error while deleting: %v", err)
@@ -192,7 +187,7 @@ func MongoDelete(email string) Account {
 
 	// if for some reason we didn't delete anything
 	// even though the account existed
-	if result.DeletedCount != 1 {
+	if result.DeletedCount == 0 {
 		a.AccountID = primitive.NilObjectID
 		return a
 	} else {
@@ -206,6 +201,6 @@ func TestPrep(a Account) {
 	MongoCreate(a)
 }
 
-func TestCleanup(email string) {
-	MongoDelete(email)
+func TestCleanup(a Account) {
+	MongoDelete(a)
 }

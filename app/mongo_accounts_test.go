@@ -22,7 +22,7 @@ func TestFind(t *testing.T) {
 		t.Errorf("Account for %s RewardPoints Incorrect. Expected %d, Got: %d.", "test@test.com", 100, result.RewardPoints)
 	}
 
-	TestCleanup(a.Email)
+	TestCleanup(a)
 }
 
 func TestFindAll(t *testing.T) {
@@ -33,7 +33,7 @@ func TestFindAll(t *testing.T) {
 		t.Errorf("Nil Data Returned for FindAll.")
 	}
 
-	TestCleanup(a.Email)
+	TestCleanup(a)
 }
 
 func TestCreate(t *testing.T) {
@@ -49,7 +49,7 @@ func TestCreate(t *testing.T) {
 		t.Errorf("Marketing Created Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
 	}
 
-	TestCleanup(a.Email)
+	TestCleanup(a)
 }
 
 func TestUpdate(t *testing.T) {
@@ -71,13 +71,13 @@ func TestUpdate(t *testing.T) {
 	} else if result.Marketing != newA.Marketing {
 		t.Errorf("Marketing Updated Incorrectly. Expected %t, Got %t.", a.Marketing, result.Marketing)
 	}
-	TestCleanup(newA.Email)
+	TestCleanup(newA)
 }
 
 func TestDelete(t *testing.T) {
 	TestPrep(a)
 
-	result := MongoDelete(a.Email)
+	result := MongoDelete(a)
 
 	if result.AccountID != a.AccountID {
 		t.Errorf("Account Deleted Incorrectly. Expected %s, Got %s", a.AccountID, result.AccountID)

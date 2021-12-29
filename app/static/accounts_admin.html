@@ -62,23 +62,32 @@
             <!-- Put search results, update results, etc here -->
             <h2>Interface Messages</h2>
             {{if .Message}}
-                <p>{{.Message}}</p>
+                {{if .Error}}
+                    {{.Message}}
+                {{else}}
+                    <div class="account">
+                        <b>ID:</b> {{.Message.AccountID}}
+                        <b>Email:</b> {{.Message.Email}}
+                        <b>Points:</b> {{.Message.RewardPoints}}
+                        <b>Marketability:</b> {{.Message.Marketing}}
+                    </div>
+                {{end}}
             {{else}}
                 <p>Have a tubular day!</p>
             {{end}}
         </div>
         <div class="right-side">
-            <h2>{{len .Accounts }} Accounts</h2>
-            <div class="account">
-                {{range $acc := .Accounts}}
-                <p> 
-                    ID: {{$acc.AccountID}}<br>
-                    Email: {{$acc.Email}}<br>
-                    Points: {{$acc.RewardPoints}}<br>
-                    Marketability: {{$acc.Marketing}} <br>
-                </p>
-                {{end}}
-            </div>
+            <h2>{{len .Accounts}} Accounts</h2>
+            {{range $acc := .Accounts}}
+                <div class="account">
+                    <p>
+                        <b>ID:</b> {{$acc.AccountID}}
+                        <b>Email:</b> {{$acc.Email}}
+                        <b>Points:</b> {{$acc.RewardPoints}}
+                        <b>Marketability:</b> {{$acc.Marketing}}
+                    </p>
+                </div>
+            {{end}}
         </div>
         <div class="footer">
             &copy; Copyright 2021 <a href="https://dangerous.tech">Dangerous.Tech</a>

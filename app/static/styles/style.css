@@ -68,3 +68,8 @@ body {
 .user-action {
   padding-bottom: 1rem;
 }
+
+.account {
+  padding-bottom: 2rem;
+  line-height: 2;
+}
