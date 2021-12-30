@@ -2,7 +2,11 @@ terraform {
   required_providers {
     linode = {
       source  = "linode/linode"
-      version = "1.24.0"
+      version = "1.25.0"
+    }
+    acme = {
+      source = "vancluever/acme"
+      version = "2.7.1"
     }
   }
   backend "s3" {
@@ -16,4 +20,8 @@ terraform {
 
 provider "linode" {
   token = var.LINODE_TOKEN
+}
+
+provider "acme" {
+  server_url = "https://acme-v02.api.letsencrypt.org/directory"
 }

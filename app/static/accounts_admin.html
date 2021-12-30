@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <link href="http://{{.Domain}}:3000/static/styles/style.css" rel="stylesheet">
+    <link href="https://{{.Domain}}/static/styles/style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 
     <title>FealTY Web Admin Interface - {{.Domain}}</title>
@@ -8,12 +8,12 @@
 <body>
     <div class="parent">
         <div class="header">
-            <a href="http://{{.Domain}}:3000/api/v1/accounts/admin"><h1>Rewards Management Interface</h1></a>
+            <a href="https://{{.Domain}}/api/v1/accounts/admin"><h1>Rewards Management Interface</h1></a>
         </div>
         <div class="left-side">
             <div class="user-action">
                 <h2>Search</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form/search" method="post" enctype="application/x-www-form-urlencoded">
+                <form action="https://{{.Domain}}/api/v1/account/form/search" method="post" enctype="application/x-www-form-urlencoded">
                     <label for="emailSearch">Email:</label><br>
                     <input type="text" id="emailSearch" name="email" placeholder="user@domain.tld"><br>
                     <input type="submit" value="Submit">
@@ -21,7 +21,7 @@
             </div>
             <div class="user-action">
                 <h2>Create User</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form/create" method="post" enctype="application/x-www-form-urlencoded">
+                <form action="https://{{.Domain}}/api/v1/account/form/create" method="post" enctype="application/x-www-form-urlencoded">
                     <label for="emailCreate">Email:</label><br>
                     <input type="text" id="emailCreate" name="email" placeholder="user@domain.tld"><br><br>
                     <label for="pointsCreate">Points:</label><br>
@@ -36,7 +36,7 @@
             </div>
             <div class="user-action">
                 <h2>Update User</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form/update" method="post" enctype="application/x-www-form-urlencoded">
+                <form action="https://{{.Domain}}/api/v1/account/form/update" method="post" enctype="application/x-www-form-urlencoded">
                     <label for="emailUpdate">Email:</label><br>
                     <input type="text" id="emailUpdate" name="email" placeholder="user@domain.tld"><br><br>
                     <label for="pointsUpdate">Points:</label><br>
@@ -51,7 +51,7 @@
             </div>
             <div class="user-action">
                 <h2>Delete User</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form/delete" method="post" enctype="application/x-www-form-urlencoded">
+                <form action="https://{{.Domain}}/api/v1/account/form/delete" method="post" enctype="application/x-www-form-urlencoded">
                     <label for="emailDelete">Email:</label><br>
                     <input type="text" id="emailDelete" name="email" placeholder="user@domain.tld"><br><br>
                     <input type="submit" value="Submit">
@@ -66,10 +66,10 @@
                     {{.Message}}
                 {{else}}
                     <div class="account">
-                        <b>ID:</b> {{.Message.AccountID}}
-                        <b>Email:</b> {{.Message.Email}}
-                        <b>Points:</b> {{.Message.RewardPoints}}
-                        <b>Marketability:</b> {{.Message.Marketing}}
+                        <!-- <b>ID:</b> {{.Message.AccountID}}<br> -->
+                        <b>Email:</b> {{.Message.Email}}<br>
+                        <b>Points:</b> {{.Message.RewardPoints}}<br>
+                        <b>Marketability:</b> {{.Message.Marketing}}<br>
                     </div>
                 {{end}}
             {{else}}
@@ -81,10 +81,10 @@
             {{range $acc := .Accounts}}
                 <div class="account">
                     <p>
-                        <b>ID:</b> {{$acc.AccountID}}
-                        <b>Email:</b> {{$acc.Email}}
-                        <b>Points:</b> {{$acc.RewardPoints}}
-                        <b>Marketability:</b> {{$acc.Marketing}}
+                        <!-- <b>ID:</b> {{$acc.AccountID}}<br> -->
+                        <b>Email:</b> {{$acc.Email}}<br>
+                        <b>Points:</b> {{$acc.RewardPoints}}<br>
+                        <b>Marketability:</b> {{$acc.Marketing}}<br>
                     </p>
                 </div>
             {{end}}

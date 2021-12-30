@@ -18,3 +18,15 @@ variable "DOMAIN" {
   default     = ""
   description = "Domain to create"
 }
+
+variable "subdomain" {
+  type = string
+  default = "rewards"
+  description = "Subdomain for rewards system"
+}
+
+variable "node_count" {
+  type = number
+  default = 1
+  description = "Number of app nodes to configure"
+}

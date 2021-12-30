@@ -18,6 +18,10 @@ func GetDomain() string {
 	return fmt.Sprintf("rewards.%s", os.Getenv("DOMAIN"))
 }
 
+func healthcheck(c *fiber.Ctx) error {
+	return c.SendStatus(200)
+}
+
 // adminAccounts - Allow Browser to View All Admin Interface
 func adminAccounts(c *fiber.Ctx) error {
 	// Render admin interface
