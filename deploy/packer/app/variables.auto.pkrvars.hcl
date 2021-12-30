@@ -13,11 +13,3 @@ region = "eu-west"
 
 MONGODB_FEALTY_URI = "mongodb://10.10.10.3:27017/fealty"
 MONGODB_FEALTY_PASS = "fealty"
-
-#######################
-## FEALTY  VARIABLES ##
-#######################
-
-FEALTY_USER = "fealty"
-FEALTY_PASS = "fealty"
-DOMAIN = "buildscripts.xyz"
