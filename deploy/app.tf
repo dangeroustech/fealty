@@ -9,9 +9,6 @@ resource "linode_instance" "app" {
   backups_enabled  = true
   watchdog_enabled = true
   interface {
-    purpose = "public"
-  }
-  interface {
     purpose      = "vlan"
     label        = "fealty-vlan"
     ipam_address = "10.10.10.2/24"
