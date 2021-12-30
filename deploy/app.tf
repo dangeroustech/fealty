@@ -19,10 +19,3 @@ resource "linode_instance" "app" {
   }
   private_ip = true
 }
-
-// Extra Private IP for NodeBalancer to use
-# resource "linode_instance_ip" "app_private" {
-#     linode_id = linode_instance.app[count.index].id
-#     public = false
-#     apply_immediately = true
-# }
