@@ -82,9 +82,9 @@ jobs:
     needs: Packer
     env:
       TF_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
+      TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
       AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
       AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
-      TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
 
     steps:
       - name: Checkout
@@ -113,9 +113,7 @@ jobs:
         run: terraform -chdir=deploy init
 
       - name: Deploy
-        run: |
-          terraform -chdir=deploy apply -auto-approve
-          terraform -chdir=deploy apply -auto-approve
+        run: terraform -chdir=deploy apply -auto-approve; terraform -chdir=deploy apply -auto-approve
 
       - name: Version
         uses: go-semantic-release/action@v1
