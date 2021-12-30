@@ -70,6 +70,7 @@ jobs:
     name: Terraform Prep
     env:
       TF_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
+      TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
       AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
       AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
 
