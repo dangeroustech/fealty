@@ -14,7 +14,7 @@ resource "acme_certificate" "certificate" {
     account_key_pem = "${acme_registration.reg.account_key_pem}"
     common_name = "${var.subdomain}.${var.DOMAIN}"
     key_type = "4096"
-    pre_check_delay = 240
+    pre_check_delay = 60
     revoke_certificate_on_destroy = false
 
     dns_challenge {

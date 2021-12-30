@@ -2,6 +2,7 @@ resource "linode_domain" "domain" {
   type      = "master"
   domain    = var.DOMAIN
   soa_email = data.linode_profile.me.email
+  ttl_sec = 30
   tags      = ["fealty"]
 }
 
