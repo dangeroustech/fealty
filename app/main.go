@@ -38,6 +38,9 @@ func AuthReq() func(*fiber.Ctx) error {
 func main() {
 	// Initialize standard Go html template engine
 	htmlEngine := html.New(os.Getenv("FEALTY_CONFIG")+"/static", ".html")
+	// htmlEngine.AddFunc("getAccount", MongoFind)
+	// htmlEngine.AddFunc("updateAccount", MongoUpdate)
+	// htmlEngine.AddFunc("deleteAccount", MongoDelete)
 
 	// Set Up Fiber App
 	app := fiber.New(fiber.Config{
@@ -60,10 +63,9 @@ func main() {
 	v1 := api.Group("/v1") // /api/v1
 
 	// Mass Account Routes
-	accs := v1.Group("/accounts") // /api/v1/accounts
-	// accs.Get("/search", searchAccounts)           // /api/v1/accounts/search
-	accs.Get("/view", AuthReq(), adminAccounts) // /api/v1/accounts/view
-	accs.Get("/get", AuthReq(), getAccounts)    // /api/v1/accounts/get
+	accs := v1.Group("/accounts")                // /api/v1/accounts
+	accs.Get("/admin", AuthReq(), adminAccounts) // /api/v1/accounts/admin
+	accs.Get("/get", AuthReq(), getAccounts)     // /api/v1/accounts/get
 
 	// Individual Account Routes
 	acc := v1.Group("/account", AuthReq()) // /api/v1/account
@@ -71,7 +73,10 @@ func main() {
 	acc.Post("", createAccount)
 	acc.Put("", updateAccount)
 	acc.Delete("", deleteAccount)
-	acc.Post("/form", createAccountForm)
+	acc.Post("/form/search", getAccountForm)
+	acc.Post("/form/create", createAccountForm)
+	acc.Post("/form/update", updateAccountForm)
+	acc.Post("/form/delete", deleteAccountForm)
 
 	// Last middleware to match anything
 	app.Use(func(c *fiber.Ctx) error {

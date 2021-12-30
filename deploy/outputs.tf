@@ -1,4 +1,4 @@
-output "Domain_A_Record" {
+output "Domain_IP" {
     value = linode_domain_record.rewards.target
     description = "Domain A Reord"
     depends_on = [

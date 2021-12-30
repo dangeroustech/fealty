@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <link href="../../../static/styles/style.css" rel="stylesheet">
+    <link href="http://{{.Domain}}:3000/static/styles/style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 
     <title>FealTY Web Admin Interface - {{.Domain}}</title>
@@ -8,63 +8,85 @@
 <body>
     <div class="parent">
         <div class="header">
-            <h1>Rewards Management Interface</h1>
+            <a href="http://{{.Domain}}:3000/api/v1/accounts/admin"><h1>Rewards Management Interface</h1></a>
         </div>
         <div class="left-side">
             <div class="user-action">
                 <h2>Search</h2>
-                <form>
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" placeholder="user@domain.tld">
+                <form action="http://{{.Domain}}:3000/api/v1/account/form/search" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="emailSearch">Email:</label><br>
+                    <input type="text" id="emailSearch" name="email" placeholder="user@domain.tld"><br>
                     <input type="submit" value="Submit">
                 </form>
             </div>
             <div class="user-action">
                 <h2>Create User</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form" method="post" enctype="application/x-www-form-urlencoded">
-                    <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br><br>
-                    <label for="points">Points:</label><br>
-                    <input type="text" id="points" name="points" placeholder="50"><br><br>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form/create" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="emailCreate">Email:</label><br>
+                    <input type="text" id="emailCreate" name="email" placeholder="user@domain.tld"><br><br>
+                    <label for="pointsCreate">Points:</label><br>
+                    <input type="text" id="pointsCreate" name="points" placeholder="50"><br><br>
                     <label for="marketing">Marketing:</label><br>
-                    <input type="radio" id="marketing_true" name="marketing" value="true">
-                    <label for="marketing_true">True</label>
-                    <input type="radio" id="marketing_false" name="marketing" value="false" checked>
-                    <label for="marketing_false">False</label><br><br>
+                    <input type="radio" id="marketing_trueCreate" name="marketing" value="true">
+                    <label for="marketing_trueCreate">True</label>
+                    <input type="radio" id="marketing_falseCreate" name="marketing" value="false" checked>
+                    <label for="marketing_falseCreate">False</label><br><br>
                     <input type="submit" value="Submit">
                 </form>
+            </div>
+            <div class="user-action">
                 <h2>Update User</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form" method="put" enctype="application/x-www-form-urlencoded">
-                    <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br><br>
-                    <label for="points">Points:</label><br>
-                    <input type="text" id="points" name="points" placeholder="50"><br><br>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form/update" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="emailUpdate">Email:</label><br>
+                    <input type="text" id="emailUpdate" name="email" placeholder="user@domain.tld"><br><br>
+                    <label for="pointsUpdate">Points:</label><br>
+                    <input type="text" id="pointsUpdate" name="points" placeholder="50"><br><br>
                     <label for="marketing">Marketing:</label><br>
-                    <input type="radio" id="marketing_true" name="marketing" value="true">
-                    <label for="marketing_true">True</label>
-                    <input type="radio" id="marketing_false" name="marketing" value="false" checked>
-                    <label for="marketing_false">False</label><br><br>
+                    <input type="radio" id="marketing_trueUpdate" name="marketing" value="true">
+                    <label for="marketing_trueUpdate">True</label>
+                    <input type="radio" id="marketing_falseUpdate" name="marketing" value="false" checked>
+                    <label for="marketing_falseUpdate">False</label><br><br>
                     <input type="submit" value="Submit">
                 </form>
+            </div>
+            <div class="user-action">
                 <h2>Delete User</h2>
-                <form action="http://{{.Domain}}:3000/api/v1/account/form" method="delete" enctype="application/x-www-form-urlencoded">
-                    <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email" placeholder="user@domain.tld"><br><br>
+                <form action="http://{{.Domain}}:3000/api/v1/account/form/delete" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="emailDelete">Email:</label><br>
+                    <input type="text" id="emailDelete" name="email" placeholder="user@domain.tld"><br><br>
                     <input type="submit" value="Submit">
                 </form>
             </div>
         </div>
         <div class="main">
             <!-- Put search results, update results, etc here -->
+            <h2>Interface Messages</h2>
+            {{if .Message}}
+                {{if .Error}}
+                    {{.Message}}
+                {{else}}
+                    <div class="account">
+                        <b>ID:</b> {{.Message.AccountID}}
+                        <b>Email:</b> {{.Message.Email}}
+                        <b>Points:</b> {{.Message.RewardPoints}}
+                        <b>Marketability:</b> {{.Message.Marketing}}
+                    </div>
+                {{end}}
+            {{else}}
+                <p>Have a tubular day!</p>
+            {{end}}
         </div>
         <div class="right-side">
-            <h2>{{len .Accounts }} Accounts</h2>
+            <h2>{{len .Accounts}} Accounts</h2>
             {{range $acc := .Accounts}}
-            <p> 
-                {{$acc.AccountID}}
-                {{$acc.Email}}
-                {{$acc.RewardPoints}}
-            </p>
+                <div class="account">
+                    <p>
+                        <b>ID:</b> {{$acc.AccountID}}
+                        <b>Email:</b> {{$acc.Email}}
+                        <b>Points:</b> {{$acc.RewardPoints}}
+                        <b>Marketability:</b> {{$acc.Marketing}}
+                    </p>
+                </div>
             {{end}}
         </div>
         <div class="footer">

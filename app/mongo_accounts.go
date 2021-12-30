@@ -41,8 +41,8 @@ func dbConnect() *mongo.Client {
 }
 
 // MongoFind - Find An Account
-func MongoFind(email string, silent bool) Account {
-	// connect to mongo session running on localhost
+func MongoFind(email string) Account {
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 	var a Account
@@ -50,7 +50,7 @@ func MongoFind(email string, silent bool) Account {
 	// Execute the find
 	err := collection.FindOne(context.TODO(), bson.M{"email": email}).Decode(&a)
 
-	if err != nil && !silent {
+	if err != nil {
 		log.Printf("Error finding account for %s:\n%#v", email, err)
 		a.AccountID = primitive.NilObjectID
 	}
@@ -68,7 +68,7 @@ func MongoFind(email string, silent bool) Account {
 
 // MongoFindAll - Return All Accounts
 func MongoFindAll(limit int64) []*Account {
-	// connect to mongo session running on localhost
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 	var results []*Account
@@ -108,7 +108,7 @@ func MongoFindAll(limit int64) []*Account {
 
 // MongoCreate - Create An Account
 func MongoCreate(a Account) Account {
-	// connect to mongo session running on localhost
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
@@ -120,7 +120,7 @@ func MongoCreate(a Account) Account {
 	}
 
 	// Check for Duplicate
-	if MongoFind(a.Email, true).Email != "" {
+	if MongoFind(a.Email).Email != "" {
 		a.Email = "DUPE"
 		return a
 	}
@@ -147,18 +147,20 @@ func MongoCreate(a Account) Account {
 
 // MongoUpdate - Update An Account
 func MongoUpdate(a Account) Account {
-	// connect to mongo session running on localhost
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
+	log.Printf("a @ MongoUpdate: %#v", a)
 
 	// Execute The Update
-	result, _ := collection.ReplaceOne(context.TODO(), bson.M{"_id": a.AccountID}, a)
+	result, _ := collection.ReplaceOne(context.TODO(), bson.M{"email": a.Email}, a)
 
 	if result.MatchedCount == 0 {
 		log.Printf("Error updating account %v with payload %#v", a.AccountID, a)
 	} else {
 		log.Printf("%v Account(s) Updated (%s). Reward Points: %d, Email: %s, Marketing: %t",
 			result.ModifiedCount, a.AccountID, a.RewardPoints, a.Email, a.Marketing)
+		log.Printf("RESULT: %#v", result)
 	}
 
 	if result.ModifiedCount == 1 {
@@ -170,21 +172,14 @@ func MongoUpdate(a Account) Account {
 }
 
 // MongoDelete - Delete An Account
-func MongoDelete(email string) Account {
-	// connect to mongo session running on localhost
+func MongoDelete(a Account) Account {
+	// connect to mongo session
 	client := dbConnect()
 	collection := client.Database("fealty").Collection("accounts")
 
-	// Find the Account ID
-	a := MongoFind(email, false)
-
-	// if account is not found
-	if a.AccountID == primitive.NilObjectID {
-		return a
-	}
-
 	// Execute The Deletion
 	result, err := collection.DeleteOne(context.TODO(), bson.M{"_id": a.AccountID})
+	// log.Printf("RESULT: %#v", result)
 
 	if err != nil {
 		log.Printf("Error while deleting: %v", err)
@@ -192,7 +187,7 @@ func MongoDelete(email string) Account {
 
 	// if for some reason we didn't delete anything
 	// even though the account existed
-	if result.DeletedCount != 1 {
+	if result.DeletedCount == 0 {
 		a.AccountID = primitive.NilObjectID
 		return a
 	} else {
@@ -200,12 +195,4 @@ func MongoDelete(email string) Account {
 			result.DeletedCount, a.AccountID, a.RewardPoints, a.Email, a.Marketing)
 		return a
 	}
-}
-
-func TestPrep(a Account) {
-	MongoCreate(a)
-}
-
-func TestCleanup(email string) {
-	MongoDelete(email)
 }
