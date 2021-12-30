@@ -179,7 +179,7 @@ func MongoDelete(a Account) Account {
 
 	// Execute The Deletion
 	result, err := collection.DeleteOne(context.TODO(), bson.M{"_id": a.AccountID})
-	log.Printf("RESULT: %#v", result)
+	// log.Printf("RESULT: %#v", result)
 
 	if err != nil {
 		log.Printf("Error while deleting: %v", err)
@@ -195,12 +195,4 @@ func MongoDelete(a Account) Account {
 			result.DeletedCount, a.AccountID, a.RewardPoints, a.Email, a.Marketing)
 		return a
 	}
-}
-
-func TestPrep(a Account) {
-	MongoCreate(a)
-}
-
-func TestCleanup(a Account) {
-	MongoDelete(a)
 }
