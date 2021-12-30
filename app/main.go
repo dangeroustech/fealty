@@ -56,6 +56,8 @@ func main() {
 	// Static Files
 	app.Static("/static", os.Getenv("FEALTY_CONFIG")+"/static")
 
+	app.Get("/healthz", healthcheck)
+
 	// Root API Route
 	api := app.Group("/api") // /api
 
