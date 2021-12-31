@@ -1,4 +1,4 @@
-resource "linode_firewall" "fealty-fw" {
+resource "linode_firewall" "fealty_fw" {
   label = "fealty-fw"
   tags  = ["fealty"]
 
