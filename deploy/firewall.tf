@@ -13,8 +13,8 @@ resource "linode_firewall" "fealty_fw" {
     label    = "allow-nodebalancer"
     action   = "ACCEPT"
     protocol = "TCP"
-    ipv4     = ["${linode_nodebalancer.app_nb.ipv4}"]
-    ipv6     = ["${linode_nodebalancer.app_nb.ipv6}"]
+    ipv4     = ["${linode_nodebalancer.app_nb.ipv4}/32"]
+    ipv6     = ["${linode_nodebalancer.app_nb.ipv6}/128"]
   }
   inbound {
     label    = "drop-inbound-udp"
