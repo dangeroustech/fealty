@@ -31,3 +31,8 @@ output "DB_Private_IP" {
   value       = linode_instance.db.config[*].interface[0].ipam_address
   description = "DB Instance's Private IP"
 }
+
+output "SSL_Cert_Domain" {
+  value = acme_certificate.certificate.certificate_domain
+  description = "Certificate Domain"
+}
