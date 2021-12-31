@@ -14,7 +14,6 @@ echo "FEALTY_PASS=$FEALTY_PASS" >> /etc/fealty/VARS
 echo "FEALTY_CONFIG=/etc/fealty" >> /etc/fealty/VARS
 echo "DOMAIN=$DOMAIN" >> /etc/fealty/VARS
 systemctl enable fealty
-cat /etc/fealty/VARS
 
 echo "###---Reboot---###"
 reboot

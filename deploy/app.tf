@@ -5,6 +5,7 @@ resource "linode_instance" "app" {
   image            = local.app_manifest.builds[length(local.app_manifest.builds) - 1].artifact_id
   region           = var.region
   type             = var.instance_type
+  root_pass = "terr4form-test"
   authorized_users = [data.linode_profile.me.username]
   backups_enabled  = true
   watchdog_enabled = true
