@@ -2,6 +2,7 @@ resource "linode_firewall" "fealty_fw" {
   count = var.node_count
   label = "fealty-fw"
   tags  = ["fealty"]
+  disabled = false
 
   inbound_policy = "DROP"
 
