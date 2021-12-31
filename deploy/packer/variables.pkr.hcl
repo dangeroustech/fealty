@@ -9,7 +9,7 @@ variable "LINODE_TOKEN" {
 
 variable "instance_type" {
   type = string
-  default = "g7-highmem-1"
+  default = "g6-nanode-1"
 }
 
 variable "image_label" {
