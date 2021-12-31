@@ -33,6 +33,6 @@ output "DB_Private_IP" {
 }
 
 output "SSL_Cert_Domain" {
-  value = acme_certificate.certificate.certificate_domain
+  value       = acme_certificate.certificate.certificate_domain
   description = "Certificate Domain"
 }
