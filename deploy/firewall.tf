@@ -2,16 +2,16 @@ resource "linode_firewall" "fealty_fw" {
   count = var.node_count
   label = "fealty-fw"
   tags  = ["fealty"]
-  disabled = true
+  disabled = false
 
   inbound_policy = "DROP"
 
   inbound {
-    label    = "drop-inbound-tcp"
-    action   = "DROP"
+    label    = "allow-nodebalancer"
+    action   = "ACCEPT"
     protocol = "TCP"
-    ipv4     = ["0.0.0.0/0"]
-    ipv6     = ["::/0"]
+    ipv4     = linode_nodebalancer.app_nb.ipv4
+    ipv6     = linode_nodebalancer.app_nb.ipv6
   }
   inbound {
     label    = "drop-inbound-udp"
