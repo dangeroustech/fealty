@@ -39,7 +39,7 @@ jobs:
     name: Build Infrastructure | Packer
     needs: Build
     env:
-      PKR_VAR_LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+      PKR_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
       PKR_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
       DOMAIN: "${{ secrets.DOMAIN }}"
 
