@@ -9,7 +9,7 @@ resource "acme_registration" "reg" {
 
 resource "acme_certificate" "certificate" {
   depends_on = [
-    linode_domain.domain
+    linode_domain_record.rewards
   ]
   account_key_pem               = acme_registration.reg.account_key_pem
   common_name                   = "${var.subdomain}.${var.DOMAIN}"
