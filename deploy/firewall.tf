@@ -2,9 +2,9 @@ resource "linode_firewall" "fealty_fw" {
   depends_on = [
     linode_nodebalancer.app_nb,
   ]
-  count = var.node_count
-  label = "fealty-fw"
-  tags  = ["fealty"]
+  count    = var.node_count
+  label    = "fealty-fw"
+  tags     = ["fealty"]
   disabled = false
 
   inbound_policy = "DROP"
