@@ -6,7 +6,7 @@ resource "linode_instance" "app" {
   region           = var.region
   type             = var.instance_type
   authorized_users = [data.linode_profile.me.username]
-  backups_enabled  = true
+  backups_enabled  = false
   watchdog_enabled = true
   interface {
     purpose = "public"
