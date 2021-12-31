@@ -114,7 +114,11 @@ jobs:
         run: terraform -chdir=deploy init
 
       - name: Deploy
-        run: terraform -chdir=deploy apply -auto-approve; terraform -chdir=deploy apply -auto-approve
+        run: terraform -chdir=deploy apply -auto-approve
+        continue-on-error: true
+
+      - name: Deploy v2
+        run: terraform -chdir=deploy apply -auto-approve
 
       - name: Version
         uses: go-semantic-release/action@v1
