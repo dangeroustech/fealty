@@ -2,7 +2,6 @@
 ## LINODE  VARIABLES ##
 #######################
 
-instance_type = "g6-nanode-1"
 image_label = "fealty-app"
 image_description = "Fealty App Image"
 region = "eu-west"
