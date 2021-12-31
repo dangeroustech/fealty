@@ -10,11 +10,12 @@ resource "linode_firewall" "fealty_fw" {
   inbound_policy = "DROP"
 
   inbound {
-    label    = "allow-nodebalancer"
+    label    = "allow-fealty-inbound"
     action   = "ACCEPT"
     protocol = "TCP"
-    ipv4     = ["${linode_nodebalancer.app_nb.ipv4}"]
-    ipv6     = ["${linode_nodebalancer.app_nb.ipv6}"]
+    ports    = "3000"
+    ipv4     = ["0.0.0.0/0"]
+    ipv6     = ["::/0"]
   }
   inbound {
     label    = "drop-inbound-udp"
@@ -39,6 +40,15 @@ resource "linode_firewall" "fealty_fw" {
     action   = "ACCEPT"
     protocol = "TCP"
     ports    = "443"
+    ipv4     = ["0.0.0.0/0"]
+    ipv6     = ["::/0"]
+  }
+
+  outbound {
+    label    = "allow-fealty-outbound"
+    action   = "ACCEPT"
+    protocol = "TCP"
+    ports    = "3000"
     ipv4     = ["0.0.0.0/0"]
     ipv6     = ["::/0"]
   }
