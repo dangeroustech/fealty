@@ -1,5 +1,5 @@
 resource "linode_nodebalancer" "app_nb" {
-  label                = "fealty_nodebalancer"
+  label                = "fealty-nodebalancer"
   region               = var.region
   client_conn_throttle = 20
   tags                 = ["fealty"]
@@ -22,16 +22,13 @@ resource "linode_nodebalancer_config" "app_nb_config" {
 }
 
 resource "linode_nodebalancer_node" "app_nb_node" {
-  depends_on = [
-    linode_instance.app,
-  ]
   lifecycle {
     ignore_changes = all
   }
   count           = var.node_count
   nodebalancer_id = linode_nodebalancer.app_nb.id
   config_id       = linode_nodebalancer_config.app_nb_config.id
-  label           = "app_node_${count.index + 1}"
+  label           = "app-node-${count.index + 1}"
   address         = "${linode_instance.app[count.index].private_ip_address}:3000"
   mode            = "accept"
 }

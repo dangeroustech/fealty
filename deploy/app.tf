@@ -1,11 +1,10 @@
 resource "linode_instance" "app" {
   count            = var.node_count
-  label            = "fealty_app_${count.index + 1}"
+  label            = "fealty-app-${count.index + 1}"
   tags             = ["fealty"]
   image            = local.app_manifest.builds[length(local.app_manifest.builds) - 1].artifact_id
   region           = var.region
   type             = var.instance_type
-  root_pass = "terr4form-test"
   authorized_users = [data.linode_profile.me.username]
   backups_enabled  = true
   watchdog_enabled = true
@@ -14,7 +13,7 @@ resource "linode_instance" "app" {
   }
   interface {
     purpose      = "vlan"
-    label        = "fealty_vlan"
+    label        = "fealty-vlan"
     ipam_address = "10.10.10.2/24"
   }
   private_ip = true
