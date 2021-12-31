@@ -41,6 +41,7 @@ jobs:
     env:
       PKR_VAR_LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
       PKR_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
+      DOMAIN: "${{ secrets.DOMAIN }}"
 
     steps:
       -  uses: actions/checkout@v2
@@ -98,7 +99,7 @@ jobs:
         with:
           name: app-manifest
           path: deploy/packer/
-        
+
       - name: Download DB Manifest
         uses: actions/download-artifact@v2
         with:
