@@ -1,4 +1,7 @@
 resource "linode_firewall" "fealty_fw" {
+  depends_on = [
+    linode_nodebalancer.app_nb,
+  ]
   count = var.node_count
   label = "fealty-fw"
   tags  = ["fealty"]
@@ -10,8 +13,8 @@ resource "linode_firewall" "fealty_fw" {
     label    = "allow-nodebalancer"
     action   = "ACCEPT"
     protocol = "TCP"
-    ipv4     = linode_nodebalancer.app_nb.ipv4
-    ipv6     = linode_nodebalancer.app_nb.ipv6
+    ipv4     = ["${linode_nodebalancer.app_nb.ipv4}"]
+    ipv6     = ["${linode_nodebalancer.app_nb.ipv6}"]
   }
   inbound {
     label    = "drop-inbound-udp"
