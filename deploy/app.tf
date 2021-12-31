@@ -14,7 +14,7 @@ resource "linode_instance" "app" {
   }
   interface {
     purpose      = "vlan"
-    label        = "fealty-vlan"
+    label        = "fealty_vlan"
     ipam_address = "10.10.10.2/24"
   }
   private_ip = true

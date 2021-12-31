@@ -10,7 +10,7 @@ resource "linode_instance" "db" {
   watchdog_enabled = true
   interface {
     purpose      = "vlan"
-    label        = "fealty-vlan"
+    label        = "fealty_vlan"
     ipam_address = "10.10.10.3/24"
   }
 }
