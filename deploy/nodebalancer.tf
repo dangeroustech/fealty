@@ -15,7 +15,7 @@ resource "linode_nodebalancer_config" "app_nb_config" {
   check_attempts  = 3
   check_timeout   = 5
   stickiness      = "http_cookie"
-  algorithm       = "source"
+  algorithm       = "leastconn"
   cipher_suite    = "recommended"
   ssl_cert        = acme_certificate.certificate.certificate_pem
   ssl_key         = acme_certificate.certificate.private_key_pem
@@ -31,7 +31,7 @@ resource "linode_nodebalancer_node" "app_nb_node" {
   count           = var.node_count
   nodebalancer_id = linode_nodebalancer.app_nb.id
   config_id       = linode_nodebalancer_config.app_nb_config.id
-  label           = "app-node-${count.index + 1}"
+  label           = "app_node_${count.index + 1}"
   address         = "${linode_instance.app[count.index].private_ip_address}:3000"
   mode            = "accept"
 }
