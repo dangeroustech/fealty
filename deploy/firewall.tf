@@ -6,5 +6,5 @@ resource "linode_firewall" "fealty_fw" {
   inbound_policy = "DROP"
   outbound_policy = "ACCEPT"
 
-  linodes = [linode_instance.app[count.index - 1].id]
+  linodes = [linode_instance.app[count.index].id]
 }
