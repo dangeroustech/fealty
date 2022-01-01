@@ -41,6 +41,8 @@ jobs:
     env:
       PKR_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
       PKR_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
+      PKR_VAR_FEALTY_USER: "${{ secrets.FEALTY_USER }}"
+      PKR_VAR_FEALTY_PASS: "${{ secrets.FEALTY_PASS }}"
       DOMAIN: "${{ secrets.DOMAIN }}"
 
     steps:
