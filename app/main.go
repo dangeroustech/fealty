@@ -36,7 +36,7 @@ func main() {
 	app := fiber.New(fiber.Config{
 		CaseSensitive: true,
 		ServerHeader:  "FealTY API v1",
-		AppName:       "FealTY v1.0.0",
+		AppName:       "FealTY v1.0.1",
 		Views:         htmlEngine,
 	})
 
