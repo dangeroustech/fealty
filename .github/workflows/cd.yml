@@ -119,7 +119,7 @@ jobs:
         run: terraform -chdir=deploy apply -auto-approve
         continue-on-error: true
 
-      - name: Deploy v2
+      - name: Deploy v2 (Cert Issuing Workaround Because DNS)
         run: terraform -chdir=deploy apply -auto-approve
 
       - name: Version
