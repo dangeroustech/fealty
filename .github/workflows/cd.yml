@@ -131,3 +131,4 @@ jobs:
           changelog-generator-opt: "emojis=true"
           changelog-file: "CHANGELOG.md"
           allow-initial-development-versions: true
+          prepend: true
