@@ -2,7 +2,7 @@
 ## LINODE  VARIABLES ##
 #######################
 
-image_label = "fealty-app"
+image_label = "fealty-app-build"
 image_description = "Fealty App Image"
 region = "eu-west"
 
