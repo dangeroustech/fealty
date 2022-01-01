@@ -138,4 +138,3 @@ _Caveat: won't remove the Object Storage bucket, do that manually_
 
 ### Accounts
 
-- [ ] Update (Partial) - **STRETCH**
