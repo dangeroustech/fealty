@@ -2,7 +2,7 @@
 ## LINODE VARIABLES
 #######################
 
-image_label = "fealty-db"
+image_label = "fealty-db-build"
 image_description = "Fealty DB Image"
 region = "eu-west"
 
