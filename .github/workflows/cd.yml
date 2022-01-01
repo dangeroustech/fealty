@@ -128,5 +128,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           force-bump-patch-version: true
+          changelog-generator-opt: "emojis=true"
           changelog-file: "CHANGELOG.md"
           allow-initial-development-versions: true
