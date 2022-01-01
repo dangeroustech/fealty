@@ -119,7 +119,7 @@ jobs:
         run: terraform -chdir=deploy apply -auto-approve
         continue-on-error: true
 
-      - name: Deploy v2
+      - name: Deploy v2 (Cert Issuing Workaround Because DNS)
         run: terraform -chdir=deploy apply -auto-approve
 
       - name: Version
@@ -128,6 +128,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           force-bump-patch-version: true
-          changelog-generator-opt: "name=default, emojis=true"
-          changelog-file: true
+          changelog-generator-opt: "emojis=true"
+          changelog-file: "CHANGELOG.md"
           allow-initial-development-versions: true
+          prepend: true
