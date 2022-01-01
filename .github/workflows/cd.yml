@@ -41,6 +41,8 @@ jobs:
     env:
       PKR_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
       PKR_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
+      PKR_VAR_FEALTY_USER: "${{ secrets.FEALTY_USER }}"
+      PKR_VAR_FEALTY_PASS: "${{ secrets.FEALTY_PASS }}"
       DOMAIN: "${{ secrets.DOMAIN }}"
 
     steps:
@@ -126,6 +128,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           force-bump-patch-version: true
-          changelog-generator-opt: "emojis=true"
+          changelog-generator-opt: "name=default, emojis=true"
           changelog-file: true
           allow-initial-development-versions: true

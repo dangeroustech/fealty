@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD024 -->
 # FealTY
 
 FealTY - An open source and easy to deploy customer rewards scheme.
@@ -123,6 +124,8 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 ![GH10](docs/readme/GH10.png)
 
+- After this, head to "https://rewards.$YourDomainHere/api/v1/accounts/admin" and log in with username fealty and password fealty to gain access. If you'd like this to change, just add the FEALTY_USER and FEALTY_PASS variables to your repository, same as you did for the others.
+
 ### Destroy
 
 - Head to the Actions tab again and select the 'Fealty Infrastructure Destroyer' workflow
@@ -136,6 +139,200 @@ _Caveat: won't remove the Object Storage bucket, do that manually_
 
 ## Dev Info - API Routes
 
-### Accounts
+> All endpoints are protected by Bearer authentication besides the healthcheck
 
-- [ ] Update (Partial) - **STRETCH**
+---
+
+### /healthz
+
+**Type**: GET
+
+**Info**: Healthcheck endpoint
+
+**Returns**: HTTP 200
+
+---
+
+### /api/v1/accounts/admin
+
+**Type**: GET
+
+**Info**: Admin UI for administering accounts
+
+**Returns**: Rendered HTTP interface (requests Bearer auth from browser if necessary)
+
+---
+
+### /api/v1/accounts/get
+
+**Type**: GET
+
+**Info**: Gets all account info at once back as JSON
+
+**Returns**: JSON list of accounts, example:
+
+```JSON
+{
+    "accounts": {
+        "account": {
+            "accountid": "ObjectID(1234567890)",
+            "rewardpoints": 45,
+            "email": "test@test.com",
+            "marketing": false,
+        },
+        "account": {
+            "accountid": "ObjectID(0987654321)",
+            "rewardpoints": 54,
+            "email": "test2@test.com",
+            "marketing": true,
+        },
+    }
+}
+```
+
+---
+
+### /api/v1/account
+
+**Type**: GET
+
+**Info**: Gets a single account's details. Requires:
+
+```JSON
+{
+    "email": "test@test.com"
+}
+```
+
+**Returns**: Account information. Example:
+
+```JSON
+{
+    "account": {
+        "accountid": "ObjectID(1234567890)",
+        "rewardpoints": 45,
+        "email": "test@test.com",
+        "marketing": false,
+    }
+}
+```
+
+**Returns**: Alternatively, an error:
+
+```JSON
+{
+    "Error": "Account For test@test.com Not Found"
+}
+```
+
+---
+
+### /api/v1/account
+
+**Type**: POST
+
+**Info**: Create a new account. Requires:
+
+```JSON
+{
+    "email": "test@test.com",
+    "rewardpoints": 123,
+    "marketing": false,
+}
+```
+
+**Returns**: Newly created account information. Example:
+
+```JSON
+{
+    "account": {
+        "accountid": "ObjectID(1234567890)",
+        "rewardpoints": 123,
+        "email": "test@test.com",
+        "marketing": false,
+    }
+}
+```
+
+**Returns**: Alternatively, an error:
+
+```JSON
+{
+    "Error": "Account for This Email Already Exists"
+}
+```
+
+---
+
+### /api/v1/account
+
+**Type**: PUT
+
+**Info**: Update current account. Partial update possible.
+Only provided data will be changed. Requires:
+
+```JSON
+{
+    "email": "test@test.com",
+    "rewardpoints": 123,
+    "marketing": false,
+}
+```
+
+**Returns**: Updated account information. Example:
+
+```JSON
+{
+    "account": {
+        "accountid": "ObjectID(1234567890)",
+        "rewardpoints": 123,
+        "email": "test@test.com",
+        "marketing": false,
+    }
+}
+```
+
+**Returns**: Alternatively, an error:
+
+```JSON
+{
+    "Error": "Account Not Found"
+}
+```
+
+---
+
+### /api/v1/account
+
+**Type**: DELETE
+
+**Info**: Delete account. Requires:
+
+```JSON
+{
+    "email": "test@test.com"
+}
+```
+
+**Returns**: Full account info for the deleted account. Example:
+
+```JSON
+{
+    "account": {
+        "accountid": "ObjectID(1234567890)",
+        "rewardpoints": 123,
+        "email": "test@test.com",
+        "marketing": false,
+    }
+}
+```
+
+**Returns**: Alternatively, an error:
+
+```JSON
+{
+    "Error": "Account Not Found"
+}
+```
+
+---
