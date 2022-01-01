@@ -1,0 +1,38 @@
+name: Cert Renewal
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * 1" # 2AM Every Week on Monday
+
+jobs:
+  CertRenewal:
+      runs-on: ubuntu-latest
+      name: Cert Renewal
+      env:
+        TF_VAR_LINODE_TOKEN: "${{ secrets.LINODE_TOKEN }}"
+        TF_VAR_DOMAIN: "${{ secrets.DOMAIN }}"
+        AWS_ACCESS_KEY_ID: "${{ secrets.OBJECT_ACCESS_KEY }}"
+        AWS_SECRET_ACCESS_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+            ref: main
+
+        - name: Setup
+          uses: hashicorp/setup-terraform@v1
+
+        - name: Init
+          id: init
+          run: terraform -chdir=deploy init
+
+        - name: Refresh
+          id: refresh
+          run: terraform -chdir=deploy refresh
+
+        - name: Renew Cert
+          id: renew
+          run: terraform -chdir=deploy apply -target=acme_certificate.certificate
