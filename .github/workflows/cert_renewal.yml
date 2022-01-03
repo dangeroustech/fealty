@@ -22,6 +22,20 @@ jobs:
             fetch-depth: 0
             ref: main
 
+        # Only has 90 day retention so we need a way to
+        # get these from Object Storage as well ideally
+        - name: Download App Manifest
+          uses: actions/download-artifact@v2
+          with:
+            name: app-manifest
+            path: deploy/packer/
+
+        - name: Download DB Manifest
+          uses: actions/download-artifact@v2
+          with:
+            name: db-manifest
+            path: deploy/packer/
+
         - name: Setup
           uses: hashicorp/setup-terraform@v1
 
