@@ -79,6 +79,17 @@ jobs:
           name: ${{ matrix.component }}-manifest
           path: deploy/packer/${{ matrix.component }}-manifest.json
 
+      - name: Upload Manifests to Object Storage
+        id: object-storage-upload
+        env:
+          LINODE_CLI_TOKEN: "{{ secrets.LINODE_TOKEN }}"
+          LINODE_CLI_OBJ_ACCESS_KEY: "${{ secrets.OBJECT_ACCESS_KEY }}"
+          LINODE_CLI_OBJ_SECRET_KEY: "${{ secrets.OBJECT_SECRET_KEY }}"
+        run: |
+          apt update && apt install -y python3-pip
+          pip3 install linode-cli boto
+          linode-cli --cluster us-east-1 obj put deploy/packer/${{ matrix.component }}-manifest.json fealty
+
   Terraform:
     runs-on: ubuntu-latest
     name: Deploy Infrastructure | Terraform
