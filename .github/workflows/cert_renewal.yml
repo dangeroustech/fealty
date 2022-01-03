@@ -35,4 +35,4 @@ jobs:
 
         - name: Renew Cert
           id: renew
-          run: terraform -chdir=deploy apply -target=acme_certificate.certificate
+          run: terraform -chdir=deploy apply -target=acme_certificate.certificate -auto-approve
