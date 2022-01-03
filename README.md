@@ -37,7 +37,7 @@ Make sure these have Read/Write permissions and you'll be golden.
 
 ## Linode Object Storage
 
-In order for our infrastructure to be deployed from 'the cloud' we need to create a Linode Object Storage bucket to hold the current status of our servers.
+In order for our infrastructure to be deployed from 'the cloud' we need to create a Linode Object Storage bucket to hold the current status of our servers
 
 ### Create The Bucket
 
@@ -45,7 +45,7 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 ![OS1](docs/readme/OS1.png)
 
-- Give your bucket a label (I'd suggest something related to the task such as fealty/rewards) and a region (I'd suggest Atlanta because that's where our servers will be (currently because of Linode VLAN offering) but it doesn't really matter)
+- Give your bucket a label (this needs to be fealty for some other purposes down the line) and a region (Newark, NJ is the default so leave it at that)
 
 ![OS2](docs/readme/OS2.png)
 
@@ -59,7 +59,7 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 ![OS4](docs/readme/OS4.png)
 
-- Give your key a label (again, I'd suggest fealty/rewards), switch on 'Limited Access' and make sure to select the bucket you just created for read/write access (this will look like you're selecting all for now but if you create other buckets this key won't have access, best practise really 🤷‍♂️)
+- Give your key a label (again, I'd suggest fealty), switch on 'Limited Access' and make sure to select the bucket you just created for read/write access (this will look like you're selecting all for now but if you create other buckets this key won't have access, best practise really 🤷‍♂️)
 
 ![OS5](docs/readme/OS5.png)
 
@@ -95,16 +95,22 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 - Use the 'New repository secret' button to add the following secrets:
 
-  - LINODE_TOKEN - This is the API token you generated in the first Linode step
-  - OBJECT_ACCESS_KEY - This is the Access Key from the Linode Object Storage step
-  - OBJECT_SECRET_KEY - This is the Secret Key from the Linode Object Storage step
-  - DOMAIN - This is your domain (you don't even have to own it, it just needs to be unique to Linode, but if you don't own it then it won't _actually_ resolve, ofc)
+  - LINODE_TOKEN - The API token you generated in the first Linode step
+  - OBJECT_ACCESS_KEY - The Access Key from the Linode Object Storage step
+  - OBJECT_SECRET_KEY - The Secret Key from the Linode Object Storage step
+  - DOMAIN - Your domain (you don't even have to own it, it just needs to be unique to Linode, but if you don't own it then it won't _actually_ resolve, ofc)
+  - FEALTY_USER - Admin interface username
+  - FEALTY_PASS - Admin interface password
 
 ![GH6](docs/readme/GH6.png)
 
 ### Deploy
 
 - Select the 'Actions' tab from the main repository page
+
+![GH6.5](docs/readme/GH6.5.png)
+
+- Click the green button to allow workflows
 
 ![GH7](docs/readme/GH7.png)
 
@@ -114,7 +120,7 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 - In a few seconds you will see a workflow item appear, this will take around 10 minutes to generate images and create the necessary infrastructure
 
-![GH9](docs/readme/GH8.png)
+![GH9](docs/readme/GH9.png)
 
 - Feel free to drill down in to the logs and see what's happening, alternatively you'll know it's over when your Linode account has these two Linodes running
 
@@ -124,7 +130,11 @@ In order for our infrastructure to be deployed from 'the cloud' we need to creat
 
 ![GH10](docs/readme/GH10.png)
 
-- After this, head to "https://rewards.$YourDomainHere/api/v1/accounts/admin" and log in with username fealty and password fealty to gain access. If you'd like this to change, just add the FEALTY_USER and FEALTY_PASS variables to your repository, same as you did for the others.
+- After this, head to "https://rewards.$YourDomainHere/api/v1/accounts/admin" and log in with the username and password you set in the secrets tab earlier. If you forget these, just change the secret and deploy the workflow again!
+
+- One last step to ensure that the SSL certificate stays valid on the admin interface, just go to the workflow marked 'Cert Renewal' and click 'Enable workflow' in the top right
+
+![GH10.5](docs/readme/GH10.5.png)
 
 ### Destroy
 
