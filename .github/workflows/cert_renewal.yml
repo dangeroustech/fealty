@@ -32,8 +32,8 @@ jobs:
             apt update && apt install -y python3-pip
             pip3 install linode-cli boto
             cd deploy/packer
-            linode-cli --cluster us-east-1 obj get fealty app-manifest.json
-            linode-cli --cluster us-east-1 obj get fealty db-manifest.json
+            linode-cli obj --cluster us-east-1 get fealty app-manifest.json
+            linode-cli obj --cluster us-east-1 get fealty db-manifest.json
 
         - name: Setup
           uses: hashicorp/setup-terraform@v1
